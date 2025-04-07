@@ -2,3 +2,19 @@
 @theme {
     --color-primary: #fe2c55;
 }
+
+.hidden-scroll-bar {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+}
+.hidden-scroll-bar::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+.scroll-video {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+.post-item {
+    scroll-snap-align: start;
+}

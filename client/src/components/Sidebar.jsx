@@ -7,7 +7,7 @@ import { MdOutlineCopyright } from "react-icons/md";
 function Sidebar() {
     const currentPathname = window.location.pathname;
     return (
-        <div className="flex flex-col gap-4 p-2 ">
+        <div className="flex flex-col gap-4 p-2 relative z-[999]">
             <div>
                 <Link
                     className="flex text-3xl italic font-black text-primary"
