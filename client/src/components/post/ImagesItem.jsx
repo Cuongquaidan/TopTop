@@ -26,7 +26,7 @@ function ImagesItem({ media, ...props }) {
                 className="flex h-full transition-transform duration-500"
                 style={{
                     transform: `translateX(-${currentIndex * width}px)`,
-                    width: `${media.length * width}px`,
+                    width: `${media?.length * width}px`,
                 }}
             >
                 {media.map((item, index) => (

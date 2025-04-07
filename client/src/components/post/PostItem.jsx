@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import VideoItem from "./VideoItem";
 import ImagesItem from "./ImagesItem";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -6,7 +6,10 @@ import { FaHeart } from "react-icons/fa";
 import { BiSolidMessageRoundedDots } from "react-icons/bi";
 import { IoBookmark } from "react-icons/io5";
 import { IoIosShareAlt } from "react-icons/io";
+import { Link } from "react-router-dom";
 function PostItem({ item, ...props }) {
+    const [isLiked, setIsLiked] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     const convertNumToString = (num) => {
         if (num >= 1000000) {
             return (num / 1000000).toFixed(1) + "M";
@@ -22,7 +25,7 @@ function PostItem({ item, ...props }) {
             {...props}
             className="relative flex gap-4 items-end z-50  h-screen p-2.5 post-item"
         >
-            <div className="absolute left-5 bottom-5 z-50 ">
+            <div className="absolute left-10 bottom-10 z-50 ">
                 <div className="flex flex-col gap-2 text-slate-100">
                     <h3 className="text-[16px] font-bold ">
                         {item.user.display_name}
@@ -57,31 +60,58 @@ function PostItem({ item, ...props }) {
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 justify-end py-10">
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12">
-                            <FaHeart size={24} />
+                    <div
+                        className="flex flex-col items-center gap-2 cursor-pointer"
+                        onClick={() => setIsLiked(!isLiked)}
+                    >
+                        <div
+                            className={`flex items-center justify-center rounded-full  w-12 h-12 ${
+                                isLiked ? "bg-red-200" : "bg-neutral-200"
+                            }`}
+                        >
+                            <FaHeart
+                                size={24}
+                                className={`${
+                                    isLiked ? "text-red-600" : ""
+                                } transition-all duration-200`}
+                            />
                         </div>
                         <p className="text-[12px] font-bold text-neutral-800">
                             {convertNumToString(item.numOfLikes)}
                         </p>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
+                    <Link
+                        className="flex flex-col items-center gap-2  cursor-pointer"
+                        to={`/posts/${item.postId}`}
+                    >
                         <div className="flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12">
                             <BiSolidMessageRoundedDots size={24} />
                         </div>
                         <p className="text-[12px] font-bold text-neutral-800">
                             {convertNumToString(item.numOfComments)}
                         </p>
-                    </div>
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12">
-                            <IoBookmark size={24} />
+                    </Link>
+                    <div
+                        className="flex flex-col items-center gap-2  cursor-pointer"
+                        onClick={() => setIsSaved(!isSaved)}
+                    >
+                        <div
+                            className={`flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12 ${
+                                isSaved ? "bg-orange-100" : ""
+                            }`}
+                        >
+                            <IoBookmark
+                                size={24}
+                                className={`${
+                                    isSaved ? "text-orange-400" : ""
+                                }`}
+                            />
                         </div>
                         <p className="text-[12px] font-bold text-neutral-800">
                             {convertNumToString(item.numOfSave)}
                         </p>
                     </div>
-                    <div className="flex flex-col items-center gap-2">
+                    <div className="flex flex-col items-center gap-2  cursor-pointer">
                         <div className="flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12">
                             <IoIosShareAlt size={24} />
                         </div>

@@ -1,7 +1,10 @@
-import React, { useRef } from "react";
-import PostItem from "../components/post/PostItem";
-import { FaCircleChevronUp } from "react-icons/fa6";
-import { FaCircleChevronDown } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import VideoItemDetails from "../components/post/VideoItemDetails";
+import ImagesItem from "../components/post/ImagesItem";
+import { MdCancel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { FaCircleChevronDown, FaCircleChevronUp } from "react-icons/fa6";
 const data = [
     {
         postId: 1,
@@ -113,42 +116,94 @@ const data = [
     },
 ];
 
-function Home() {
-    const scrollRef = useRef(null);
+function PostItemDetails() {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [currentPost, setCurrentPost] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const postIndex = data.findIndex(
+            (item) => item.postId.toString() === id
+        );
+        if (postIndex !== -1) {
+            setCurrentPost(data[postIndex]);
+            setCurrentIndex(postIndex);
+        } else {
+            console.error("Post not found");
+        }
+    }, [id]);
     return (
-        <div>
-            <div
-                ref={scrollRef}
-                className="fixed top-0 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0"
-            >
-                {data.map((item, index) => (
-                    <PostItem item={item} key={item.postId}></PostItem>
-                ))}
-            </div>
-            <div className="fixed top-1/2 transform -translate-y-1/2 right-20 flex gap-5 flex-col">
-                <FaCircleChevronUp
-                    className="text-neutral-500/50 cursor-pointer"
-                    size={40}
-                    onClick={() => {
-                        scrollRef.current?.scrollBy({
-                            top: -window.innerHeight,
-                            behavior: "smooth",
-                        });
+        <div className="w-screen h-screen grid grid-cols-[70vw_30vw] relative overflow-hidden">
+            <div className="relative w-full h-full">
+                <div className="fixed top-10 left-10 z-[999]">
+                    <MdCancel
+                        size={60}
+                        className="text-white/80 cursor-pointer"
+                        onClick={() => navigate("/")}
+                    />
+                </div>
+                <div className="fixed top-1/2 transform -translate-y-1/2 right-[31vw] z-[999] flex gap-5 flex-col">
+                    <FaCircleChevronUp
+                        className={`cursor-pointer transition-opacity duration-300 ${
+                            currentIndex === 0
+                                ? "text-neutral-500/30 pointer-events-none"
+                                : "text-neutral-400/90"
+                        }`}
+                        size={40}
+                        onClick={() => {
+                            if (currentIndex > 0) {
+                                const prevId = data[currentIndex - 1].postId;
+                                navigate(`/posts/${prevId}`);
+                            }
+                        }}
+                    />
+
+                    <FaCircleChevronDown
+                        className={`cursor-pointer transition-opacity duration-300 ${
+                            currentIndex === data.length - 1
+                                ? "text-neutral-500/30 pointer-events-none"
+                                : "text-neutral-400/90 "
+                        }`}
+                        size={40}
+                        onClick={() => {
+                            if (currentIndex < data.length - 1) {
+                                const nextId = data[currentIndex + 1].postId;
+                                navigate(`/posts/${nextId}`);
+                            }
+                        }}
+                    />
+                </div>
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{
+                        backgroundImage:
+                            currentPost?.type === "video"
+                                ? `url(${currentPost.media.thumbnail})`
+                                : currentPost?.type === "image"
+                                ? `url(${currentPost.media[0]})`
+                                : undefined,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        filter: "blur(20px)",
                     }}
-                ></FaCircleChevronUp>
-                <FaCircleChevronDown
-                    className="text-neutral-500/50 cursor-pointer"
-                    size={40}
-                    onClick={() => {
-                        scrollRef.current?.scrollBy({
-                            top: window.innerHeight,
-                            behavior: "smooth",
-                        });
-                    }}
-                ></FaCircleChevronDown>
+                />
+
+                <div className="absolute inset-0 bg-black/40 z-10" />
+
+                <div className="relative z-20 flex items-center justify-center">
+                    {currentPost &&
+                        (currentPost?.type === "video" ? (
+                            <VideoItemDetails media={currentPost?.media} />
+                        ) : (
+                            <ImagesItem media={currentPost?.media} />
+                        ))}
+                </div>
             </div>
+
+            <div className="relative z-20"></div>
         </div>
     );
 }
 
-export default Home;
+export default PostItemDetails;

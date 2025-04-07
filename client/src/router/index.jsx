@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import App from "../App";
 import Home from "../pages/Home";
+import PostItemDetails from "../pages/PostItemDetails";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
                         element: <Home></Home>,
                     },
                 ],
+            },
+            {
+                path: "/posts/:id",
+                element: <PostItemDetails></PostItemDetails>,
             },
         ],
     },
