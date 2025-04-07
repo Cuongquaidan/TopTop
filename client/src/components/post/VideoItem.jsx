@@ -8,9 +8,12 @@ function VideoItem({ media, ...props }) {
     const height = window.innerHeight;
     const width = height * ratio;
     const [isPause, setIsPause] = useState(true);
-    const [isUserPause, setIsUserPause] = useState(true);
+    const [isUserPause, setIsUserPause] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [showPlayIcon, setShowPlayIcon] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const rangeRef = useRef(null);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -35,7 +38,13 @@ function VideoItem({ media, ...props }) {
             if (currentVideo) observer.unobserve(currentVideo);
         };
     }, []);
+    useEffect(() => {
+        const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+        if (rangeRef.current) {
+            rangeRef.current.style.setProperty("--progress", `${percent}%`);
+        }
+    }, [currentTime, duration]);
     return (
         <div
             {...props}
@@ -96,7 +105,27 @@ function VideoItem({ media, ...props }) {
                         setIsUserPause(true);
                     }
                 }}
+                onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
+                onLoadedMetadata={(e) => setDuration(e.target.duration)}
             />
+            {duration > 0 && (
+                <input
+                    type="range"
+                    min={0}
+                    max={duration}
+                    step="0.1"
+                    ref={rangeRef}
+                    value={currentTime}
+                    onChange={(e) => {
+                        const newTime = parseFloat(e.target.value);
+                        if (videoRef.current) {
+                            videoRef.current.currentTime = newTime;
+                            setCurrentTime(newTime);
+                        }
+                    }}
+                    className="w-full video-progress absolute bottom-2 left-0 z-[999] appearance-none h-1  bg-gray-500/30 accent-white"
+                />
+            )}
 
             {isPause && (
                 <img
