@@ -5,6 +5,7 @@ import ImagesItem from "../components/post/ImagesItem";
 import { MdCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { FaCircleChevronDown, FaCircleChevronUp } from "react-icons/fa6";
+import { CiSearch } from "react-icons/ci";
 const data = [
     {
         postId: 1,
@@ -117,6 +118,9 @@ const data = [
 ];
 
 function PostItemDetails() {
+    const ratio = 9 / 16;
+    const height = window.innerHeight;
+    const width = height * ratio;
     const navigate = useNavigate();
     const { id } = useParams();
     const [currentPost, setCurrentPost] = useState(null);
@@ -136,6 +140,19 @@ function PostItemDetails() {
     return (
         <div className="w-screen h-screen grid grid-cols-[70vw_30vw] relative overflow-hidden">
             <div className="relative w-full h-full">
+                <div
+                    className="fixed top-10 left-[35vw] z-[999] transform -translate-x-1/2 backdrop-blur-2xl flex justify-center"
+                    style={{ width: width }}
+                >
+                    <input
+                        type="text"
+                        placeholder="Tìm kiếm ..."
+                        className="outline-none border-[1px] p-4 rounded-4xl  w-[90%] z-[999 ] text-neutral-50 border-neutral-50 "
+                    />
+                    <div className="p-4 border-l text-neutral-50 absolute right-[30px] top-1/2 transform -translate-y-1/2 border-neutral-50">
+                        <CiSearch size={30} />
+                    </div>
+                </div>
                 <div className="fixed top-10 left-10 z-[999]">
                     <MdCancel
                         size={60}
