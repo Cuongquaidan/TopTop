@@ -1,7 +1,7 @@
-import React from "react";
-import VideoItem from "../components/post/VideoItem";
+import React, { useRef } from "react";
 import PostItem from "../components/post/PostItem";
-
+import { FaCircleChevronUp } from "react-icons/fa6";
+import { FaCircleChevronDown } from "react-icons/fa6";
 const data = [
     {
         postId: 1,
@@ -114,11 +114,39 @@ const data = [
 ];
 
 function Home() {
+    const scrollRef = useRef(null);
     return (
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0">
-            {data.map((item, index) => (
-                <PostItem item={item} key={item.postId}></PostItem>
-            ))}
+        <div>
+            <div
+                ref={scrollRef}
+                className="fixed top-0 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0"
+            >
+                {data.map((item, index) => (
+                    <PostItem item={item} key={item.postId}></PostItem>
+                ))}
+            </div>
+            <div className="fixed top-1/2 transform -translate-y-1/2 right-20 flex gap-5 flex-col">
+                <FaCircleChevronUp
+                    className="text-neutral-500/50 cursor-pointer"
+                    size={40}
+                    onClick={() => {
+                        scrollRef.current?.scrollBy({
+                            top: -window.innerHeight,
+                            behavior: "smooth",
+                        });
+                    }}
+                ></FaCircleChevronUp>
+                <FaCircleChevronDown
+                    className="text-neutral-500/50 cursor-pointer"
+                    size={40}
+                    onClick={() => {
+                        scrollRef.current?.scrollBy({
+                            top: window.innerHeight,
+                            behavior: "smooth",
+                        });
+                    }}
+                ></FaCircleChevronDown>
+            </div>
         </div>
     );
 }

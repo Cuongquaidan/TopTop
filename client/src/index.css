@@ -18,3 +18,42 @@
 .post-item {
     scroll-snap-align: start;
 }
+input.video-progress {
+    -webkit-appearance: none;
+    height: 4px;
+
+    cursor: pointer;
+}
+
+input.video-progress::-webkit-slider-runnable-track {
+    height: 4px;
+    background: linear-gradient(
+        to right,
+        #ef4444 var(--progress, 0%),
+        #ffffff33 var(--progress, 0%)
+    );
+    border-radius: 9999px;
+}
+
+input.video-progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 0px; /* ẩn thumb */
+    height: 0px;
+}
+
+input.video-progress::-moz-range-track {
+    height: 4px;
+    background: linear-gradient(
+        to right,
+        #ef4444 var(--progress, 0%),
+        #ffffff33 var(--progress, 0%)
+    );
+    border-radius: 9999px;
+}
+
+input.video-progress::-moz-range-thumb {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+    border: none;
+}
