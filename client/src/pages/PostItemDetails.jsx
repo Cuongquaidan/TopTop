@@ -4,8 +4,25 @@ import VideoItemDetails from "../components/post/VideoItemDetails";
 import ImagesItem from "../components/post/ImagesItem";
 import { MdCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { FaCircleChevronDown, FaCircleChevronUp } from "react-icons/fa6";
+import {
+    FaCircleChevronDown,
+    FaCircleChevronUp,
+    FaHeart,
+} from "react-icons/fa6";
 import { CiSearch } from "react-icons/ci";
+import { IoIosShareAlt } from "react-icons/io";
+import { IoBookmark } from "react-icons/io5";
+import { BiSolidMessageRoundedDots } from "react-icons/bi";
+import { FiAlertTriangle, FiLink, FiChevronDown } from "react-icons/fi";
+import { RiUserFollowLine, RiSendPlaneFill } from "react-icons/ri";
+import { AiFillPushpin, AiOutlineLike } from "react-icons/ai";
+import { MdAudiotrack } from "react-icons/md";
+import { FaRepeat } from "react-icons/fa6";
+import { ImEmbed2 } from "react-icons/im";
+import { BsSendFill } from "react-icons/bs";
+import { FaFacebookF } from "react-icons/fa";
+import { FaPhoneAlt } from "react-icons/fa";
+import CommentItem from "../components/post/CommentItem";
 const data = [
     {
         postId: 1,
@@ -116,6 +133,106 @@ const data = [
         numOfShare: 64,
     },
 ];
+const comments = [
+    {
+        username: "petdaily",
+        display_name: "Pet Daily 🐶🐱",
+        profile_picture:
+            "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        comment: "Video dễ thương quá 🥰",
+        create_time: "2025-04-07T15:32:10Z",
+        likes: 145,
+        replies: [
+            {
+                username: "petdaily",
+                display_name: "Pet Daily 🐶🐱",
+                profile_picture:
+                    "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                comment: "Đồng ý luôn á 🥰",
+                create_time: "2025-04-07T15:33:00Z",
+                likes: 12,
+            },
+            {
+                username: "petdaily",
+                display_name: "Pet Daily 🐶🐱",
+                profile_picture:
+                    "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                comment: "Cute xỉu luôn í 😍",
+                create_time: "2025-04-07T15:33:21Z",
+                likes: 8,
+            },
+        ],
+    },
+    {
+        username: "petdaily",
+        display_name: "Pet Daily 🐶🐱",
+        profile_picture:
+            "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        comment: "Ai còn nghe bài này năm 2025 không? 😭",
+        create_time: "2025-04-07T15:33:45Z",
+        likes: 212,
+        replies: [
+            {
+                username: "petdaily",
+                display_name: "Pet Daily 🐶🐱",
+                profile_picture:
+                    "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                comment: "Tui đây nè 😢",
+                create_time: "2025-04-07T15:34:01Z",
+                likes: 21,
+            },
+            {
+                username: "petdaily",
+                display_name: "Pet Daily 🐶🐱",
+                profile_picture:
+                    "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                comment: "Ký ức ùa về luôn á 😭",
+                create_time: "2025-04-07T15:34:25Z",
+                likes: 17,
+            },
+        ],
+    },
+    {
+        username: "petdaily",
+        display_name: "Pet Daily 🐶🐱",
+        profile_picture:
+            "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        comment: "Lên xu hướng là đúng rồi 👏",
+        create_time: "2025-04-07T15:34:22Z",
+        likes: 89,
+        replies: [],
+    },
+    {
+        username: "petdaily",
+        display_name: "Pet Daily 🐶🐱",
+        profile_picture:
+            "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        comment: "Nhạc gì vậy mn ơi?",
+        create_time: "2025-04-07T15:35:10Z",
+        likes: 34,
+        replies: [
+            {
+                username: "petdaily",
+                display_name: "Pet Daily 🐶🐱",
+                profile_picture:
+                    "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                comment: "Bài: 'Em là kẻ mộng mơ - Hoàng Dũng' á",
+                create_time: "2025-04-07T15:35:45Z",
+                likes: 26,
+            },
+        ],
+    },
+    {
+        username: "petdaily",
+        display_name: "Pet Daily 🐶🐱",
+        profile_picture:
+            "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        comment: "Tiktok này chill thật luôn ấy 😌",
+        create_time: "2025-04-07T15:35:55Z",
+        likes: 178,
+        replies: [],
+    },
+];
 
 function PostItemDetails() {
     const ratio = 9 / 16;
@@ -125,7 +242,34 @@ function PostItemDetails() {
     const { id } = useParams();
     const [currentPost, setCurrentPost] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
 
+    // Hàm format thời gian
+    const formatTimeAgo = (timestamp) => {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+
+        const minutes = Math.floor(diff / 60000);
+        if (minutes < 60) return `${minutes} phút trước`;
+
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} giờ trước`;
+
+        const days = Math.floor(hours / 24);
+        return `${days} ngày trước`;
+    };
+    const convertNumToString = (num) => {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + "M";
+        }
+        if (num >= 10000) {
+            return (num / 1000).toFixed(1) + "K";
+        }
+
+        return num;
+    };
     useEffect(() => {
         const postIndex = data.findIndex(
             (item) => item.postId.toString() === id
@@ -149,7 +293,7 @@ function PostItemDetails() {
                         placeholder="Tìm kiếm ..."
                         className="outline-none border-[1px] p-4 rounded-4xl  w-[90%] z-[999 ] text-neutral-50 border-neutral-50 "
                     />
-                    <div className="p-4 border-l text-neutral-50 absolute right-[30px] top-1/2 transform -translate-y-1/2 border-neutral-50">
+                    <div className="p-3 border-l text-neutral-50 absolute right-[30px] top-1/2 transform -translate-y-1/2 border-neutral-50">
                         <CiSearch size={30} />
                     </div>
                 </div>
@@ -217,8 +361,144 @@ function PostItemDetails() {
                         ))}
                 </div>
             </div>
+            {currentPost && (
+                <div className="relative z-20 flex flex-col p-4 gap-4 text-white w-full bg-black/90 rounded-lg">
+                    {/* User Info Section */}
+                    <div className="flex justify-between items-start">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-2">
+                                <img
+                                    src={currentPost.user.profile_picture}
+                                    alt={currentPost.user.display_name}
+                                    className="w-14 h-14 rounded-full object-cover border-2 border-pink-500"
+                                />
+                                <div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="font-bold text-lg">
+                                            {currentPost.user.display_name}
+                                        </span>
+                                        {currentPost.user.username ===
+                                            "hnh5072" && (
+                                            <FiAlertTriangle className="text-yellow-400" />
+                                        )}
+                                    </div>
+                                    <p className="text-sm text-neutral-300">
+                                        @{currentPost.user.username}
+                                    </p>
+                                </div>
+                            </div>
+                            {/* {currentPost.music && (
+                                <div className="flex items-center gap-2 text-sm ml-2">
+                                    <MdAudiotrack className="text-pink-500" />
+                                    <span>{currentPost.music}</span>
+                                </div>
+                            )} */}
+                        </div>
+                        <button className="bg-primary text-white font-semibold px-4 py-1 rounded-lg flex items-center gap-1">
+                            Follow
+                        </button>
+                    </div>
+                    <div>
+                        {currentPost.caption && (
+                            <div>
+                                <p className="text-lg text-neutral-300">
+                                    {currentPost.caption}
+                                </p>
+                            </div>
+                        )}
+                    </div>
 
-            <div className="relative z-20"></div>
+                    {/* Stats & Link */}
+                    <div className="flex justify-between items-center  text-sm">
+                        <div className="flex gap-4 text-neutral-300">
+                            <div
+                                className="flex items-center gap-2 cursor-pointer"
+                                onClick={() => setIsLiked(!isLiked)}
+                            >
+                                <div
+                                    className={`flex items-center justify-center rounded-full  w-8 h-8 bg-neutral-800`}
+                                >
+                                    <FaHeart
+                                        size={16}
+                                        className={`${
+                                            isLiked ? "text-red-600" : ""
+                                        } transition-all duration-200`}
+                                    />
+                                </div>
+                                <p className="text-[12px] font-bold text-neutral-400">
+                                    {convertNumToString(currentPost.numOfLikes)}
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2  cursor-pointer">
+                                <div className="flex items-center justify-center rounded-full  w-8 h-8 bg-neutral-800">
+                                    <BiSolidMessageRoundedDots size={16} />
+                                </div>
+                                <p className="text-[12px] font-bold text-neutral-400">
+                                    {convertNumToString(
+                                        currentPost.numOfComments
+                                    )}
+                                </p>
+                            </div>
+                            <div
+                                className="flex items-center gap-2  cursor-pointer"
+                                onClick={() => setIsSaved(!isSaved)}
+                            >
+                                <div
+                                    className={`flex items-center justify-center rounded-full  w-8 h-8 bg-neutral-800 `}
+                                >
+                                    <IoBookmark
+                                        size={16}
+                                        className={`${
+                                            isSaved ? "text-orange-400" : ""
+                                        }`}
+                                    />
+                                </div>
+                                <p className="text-[12px] font-bold text-neutral-400">
+                                    {convertNumToString(currentPost.numOfSave)}
+                                </p>
+                            </div>
+                            {/* <div className="flex items-center gap-2  cursor-pointer">
+                                <div className="flex items-center justify-center rounded-full  w-8 h-8 bg-neutral-800">
+                                    <IoIosShareAlt size={16} />
+                                </div>
+                                <p className="text-[12px] font-bold text-neutral-400">
+                                    {convertNumToString(currentPost.numOfShare)}
+                                </p>
+                            </div> */}
+                        </div>
+                        <div className="flex items-center gap-2 text-white">
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-yellow-400">
+                                <FaRepeat size={14}></FaRepeat>
+                            </div>
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-neutral-400">
+                                <ImEmbed2 size={14}></ImEmbed2>
+                            </div>
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-primary">
+                                <RiSendPlaneFill size={16}></RiSendPlaneFill>
+                            </div>
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-blue-600">
+                                <FaFacebookF size={14}></FaFacebookF>
+                            </div>
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-green-600">
+                                <FaPhoneAlt size={14}></FaPhoneAlt>
+                            </div>
+                            <div className="w-6 h-6 rounded-full flex items-center cursor-pointer justify-center bg-transparent">
+                                <IoIosShareAlt size={14}></IoIosShareAlt>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Comments Section */}
+                    <div className="mt-4 space-y-4  overflow-y-auto">
+                        {comments.map((comment) => (
+                            <CommentItem
+                                key={comment.create_time}
+                                comment={comment}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

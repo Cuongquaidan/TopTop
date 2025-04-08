@@ -31,13 +31,13 @@ function PostItem({ item, ...props }) {
                         {item.user.display_name}
                     </h3>
                     <p className="text-[14px] ">{item.caption}</p>
-                    <div className="flex gap-2">
+                    {/* <div className="flex gap-2">
                         {item.tags.map((tag, index) => (
                             <span key={index} className="text-[12px] font-bold">
                                 #{tag}
                             </span>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {item.type === "video" ? (
