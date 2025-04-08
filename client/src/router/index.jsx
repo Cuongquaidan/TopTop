@@ -4,6 +4,7 @@ import ErrorPage from "../pages/ErrorPage";
 import App from "../App";
 import Home from "../pages/Home";
 import PostItemDetails from "../pages/PostItemDetails";
+import Explore from "../pages/Explore";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
                     {
                         path: "/",
                         element: <Home></Home>,
+                    },
+                    {
+                        path: "/explore",
+                        element: <Explore></Explore>,
                     },
                 ],
             },
