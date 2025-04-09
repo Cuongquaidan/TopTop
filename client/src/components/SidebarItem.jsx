@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 function SidebarItem({ item, currentPathname, ...props }) {
     const isActive = currentPathname === item.href;
-    console.log(item.href, location, isActive);
     return (
         <Link
             className={`${

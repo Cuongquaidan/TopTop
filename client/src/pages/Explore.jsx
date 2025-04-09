@@ -6,63 +6,187 @@ import {
     StackedCarousel,
     ResponsiveContainer,
 } from "react-stacked-center-carousel";
-import ExploreTrendItem from "../components/video/ExploreTrendItem";
+import ExploreTrendItem from "../components/explore/ExploreTrendItem";
 import categories from "../data/Categories";
 import Categories from "../components/Categories";
-const videos = [
+import ExploreItem from "../components/explore/ExploreItem";
+const data = [
     {
-        postID: 1,
-        thumbnail: "https://images6.alphacoders.com/679/thumb-1920-679459.jpg",
-        numOfLikes: 666666666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 2,
+        user: {
+            username: "foodie_trung",
+            display_name: "Trung Ăn Gì",
+            profile_picture:
+                "https://images.pexels.com/photos/5984545/pexels-photo-5984545.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Bánh tráng nướng xịn xò ở Đà Nẵng 😋 #foodie #danangfood",
+        tags: ["foodie", "danangfood"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 20,
+        },
+        numOfLikes: 890,
+        numOfComments: 47,
+        numOfSave: 210,
+        numOfShare: 36,
     },
     {
-        postID: 2,
-        thumbnail: "https://images2.alphacoders.com/851/thumb-1920-85182.jpg",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 3,
+        user: {
+            username: "hanhpham",
+            display_name: "Hạnh Phạm",
+            profile_picture:
+                "https://images.pexels.com/photos/2014027/pexels-photo-2014027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        },
+        caption:
+            "Tập yoga buổi sáng để bắt đầu ngày mới 💪🧘‍♀️ #yoga #morningroutine",
+        tags: ["yoga", "morningroutine"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 18,
+        },
+        numOfLikes: 1500123,
+        numOfComments: 102,
+        numOfSave: 480,
+        numOfShare: 92,
     },
     {
-        postID: 3,
-        thumbnail: "https://images6.alphacoders.com/875/thumb-1920-875570.jpg",
-        numOfLikes: 99999,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 5,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
     {
-        postID: 4,
-        thumbnail: "https://images2.alphacoders.com/738/thumb-1920-738176.png",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 6,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
     {
-        postID: 5,
-        thumbnail: "https://images2.alphacoders.com/631/thumb-1920-631095.jpg",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 7,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
     {
-        postID: 6,
-        thumbnail: "https://images2.alphacoders.com/738/thumb-1920-738176.png",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 8,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
     {
-        postID: 7,
-        thumbnail: "https://images2.alphacoders.com/738/thumb-1920-738176.png",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 9,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
     {
-        postID: 8,
-        thumbnail: "https://images8.alphacoders.com/100/thumb-1920-1005531.jpg",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
-    },
-    {
-        postID: 9,
-        thumbnail: "https://images2.alphacoders.com/582/thumb-1920-582804.png",
-        numOfLikes: 66666,
-        url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
+        postId: 10,
+        user: {
+            username: "hoangvu.music",
+            display_name: "Hoàng Vũ 🎧",
+            profile_picture:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+        },
+        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
+        tags: ["cover", "musicchallenge"],
+        type: "video",
+        media: {
+            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
+            thumbnail:
+                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+            duration: 60,
+        },
+        numOfLikes: 3103120,
+        numOfComments: 265312,
+        numOfSave: 1200,
+        numOfShare: 305,
     },
 ];
 function Explore() {
@@ -91,7 +215,7 @@ function Explore() {
                                 slideComponent={ExploreTrendItem}
                                 slideWidth={200}
                                 carouselWidth={parentWidth}
-                                data={videos}
+                                data={data}
                                 currentVisibleSlide={currentVisibleSlide}
                                 maxVisibleSlide={9}
                                 useGrabCursor
@@ -132,6 +256,11 @@ function Explore() {
             </div>
             <p className="font-bold italic text-xl mt-10 ">Bạn có thể thích</p>
             <Categories></Categories>
+            <div className="grid grid-cols-5 gap-4 mt-4">
+                {data.map((item, index) => (
+                    <ExploreItem key={index} item={item} />
+                ))}
+            </div>
         </div>
     );
 }

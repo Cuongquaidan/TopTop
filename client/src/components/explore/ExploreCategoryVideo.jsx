@@ -4,19 +4,19 @@ import { FaVolumeMute } from "react-icons/fa";
 import { GoUnmute } from "react-icons/go";
 import convertNumToString from "../../helper/convertNumToString";
 import { CiHeart } from "react-icons/ci";
-const ExploreTrendItem = React.memo(function (props) {
-    const { data, dataIndex } = props;
-    const { thumbnail, numOfLikes, url } = data[dataIndex];
+const ExploreCategoryVideo = React.memo(function (props) {
+    const { data } = props;
+    const { media, numOfLikes } = data;
     const [isHover, setIsHover] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     return (
         <div
             style={{
                 width: "100%",
-                height: 300,
+                height: 400,
                 userSelect: "none",
             }}
-            className="my-slide-component rounded-2xl "
+            className="my-slide-component rounded-2xl relative"
             onMouseEnter={() => {
                 setIsHover(true);
             }}
@@ -27,7 +27,7 @@ const ExploreTrendItem = React.memo(function (props) {
         >
             {isHover ? (
                 <video
-                    src={url}
+                    src={media.url}
                     muted={isMuted}
                     playsInline
                     controls={false}
@@ -44,13 +44,13 @@ const ExploreTrendItem = React.memo(function (props) {
                         objectFit: "cover",
                     }}
                     draggable={false}
-                    src={thumbnail}
+                    src={media.thumbnail}
                     className="rounded-2xl shadow-2xl"
                 />
             )}
             {isHover && (
                 <div
-                    className="absolute top-3 cursor-pointer left-3 text-white text-3xl"
+                    className="absolute bottom-4 cursor-pointer right-3 text-white text-2xl z-50"
                     onClick={(e) => {
                         e.stopPropagation();
                         setIsMuted((prev) => !prev);
@@ -71,4 +71,4 @@ const ExploreTrendItem = React.memo(function (props) {
     );
 });
 
-export default ExploreTrendItem;
+export default ExploreCategoryVideo;
