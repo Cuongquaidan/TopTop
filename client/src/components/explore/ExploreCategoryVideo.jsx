@@ -12,11 +12,10 @@ const ExploreCategoryVideo = React.memo(function (props) {
     return (
         <div
             style={{
-                width: "100%",
                 height: 400,
                 userSelect: "none",
             }}
-            className="my-slide-component rounded-2xl relative"
+            className=" rounded-2xl relative"
             onMouseEnter={() => {
                 setIsHover(true);
             }}

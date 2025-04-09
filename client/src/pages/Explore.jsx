@@ -193,10 +193,10 @@ function Explore() {
     const ref = React.useRef();
 
     return (
-        <div className="p-4 max-w-[calc(100vw-300px)]">
+        <div className="p-4 px-10 min-w-0">
             <p className="font-bold italic text-xl ">Thịnh hành hôm nay</p>
             <div
-                style={{ width: "80%", position: "relative", height: "30vh" }}
+                style={{ width: "90%", position: "relative", height: "30vh" }}
                 className="mx-auto"
             >
                 <ResponsiveContainer
