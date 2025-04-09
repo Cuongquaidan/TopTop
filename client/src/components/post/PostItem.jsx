@@ -7,19 +7,11 @@ import { BiSolidMessageRoundedDots } from "react-icons/bi";
 import { IoBookmark } from "react-icons/io5";
 import { IoIosShareAlt } from "react-icons/io";
 import { Link } from "react-router-dom";
+import convertNumToString from "../../helper/convertNumToString";
 function PostItem({ item, ...props }) {
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
-    const convertNumToString = (num) => {
-        if (num >= 1000000) {
-            return (num / 1000000).toFixed(1) + "M";
-        }
-        if (num >= 10000) {
-            return (num / 1000).toFixed(1) + "K";
-        }
 
-        return num;
-    };
     return (
         <div
             {...props}
