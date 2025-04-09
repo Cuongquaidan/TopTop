@@ -7,6 +7,8 @@ import {
     ResponsiveContainer,
 } from "react-stacked-center-carousel";
 import ExploreTrendItem from "../components/video/ExploreTrendItem";
+import categories from "../data/Categories";
+import Categories from "../components/Categories";
 const videos = [
     {
         postID: 1,
@@ -65,11 +67,10 @@ const videos = [
 ];
 function Explore() {
     const ref = React.useRef();
+
     return (
-        <div className="p-4">
-            <div className="font-bold italic text-xl  p-2">
-                Thịnh hành hôm nay
-            </div>
+        <div className="p-4 max-w-[calc(100vw-300px)]">
+            <p className="font-bold italic text-xl ">Thịnh hành hôm nay</p>
             <div
                 style={{ width: "80%", position: "relative", height: "30vh" }}
                 className="mx-auto"
@@ -129,6 +130,8 @@ function Explore() {
                     </div>
                 </>
             </div>
+            <p className="font-bold italic text-xl mt-10 ">Bạn có thể thích</p>
+            <Categories></Categories>
         </div>
     );
 }
