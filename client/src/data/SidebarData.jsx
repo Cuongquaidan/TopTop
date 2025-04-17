@@ -61,14 +61,14 @@ const data = [
     },
     {
         title: "Hoạt động",
-        icon: <BiMessageAltDetail size={28}></BiMessageAltDetail>,
+        icon: <BiMessageAltDetail size={30}></BiMessageAltDetail>,
         iconActive: (
             <BiSolidMessageDetail
                 size={28}
                 className="text-primary"
             ></BiSolidMessageDetail>
         ),
-        href: "/activity",
+        option: "activities",
     },
     {
         title: "Tin nhắn",
@@ -76,7 +76,7 @@ const data = [
         iconActive: (
             <BsFillSendFill size={28} className="text-primary"></BsFillSendFill>
         ),
-        href: "/messages",
+        option: "messages",
     },
     {
         title: "Trực tiếp",
