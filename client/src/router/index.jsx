@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import PostItemDetails from "../pages/PostItemDetails";
 import Explore from "../pages/Explore";
 import Follow from "../pages/Follow";
+import Friend from "../pages/Friend";
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
                     {
                         path:'/following',
                         element:<Follow/>
+                    },
+                    {
+                        path:'/friends',
+                        element:<Friend/>
                     }
                 ],
             },

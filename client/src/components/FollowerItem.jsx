@@ -16,7 +16,7 @@ const FollowerItem=({item})=>{
                 height: 400,
                 userSelect: "none",
             }}
-            className=" rounded-2xl relative flex flex-col justify-center items-center"
+            className="min-w-[300px] max-w-[300px] md:max-w-[300px] sm:max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
             onMouseEnter={() => {
                 setIsHover(true);
             }}
@@ -47,10 +47,10 @@ const FollowerItem=({item})=>{
                     className="rounded-2xl shadow-2xl"
                 />
             )}
-            <div className="absolute flex flex-col items-center w-[80%]">
+            <div className="absolute flex flex-col items-center w-[80%] transform top-2/5 ">
                 <img src={data.user.profile_picture} className="rounded-full w-[70px] h-[70px] object-cover"/>
-                <p className="text-white text-2xl font-bold mt-4">{data.user.display_name}</p>
-                <p className="text-white text-xl font-bold">{data.user.username}</p>
+                <p className="text-white text-xl font-bold mt-4">{data.user.display_name}</p>
+                <p className="text-white text-lg font-bold">{data.user.username}</p>
                 <button 
                     onClick={()=>{}} 
                     className="bg-red-600 p-2 w-full rounded-lg mt-3 text-white text-2xl font-semibold"
