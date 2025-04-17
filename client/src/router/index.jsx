@@ -5,6 +5,9 @@ import App from "../App";
 import Home from "../pages/Home";
 import PostItemDetails from "../pages/PostItemDetails";
 import Explore from "../pages/Explore";
+import Follow from "../pages/Follow";
+import Friend from "../pages/Friend";
+import Upload from "../pages/Upload";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +26,18 @@ const router = createBrowserRouter([
                         path: "/explore",
                         element: <Explore></Explore>,
                     },
+                    {
+                        path:'/following',
+                        element:<Follow/>
+                    },
+                    {
+                        path:'/friends',
+                        element:<Friend/>
+                    },
+                    {
+                        path:'/upload',
+                        element:<Upload/>
+                    }
                 ],
             },
             {
