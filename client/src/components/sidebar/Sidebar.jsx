@@ -6,19 +6,32 @@ import data from "../../data/SidebarData";
 import { MdOutlineCopyright } from "react-icons/md";
 import { motion } from "framer-motion";
 import MoreOptions from "./MoreOptions";
+import Messages from "./Messages";
+import OtherOptions from "./OtherOptions";
 function Sidebar() {
     const location = useLocation(); // Lấy thông tin URL hiện tại
     const [currentPathname, setCurrentPathname] = useState(location.pathname);
     const [showMore, setShowMore] = useState(false);
+    const [option, setOption] = useState("");
 
     useEffect(() => {
         setCurrentPathname(location.pathname); // Tự cập nhật khi pathname thay đổi
     }, [location.pathname]);
     const variants = {
         textAnimate: {
-            opacity: showMore ? 0 : 1,
+            opacity: showMore || option ? 0 : 1,
         },
     };
+    useEffect(() => {
+        const handleScroll = () => {
+            console.log(window.scrollY);
+            setShowMore(false);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
     return (
         <div className="flex flex-col gap-4 p-4 fixed top-0 left-0 z-[999]">
             <div>
@@ -37,28 +50,58 @@ function Sidebar() {
             <div className="relative">
                 <LuSearch
                     size={20}
-                    className="absolute transform -translate-y-1/2 top-1/2 left-3 cursor-pointer"
+                    className="absolute transform -translate-y-1/2 cursor-pointer top-1/2 left-3"
                 />
                 <input
                     type="text"
                     className={`outline-none h-[48px] bg-slate-200/50 w-[200px] rounded-3xl p-2 pl-10 ${
-                        showMore && "!w-[48px]"
+                        (showMore || option )&& "!w-[48px]"
                     } transition-all`}
                     placeholder="Tìm kiếm..."
                 />
             </div>
             <div className="flex flex-col gap-2">
                 {data
-                    .filter((item, index) => index != data.length - 1)
-                    .map((item, index) => (
-                        <SidebarItem
+                .filter((_,index) => index !== data.length - 1)
+                .map((item, index) => 
+                       {
+                         return   item.href ? (   <SidebarItem
                             key={index}
                             currentPathname={currentPathname}
                             item={item}
                             showMore={showMore}
                             setShowMore={setShowMore}
+                            option={option}
+                            setOption={setOption}
                         ></SidebarItem>
-                    ))}
+                            ):(
+                                <button onClick={()=>{
+                                    if(item.option === option) {
+                                        setOption("");
+                                    }
+                                    else {
+                                        setOption(item.option);
+                                    }
+                                    setShowMore(false);
+                                }}
+                                className={`${
+                         item.option === option &&
+                        "text-primary   !rounded-full"
+                    } p-2 rounded-lg hover:text-primary cursor-pointer transition-all w-[200px] font-semibold flex gap-2 items-center text-md`}
+                                >
+                                   <div>{item.option === option ? item.iconActive: item.icon}</div>
+                                               <motion.p
+                                                   animate={{
+                                                       opacity: showMore || option ? 0 : 1,
+                                                   }}
+                                               >
+                                                   {item.title}
+                                               </motion.p>
+                                </button>
+                            )
+
+                       }
+                    )}
                 <motion.div
                     variants={variants}
                     animate="textAnimate"
@@ -69,10 +112,14 @@ function Sidebar() {
                 </motion.div>
                 <button
                     className={`${
-                        showMore &&
-                        "text-primary bg-primary/20 !w-[48px] h-[48px] !rounded-full"
+                        showMore  &&
+                        "text-primary   !rounded-full"
                     } p-2 rounded-lg hover:text-primary cursor-pointer transition-all w-[200px] font-semibold flex gap-2 items-center text-md`}
-                    onClick={() => setShowMore(!showMore)}
+                    onClick={() => {
+                        setShowMore(!showMore);
+                            setOption("");
+                        
+                    }}
                 >
                     <div>
                         {showMore
@@ -114,6 +161,8 @@ function Sidebar() {
                 </p>
             </motion.div>
             {showMore && <MoreOptions setShowMore={setShowMore}></MoreOptions>}
+            {option && <OtherOptions option={option} setOption={setOption}></OtherOptions>}
+            
         </div>
     );
 }

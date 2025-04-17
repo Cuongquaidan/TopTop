@@ -8,6 +8,7 @@ import ToolsForCreators from "./ToolsForCreators";
 import ThemeOptions from "./ThemeOptions";
 function MoreOptions({ setShowMore }) {
     const [targetMore, setTargetMore] = useState("");
+    
     return (
         <motion.div
             initial={{
@@ -20,15 +21,17 @@ function MoreOptions({ setShowMore }) {
             }}
             transition={{
                 type: "tween",
-                duration: 0.5,
+                duration: 0.3,
             }}
-            className="border-x border-neutral-300 p-6 fixed  top-0 left-[80px] bg-white h-screen "
+            className="border-x border-neutral-300 px-6 fixed  top-0 left-[80px] w-full flex bg-transparent h-screen "
         >
+            
+            <div className="h-full p-6 px-4 border-r border-neutral-300">
             {targetMore === "" && (
                 <div>
                     <div className="flex justify-between mb-10">
-                        <p className="font-bold text-xl">Thêm</p>
-                        <button className="w-6 h-6 cursor-pointer  text-neutral-300 p-0 rounded-full flex items-center justify-center">
+                        <p className="text-xl font-bold">Thêm</p>
+                        <button className="flex items-center justify-center w-6 h-6 p-0 rounded-full cursor-pointer text-neutral-300">
                             <MdCancel
                                 size={30}
                                 onClick={() => {
@@ -63,6 +66,19 @@ function MoreOptions({ setShowMore }) {
             {targetMore === "theme" && (
                 <ThemeOptions setTargetMore={setTargetMore}></ThemeOptions>
             )}
+            </div>
+            <div className="bg-transparent opacity-0 grow"
+                onClick= {
+                    ()=>{
+                        setShowMore(false);
+                        setTargetMore("");
+                    }
+                }
+                onWheel={()=>{
+                    setShowMore(false);
+                    setTargetMore("");
+                }}
+            ></div>
         </motion.div>
     );
 }
