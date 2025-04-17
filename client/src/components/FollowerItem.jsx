@@ -16,7 +16,7 @@ const FollowerItem=({item})=>{
                 height: 400,
                 userSelect: "none",
             }}
-            className="min-w-[300px] max-w-[300px] md:max-w-[300px] sm:max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
+            className="min-w-[280px] max-w-[300px] md:max-w-[300px] sm:max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
             onMouseEnter={() => {
                 setIsHover(true);
             }}

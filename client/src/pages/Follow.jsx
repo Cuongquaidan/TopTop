@@ -182,7 +182,7 @@ const data = [
 
 const Follow=()=>{
     return(
-        <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-3 mx-auto max-w-[1000px] min-w-[400px] bg-amber-400">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-3 mx-auto max-w-[1000px] min-w-[400px]">
             {data.map((item,index)=>
                 <FollowerItem item={item} key={index}/>
             )}
