@@ -119,7 +119,7 @@ function Home() {
         <div>
             <div
                 ref={scrollRef}
-                className="fixed top-0 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0"
+                className="fixed top-0 pl-15 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0"
             >
                 {data.map((item, index) => (
                     <PostItem item={item} key={item.postId}></PostItem>

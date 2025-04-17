@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@plugin 'tailwind-scrollbar' {
+    nocompatible: true;
+    preferredStrategy: 'pseudoelements';
+    
+}
 @theme {
     --color-primary: #fe2c55;
 }
@@ -57,3 +62,6 @@ input.video-progress::-moz-range-thumb {
     background: transparent;
     border: none;
 }
+::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+  }

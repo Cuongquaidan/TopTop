@@ -8,11 +8,21 @@ import { motion } from "framer-motion";
 import MoreOptions from "./MoreOptions";
 import Messages from "./Messages";
 import OtherOptions from "./OtherOptions";
+import Modal from "../Modal";
+import { useGlobalContext } from "../../context/AppContext";
+import LoginForm from "../modal/LoginForm";
+import LoginWithPhone from "../modal/LoginWithPhone";
+import LoginWithOther from "../modal/LoginWithOther";
+import ForgotPassword from "../modal/ForgotPassword";
+import AuthForm from "../modal/AuthForm";
 function Sidebar() {
     const location = useLocation(); // Lấy thông tin URL hiện tại
     const [currentPathname, setCurrentPathname] = useState(location.pathname);
     const [showMore, setShowMore] = useState(false);
     const [option, setOption] = useState("");
+    const {showModal,setShowModal, typeModal,setTypeModal} = useGlobalContext();
+
+   
 
     useEffect(() => {
         setCurrentPathname(location.pathname); // Tự cập nhật khi pathname thay đổi
@@ -102,14 +112,25 @@ function Sidebar() {
 
                        }
                     )}
-                <motion.div
+                {/* <motion.div
                     variants={variants}
                     animate="textAnimate"
                     className="h-10 p-2"
                 >
                     {" "}
                     Hồ sơ
-                </motion.div>
+                </motion.div> */}
+                <button className="p-2 px-4 max-w-[200px] bg-primary text-lg cursor-pointer rounded text-white font-bold" onClick={
+                    () => {
+                        setShowModal(true);
+                        setTypeModal("login");
+                    }
+                }>
+                    Đăng nhập
+                </button>
+                <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                   <AuthForm></AuthForm>
+                </Modal>
                 <button
                     className={`${
                         showMore  &&
