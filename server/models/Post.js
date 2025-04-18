@@ -18,6 +18,9 @@ const PostSchema = new mongoose.Schema({
     numOfComments: { type: Number, default: 0 },
     numOfSave: { type: Number, default: 0 },
     numOfShare: { type: Number, default: 0 },
+    likeList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
+    saveList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
+    shareList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     isDeleted:{type:Boolean,default:false},
     deletedAt:{type:Date,default:null},
     state:{type:String,enum:['recommended','normal','restricted'],default:'normal'}
