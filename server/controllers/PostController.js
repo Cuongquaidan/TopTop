@@ -1,7 +1,7 @@
 const fs=require('fs')
 const cloudinary=require('../services/cloudinary');
-const Video = require('../models/Video');
-const uploadVideo=async(req,res)=>{
+const Post = require('../models/Post');
+const uploadPost=async(req,res)=>{
     try {
         const {caption,tags,username,display_name,profile_picture,publicity,location}=req.body
 
@@ -22,7 +22,7 @@ const uploadVideo=async(req,res)=>{
         await fs.promises.unlink(req.files.video[0].path)
         await fs.promises.unlink(req.files.thumbnail[0].path)
 
-        const newVideo=new Video({
+        const newPost=new Post({
             postId:username+'_'+Date.now(),
             user:{
                 username,
@@ -40,22 +40,22 @@ const uploadVideo=async(req,res)=>{
             }
         })
 
-        await newVideo.save()
-        res.status(200).json({message:'upload Video thành công',video:newVideo})
+        await newPost.save()
+        res.status(200).json({message:'upload Post thành công',post:newPost})
     } catch (error) {
-        console.log('Lỗi khi uploadVideo: ',error);
+        console.log('Lỗi khi uploadPost: ',error);
         await fs.promises.unlink(req.files.video[0].path)
         res.status(500).json({message:"Lỗi server",error:error})
     }
 }
 
-const getAllVideo=async(req,res)=>{
+const getAllPost=async(req,res)=>{
     try {
-        let data=await Video.find()
+        let data=await Post.find()
         res.status(200).json({data:data})
     } catch (error) {
         res.status(500).json({error:error})
     }
 }
 
-module.exports={uploadVideo,getAllVideo}
+module.exports={uploadPost,getAllPost}

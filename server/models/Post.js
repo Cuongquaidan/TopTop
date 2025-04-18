@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const VideoSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
     postId: { type: String, required: true, unique: true },//username+Date.now()
 
     user: {
@@ -27,5 +27,5 @@ const VideoSchema = new mongoose.Schema({
     numOfShare: { type: Number, default: 0 }
 }, { timestamps: true });
 
-const Video = mongoose.model('Video', VideoSchema);
-module.exports = Video;
+const Post = mongoose.model('Post', PostSchema);
+module.exports = Post;

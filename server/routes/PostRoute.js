@@ -1,6 +1,6 @@
 const express=require('express')
 const router=express.Router()
-const VideoController=require('../controllers/VideoController')
+const PostController=require('../controllers/PostController')
 const uploadCloudinary = require('../middleware/uploadCloudinary')
 
 router.post(
@@ -9,8 +9,8 @@ router.post(
         {name:"video",maxCount:1},
         {name:"thumbnail",maxCount:1}
     ]),
-    VideoController.uploadVideo
+    PostController.uploadPost
 )
-router.get('/all',VideoController.getAllVideo)
+router.get('/all',PostController.getAllPost)
 
 module.exports=router

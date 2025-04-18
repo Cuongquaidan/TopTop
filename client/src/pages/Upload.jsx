@@ -111,7 +111,7 @@ const Upload=()=>{
             formData.append("display_name", user.display_name);
             formData.append("profile_picture", user.profile_picture);
 
-            const res=await fetch('http://localhost:3000/video/upload',{
+            const res=await fetch('http://localhost:3000/post/upload',{
                 method:'POST',
                 body:formData
             })
@@ -121,7 +121,7 @@ const Upload=()=>{
                 throw new Error(data.message)
             }
 
-            alert("Upload video thành công")
+            alert("Upload post thành công")
 
             setVideo(null);
             setThumbnail(null);
