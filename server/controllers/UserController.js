@@ -1,8 +1,5 @@
 const User = require("../models/User")
-const path = require('path');
-const bcrypt = require('bcrypt');
-const fs=require('fs');
-const cloudinary = require("../services/cloudinary");
+
 
 const getAllUser=async(req,res)=>{
     try {
@@ -12,6 +9,7 @@ const getAllUser=async(req,res)=>{
         res.status(500).json({message:`Lỗi server: ${error}`})
     }
 }
+
 
 const getUserByID=async(req,res)=>{
     try {
@@ -28,4 +26,6 @@ const getUserByID=async(req,res)=>{
     }
 }
 
+
 module.exports={getAllUser,getUserByID}
+

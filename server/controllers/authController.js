@@ -85,3 +85,4 @@ const loginPhone=async(req,res)=>{
 }
 
 module.exports={register,loginEmail,loginPhone}
+
