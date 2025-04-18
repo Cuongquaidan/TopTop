@@ -16,7 +16,7 @@ const adminSidebarData = [
   {
     title: "Posts",
     icon: <IoDocumentText />,
-    href: "/admin/products",
+    href: "/admin/posts",
   },
   {
     title: "Reports",
@@ -24,3 +24,4 @@ const adminSidebarData = [
     href: "/admin/reports",
   }
 ]
+export default adminSidebarData;

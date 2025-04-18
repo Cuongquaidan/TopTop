@@ -1,4 +1,4 @@
-const data = [
+const posts = [
   {
     _id: 1,
     user: {
@@ -124,6 +124,6 @@ const data = [
     state: "normal"
   }
 ];
-  
+
 
 export default posts;

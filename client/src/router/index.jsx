@@ -8,8 +8,34 @@ import Explore from "../pages/Explore";
 import Follow from "../pages/Follow";
 import Friend from "../pages/Friend";
 import Upload from "../pages/Upload";
+import AdminRoute from "../components/admin/AdminRoute";
+import Dashboard from "../pages/admin/Dashboard";
+import Users from "../pages/admin/Users";
+import Posts from "../pages/admin/Posts";
+import Reports from "../pages/admin/Reports";
 
 const router = createBrowserRouter([
+    {
+        path: "/admin",
+        element: <AdminRoute />,
+        errorElement: <ErrorPage></ErrorPage>,
+        children:[
+            {
+                path: "/admin/dashboard",
+                element: <Dashboard></Dashboard>
+            },
+            {
+                path: "/admin/users",
+                element: <Users></Users>
+            },{
+                path: "/admin/posts",
+                element: <Posts></Posts>
+            },{
+                path: "/admin/reports",
+                element: <Reports></Reports>
+            }
+        ]
+    },
     {
         path: "/",
         element: <App />,
