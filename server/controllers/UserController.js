@@ -6,15 +6,32 @@ const cloudinary = require("../services/cloudinary");
 
 const register=async(req,res)=>{
     try {
-        const {account,password,username}=req.body
-        if(!account||!password||!username||!req.file){
+        const {email,phone,password,username}=req.body
+        if(!email&&!phone){
+            return res.status(400).json({message:"Thiếu email/phone"})
+        }
+        if(!password||!username||!req.file){
             return res.status(400).json({message:"Thiếu thông tin khi tạo tài khoản"})
         }
 
-        const existUser=await User.findOne({$or:[{username},{account}]})
+        let existUser=await User.findOne({username})
         if(existUser){
             fs.unlinkSync(req.file.path)
-            return res.status(409).json({message:'Tên người dùng hoặc tài khoản đã tồn tại'});
+            return res.status(409).json({message:'Tên người dùng đã tồn tại'});
+        }
+        if(phone){
+            existUser=await User.findOne({phone})
+            if(existUser){
+                fs.unlinkSync(req.file.path)
+                return res.status(409).json({message:'Sđt đã được đăng ký'});
+            }
+        }
+        if(email){
+            existUser=await User.findOne({email})
+            if(existUser){
+                fs.unlinkSync(req.file.path)
+                return res.status(409).json({message:'Email đã được đăng ký'});
+            }
         }
 
         const uploadResult=await cloudinary.uploader.upload(req.file.path,{
@@ -31,7 +48,8 @@ const register=async(req,res)=>{
             display_name:username,
             profile_picture:uploadResult.secure_url,
             password:hashedPassword,
-            account
+            email:email?email:null,
+            phone:phone?phone:null,
         })
 
         await newUser.save()

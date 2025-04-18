@@ -14,7 +14,7 @@ const user={
     display_name:'test',
     profile_picture:'https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744947248/profile_picture/y0lzpa2w7ldmb5nj4fkr.png'
 }
-
+const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
     
     const inputVideoRef=useRef()
@@ -103,7 +103,10 @@ const Upload=()=>{
             formData.append("video",video)
             if (thumbnail) {
                 formData.append("thumbnail", thumbnail);
-            }              
+            }
+            else{
+                formData.append("thumbnail",defaultThumbnail)
+            }
             formData.append("caption", description);
             formData.append("location", location);
             formData.append("publicity", publicState);
@@ -131,6 +134,7 @@ const Upload=()=>{
             setPublicState("Mọi người");
             setDescriptionLength(0);
         } catch (error) {
+            console.log('Lỗi khi uploadPost:',error);
             
         }
     }
@@ -211,7 +215,7 @@ const Upload=()=>{
                         hover:bg-gray-400/60'
                             
                     >
-                        <img src={capcut} className='object-fill w-15 h-15'/>
+                        <img src={defaultThumbnail} className='object-fill w-15 h-15'/>
                         <p className='text-lg'>Thử ngay</p>
                     </button>
                 </div>

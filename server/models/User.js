@@ -12,8 +12,13 @@ const UserSchema = new mongoose.Schema({
     videos: [{ type: String }],
     saveVideos: [{ type: String }],
     likeVideos: [{ type: String }],
-    account:{type:String,required:true,unique:true,index:true},
-    password:{type:String,required:true,select:false}
+    password:{type:String,required:true,select:false},
+    email:{type:String,unique:true,index:true,sparse:true},
+    phone:{type:String,unique:true,index:true,sparse:true},
+    state:{type:String,enum:['active','restricted','permanently_banned'],default:'active'},
+    role:{type:String,enum:['user','admin'],default:'user'},
+    isDeleted:{type:Boolean,default:false},
+    deletedAt:{type:Date,default:null}
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
