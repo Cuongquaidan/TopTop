@@ -26,7 +26,7 @@ function MoreOptions({ setShowMore }) {
             className="border-x border-neutral-300 px-6 fixed  top-0 left-[80px] w-full flex bg-transparent h-screen "
         >
             
-            <div className="h-full p-6 px-4 border-r border-neutral-300">
+            <div className="h-full p-6 px-4 border-r border-neutral-300 bg-white">
             {targetMore === "" && (
                 <div>
                     <div className="flex justify-between mb-10">

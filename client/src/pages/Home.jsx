@@ -4,7 +4,7 @@ import { FaCircleChevronUp } from "react-icons/fa6";
 import { FaCircleChevronDown } from "react-icons/fa6";
 const data = [
     {
-        postId: 1,
+        _id: 1,
         user: {
             username: "linhnguyen",
             display_name: "Linh Nguyễn",
@@ -25,7 +25,7 @@ const data = [
         numOfShare: 75,
     },
     {
-        postId: 2,
+        _id: 2,
         user: {
             username: "foodie_trung",
             display_name: "Trung Ăn Gì",
@@ -47,7 +47,7 @@ const data = [
         numOfShare: 36,
     },
     {
-        postId: 3,
+        _id: 3,
         user: {
             username: "hanhpham",
             display_name: "Hạnh Phạm",
@@ -70,7 +70,7 @@ const data = [
         numOfShare: 92,
     },
     {
-        postId: 4,
+        _id: 4,
         user: {
             username: "hoangvu.music",
             display_name: "Hoàng Vũ 🎧",
@@ -92,7 +92,7 @@ const data = [
         numOfShare: 305,
     },
     {
-        postId: 5,
+        _id: 5,
         user: {
             username: "petdaily",
             display_name: "Pet Daily 🐶🐱",
@@ -122,7 +122,7 @@ function Home() {
                 className="fixed top-0 pl-15 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full  items-center z-0"
             >
                 {data.map((item, index) => (
-                    <PostItem item={item} key={item.postId}></PostItem>
+                    <PostItem item={item} key={item._id}></PostItem>
                 ))}
             </div>
             <div className="fixed top-1/2 transform -translate-y-1/2 right-20 flex gap-5 flex-col">
