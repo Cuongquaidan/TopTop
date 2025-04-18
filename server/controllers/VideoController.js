@@ -3,9 +3,10 @@ const cloudinary=require('../services/cloudinary');
 const Video = require('../models/Video');
 const uploadVideo=async(req,res)=>{
     try {
-        const {caption,tags,username,display_name,profile_picture}=req.body
+        const {caption,tags,username,display_name,profile_picture,publicity,location}=req.body
 
         if(!req.files||!req.files.video||!req.files.thumbnail) {
+            await fs.promises.unlink(req.files.video[0].path)
             return res.status(400).json({ message: "Thiếu video hoặc thumbnail" });
         }
 
@@ -18,8 +19,8 @@ const uploadVideo=async(req,res)=>{
             folder: "toptop/thumbnails"
         });
 
-        fs.unlinkSync(req.files.video[0].path)
-        fs.unlinkSync(req.files.thumbnail[0].path)
+        await fs.promises.unlink(req.files.video[0].path)
+        await fs.promises.unlink(req.files.thumbnail[0].path)
 
         const newVideo=new Video({
             postId:username+'_'+Date.now(),
@@ -33,7 +34,9 @@ const uploadVideo=async(req,res)=>{
             media:{
                 url:videoUploadResult.secure_url,
                 thumbnail:thumbUploadResult.secure_url,
-                duration:Math.round(videoUploadResult.duration)
+                duration:Math.round(videoUploadResult.duration),
+                publicity:publicity,
+                location:location
             }
         })
 
@@ -41,6 +44,7 @@ const uploadVideo=async(req,res)=>{
         res.status(200).json({message:'upload Video thành công',video:newVideo})
     } catch (error) {
         console.log('Lỗi khi uploadVideo: ',error);
+        await fs.promises.unlink(req.files.video[0].path)
         res.status(500).json({message:"Lỗi server",error:error})
     }
 }
