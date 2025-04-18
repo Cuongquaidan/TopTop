@@ -9,18 +9,25 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { RiExchangeLine } from "react-icons/ri";
 import { FaSearchLocation } from "react-icons/fa";
 
+const user={
+    username:'test',
+    display_name:'test',
+    profile_picture:'https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744947248/profile_picture/y0lzpa2w7ldmb5nj4fkr.png'
+}
+const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
+    
     const inputVideoRef=useRef()
     const inputThumbnailRef=useRef()
     const inputTimeUploadRef=useRef()
     const [video,setVideo]=useState(null)
-    const [thumbnail,setThumbnail]=useState(capcut)
+    const [thumbnail,setThumbnail]=useState(null)
     const [description,setDescription]=useState('')
     const [location,setLocation]=useState('')
     const [uploadTime,setUploadTime]=useState("Now")
     const [publicState,setPublicState]=useState("Mọi người")
     const [descriptionLength,setDescriptionLength]=useState(0)
-    const handleUploadVideo=(e)=>{
+    const handleChooseVideo=(e)=>{
         const video=e.target.files[0]
         setVideo(video)
         setDescription(video.name)
@@ -28,9 +35,9 @@ const Upload=()=>{
         inputVideoRef.current.value=''
     }
 
-    const handleChangeUploadVideo=(e)=>{
+    const handleChangeVideo=(e)=>{
         setVideo(null)
-        setThumbnail(capcut)
+        setThumbnail(null)
         setDescription('')
         setLocation('')
         setUploadTime("Now")
@@ -41,7 +48,7 @@ const Upload=()=>{
 
     const handleCancel=()=>{
         setVideo(null)
-        setThumbnail(capcut)
+        setThumbnail(null)
         setDescription('')
         setLocation('')
         setUploadTime("Now")
@@ -49,7 +56,7 @@ const Upload=()=>{
         setDescriptionLength(0)
     }
 
-    const handleUploadThumbnail=(e)=>{
+    const chooseThumbnailHandler=(e)=>{
         const newThumbnail=e.target.files[0]
         setThumbnail(newThumbnail)
     }
@@ -85,17 +92,63 @@ const Upload=()=>{
         }
     }
 
+    const UploadVideoHandler=async()=>{
+        if(!video){
+            alert("Chưa chọn video!")
+            return
+        }
+
+        try {
+            const formData=new FormData()
+            formData.append("video",video)
+            if (thumbnail) {
+                formData.append("thumbnail", thumbnail);
+            }
+            else{
+                formData.append("thumbnail",defaultThumbnail)
+            }
+            formData.append("caption", description);
+            formData.append("location", location);
+            formData.append("publicity", publicState);
+            formData.append("username", user.username);
+            formData.append("display_name", user.display_name);
+            formData.append("profile_picture", user.profile_picture);
+
+            const res=await fetch('http://localhost:3000/post/upload',{
+                method:'POST',
+                body:formData
+            })
+
+            const data=await res.json()
+            if(!res.ok){
+                throw new Error(data.message)
+            }
+
+            alert("Upload post thành công")
+
+            setVideo(null);
+            setThumbnail(null);
+            setDescription('');
+            setLocation('');
+            setUploadTime("Now");
+            setPublicState("Mọi người");
+            setDescriptionLength(0);
+        } catch (error) {
+            console.log('Lỗi khi uploadPost:',error);
+            
+        }
+    }
     return(
         <div className="w-full h-full bg-gray-100 p-8 flex flex-col justify-start items-center min-w-[900px]">
             <input type='file' className='hidden' 
                 accept='video/*'
                 ref={inputVideoRef}
-                onChange={handleUploadVideo}
+                onChange={handleChooseVideo}
             />
             <input type='file' className='hidden' 
                 accept='image/*'
                 ref={inputThumbnailRef}
-                onChange={handleUploadThumbnail}
+                onChange={chooseThumbnailHandler}
             />
             {!video&&
             (
@@ -162,7 +215,7 @@ const Upload=()=>{
                         hover:bg-gray-400/60'
                             
                     >
-                        <img src={capcut} className='object-fill w-15 h-15'/>
+                        <img src={defaultThumbnail} className='object-fill w-15 h-15'/>
                         <p className='text-lg'>Thử ngay</p>
                     </button>
                 </div>
@@ -185,7 +238,7 @@ const Upload=()=>{
                         <button 
                             className='bg-gray-300 p-3 rounded-xl flex items-center gap-2
                             hover:bg-gray-400/60'
-                            onClick={handleChangeUploadVideo}    
+                            onClick={handleChangeVideo}    
                         >
                             <RiExchangeLine size={30}/>
                             <p>Thay thế</p>
@@ -293,15 +346,15 @@ const Upload=()=>{
                     <p className='font-bold text-2xl mt-4'>Kiểm tra</p>
                     <div className='flex gap-2'>
                         <button 
-                            className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg
-                            hover:bg-red-600'
-                            onClick={()=>{}}
+                            className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg 
+                            cursor-pointer hover:bg-red-600'
+                            onClick={UploadVideoHandler}
                         >
                             {uploadTime==="Now"?"Bài đăng":"Lên lịch"}
                         </button>
                         <button 
                             className='bg-gray-300 p-2 px-3 rounded-xl  text-lg
-                            hover:bg-gray-400/60'
+                            cursor-pointer hover:bg-gray-400/60'
                             onClick={handleCancel}
                         >
                             Hủy bỏ
