@@ -1,58 +1,119 @@
 import React, { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useForm } from 'react-hook-form';
 import { useGlobalContext } from '../../context/AppContext';
-import { IoMdEye } from "react-icons/io";
-import { IoMdEyeOff } from "react-icons/io";
+import { toast } from 'react-toastify';
+import createAxiosInstance from '../../libs/axios/AxiosInstance';
+import { BASE_URL, SUMMARY_API } from '../../shared/Route';
 
 function LoginWithOther() {
   const { setTypeModal } = useGlobalContext();
-  
-  // State to toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    defaultValues: {
+      emailOrUsername: "",
+      password: ""
+    }
+  });
+
+  const onSubmit = async (data) => {
+    const value = data.emailOrUsername;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+    const payload = {
+      password: data.password
+    };
+
+    if (isEmail) {
+      payload.email = value;
+    } else {
+      payload.username = value;
+    }
+
+    try {
+      const axiosInstance = createAxiosInstance(BASE_URL);
+      await axiosInstance.post(SUMMARY_API.auth.login.other, payload);
+      toast.success("Đăng nhập thành công!");
+      reset();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Đăng nhập thất bại!");
+    }
+  };
+
   return (
-    <div className="space-y-4 py-10 px-6 relative h-full">
-      <div className='absolute top-0 left-0 cursor-pointer' onClick={() => {
-        setTypeModal("login");
-      }}>
-        <FaChevronLeft className='text-gray-700 ' />
+    <form onSubmit={handleSubmit(onSubmit)} className="relative h-full px-6 py-10 space-y-4">
+      <div className='absolute top-0 left-0 cursor-pointer' onClick={() => setTypeModal("login")}>
+        <FaChevronLeft className='text-gray-700' />
       </div>
+
       <h2 className="text-3xl font-bold text-center">Đăng nhập</h2>
 
-      <label className="text-sm font-medium"></label>
-      <div className='flex justify-between items-center '>
+      <div className='flex items-center justify-between'>
         <p className='font-semibold text-md'>Email/Username</p>
-        <p className='text-slate-900 text-sm cursor-pointer hover:underline hover:text-shadow-sm text-shadow-gray-400 ' onClick={() => {
-          setTypeModal("login-with-phone");
-        }}>
+        <p
+          className='text-sm cursor-pointer text-slate-900 hover:underline'
+          onClick={() => setTypeModal("login-with-phone")}
+        >
           Đăng nhập bằng số điện thoại
         </p>
       </div>
-      <div className="flex gap-2 px-2 border rounded bg-[#eee] border-slate-300 text-lg font-semibold">
-        <input type="text" placeholder="Email/username" className="flex-1 outline-none rounded p-2 " />
-      </div>
 
-      {/* Password Input with show/hide functionality */}
-      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
-        <input 
-          type={showPassword ? "text" : "password"} 
-          placeholder="Nhập mật khẩu" 
-          className="flex-1 outline-none  p-2 " 
+      <div className="flex gap-2 px-2 border rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+        <input
+          type="text"
+          placeholder="Email/username"
+          className="flex-1 p-2 rounded outline-none"
+          {...register("emailOrUsername", {
+            required: "Vui lòng nhập email hoặc username",
+            minLength: {
+              value: 4,
+              message: "Tối thiểu 4 ký tự"
+            }
+          })}
         />
-        <div 
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+      </div>
+      {errors.emailOrUsername && <p className="text-sm text-red-500">{errors.emailOrUsername.message}</p>}
+
+      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Nhập mật khẩu"
+          className="flex-1 p-2 outline-none"
+          {...register("password", {
+            required: "Vui lòng nhập mật khẩu",
+            minLength: {
+              value: 6,
+              message: "Mật khẩu tối thiểu 6 ký tự"
+            }
+          })}
+        />
+        <div
+          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
           onClick={() => setShowPassword(!showPassword)}
         >
-          {showPassword ? (
-            <IoMdEyeOff className="text-gray-700" size={20} />
-          ) : (
-            <IoMdEye className="text-gray-700" size={20} />
-          )}
+          {showPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
         </div>
       </div>
+      {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
 
-      <button className="w-full bg-[#eee] border-slate-300 cursor-pointer font-semibold text-gray-700 py-2 rounded" disabled>Đăng nhập</button>
-    </div>
+      <button
+        type="submit"
+        className={`w-full py-2 rounded font-semibold text-white ${
+          isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+        }`}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Đang xử lý..." : "Đăng nhập"}
+      </button>
+    </form>
   );
 }
 

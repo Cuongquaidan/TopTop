@@ -1,78 +1,139 @@
 import React, { useState } from 'react';
 import { FaChevronLeft } from 'react-icons/fa';
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { useForm } from 'react-hook-form';
 import { useGlobalContext } from '../../context/AppContext';
-import { IoMdEye } from "react-icons/io";
-import { IoMdEyeOff } from "react-icons/io";
+import createAxiosInstance from '../../libs/axios/AxiosInstance';
+import { toast } from 'react-toastify';
+import { BASE_URL, SUMMARY_API } from '../../shared/Route';
 
 function RegisterWithOther() {
   const { setTypeModal } = useGlobalContext();
-
-  // State to toggle password visibility for both password fields
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful }
+  } = useForm({
+    defaultValues: {
+      emailOrUsername: "",
+      password: "",
+      confirmPassword: ""
+    }
+  });
+
+  const submit = async (data) => {
+    const value = data.emailOrUsername;
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    const payload = {
+      password: data.password
+    };
+
+    if (isEmail) {
+      payload.email = value;
+    } else {
+      payload.username = value;
+    }
+
+    try {
+      const axiosInstance = createAxiosInstance(BASE_URL);
+      await axiosInstance.post(SUMMARY_API.auth.register, payload);
+
+      if (isSubmitSuccessful) {
+        toast.success("Đăng ký thành công!");
+        setTypeModal("login-with-other");
+        reset();
+      }
+    } catch (error) {
+      console.log(error.response?.data?.message || "Đăng ký thất bại!");
+    }
+  };
+
   return (
-    <div className="space-y-4 py-10 px-6 relative h-full">
-      <div className='absolute top-0 left-0 cursor-pointer' onClick={() => {
-        setTypeModal("register");
-      }}>
-        <FaChevronLeft className='text-gray-700 '/>
+    <form onSubmit={handleSubmit(submit)} className="relative h-full px-6 py-10 space-y-4">
+      <div className='absolute top-0 left-0 cursor-pointer' onClick={() => setTypeModal("register")}>
+        <FaChevronLeft className='text-gray-700' />
       </div>
+
       <h2 className="text-3xl font-bold text-center">Đăng kí</h2>
 
-      <label className="text-sm font-medium"></label>
-      <div className='flex justify-between items-center '>
+      <div className='flex items-center justify-between'>
         <p className='font-semibold text-md'>Email/Username</p>
-        <p className='text-slate-900 text-sm cursor-pointer hover:underline hover:text-shadow-sm text-shadow-gray-400 ' onClick={() => {
-          setTypeModal("register-with-phone");
-        }}>
+        <p
+          className='text-sm cursor-pointer text-slate-900 hover:underline'
+          onClick={() => setTypeModal("register-with-phone")}
+        >
           Đăng kí bằng số điện thoại
         </p>
       </div>
       <div className="flex gap-2 px-2 border rounded bg-[#eee] border-slate-300 text-lg font-semibold">
-        <input type="text" placeholder="Email/username" className="flex-1 outline-none rounded p-2  " />
-      </div>
-
-      {/* Password Input with show/hide functionality */}
-      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
-        <input 
-          type={showPassword ? "text" : "password"} 
-          placeholder="Nhập mật khẩu" 
-          className="flex-1 outline-none  p-2 " 
+        <input
+          type="text"
+          placeholder="Email hoặc Username"
+          className="flex-1 p-2 rounded outline-none"
+          {...register("emailOrUsername", {
+            required: "Vui lòng nhập email hoặc username",
+            minLength: {
+              value: 4,
+              message: "Tối thiểu 4 ký tự"
+            }
+          })}
         />
-        <div 
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? (
-            <IoMdEyeOff className="text-gray-700" size={20} />
-          ) : (
-            <IoMdEye className="text-gray-700" size={20} />
-          )}
+      </div>
+      {errors.emailOrUsername && <p className="text-sm text-red-500">{errors.emailOrUsername.message}</p>}
+
+      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Nhập mật khẩu"
+          className="flex-1 p-2 outline-none"
+          {...register("password", {
+            required: "Vui lòng nhập mật khẩu",
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,10}$/,
+              message: "8-10 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt"
+            }
+          })}
+        />
+        <div className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
+          onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
         </div>
       </div>
+      {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
 
-      {/* Confirm Password Input with show/hide functionality */}
       <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
-        <input 
-          type={showConfirmPassword ? "text" : "password"} 
-          placeholder="Nhập lại mật khẩu" 
-          className="flex-1 outline-none  p-2 " 
+        <input
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="Nhập lại mật khẩu"
+          className="flex-1 p-2 outline-none"
+          {...register("confirmPassword", {
+            required: "Vui lòng nhập lại mật khẩu",
+            validate: value =>
+              value === watch("password") || "Mật khẩu không khớp"
+          })}
         />
-        <div 
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
-          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-        >
-          {showConfirmPassword ? (
-            <IoMdEyeOff className="text-gray-700" size={20} />
-          ) : (
-            <IoMdEye className="text-gray-700" size={20} />
-          )}
+        <div className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+          {showConfirmPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
         </div>
       </div>
+      {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
 
-      <button className="w-full bg-[#eee] border-slate-300 cursor-pointer font-semibold text-gray-700 py-2 rounded" disabled>Đăng kí</button>
-    </div>
+      <button
+        type="submit"
+        className={`w-full py-2 rounded font-semibold text-white ${
+          isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+        }`}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Đang xử lý..." : "Đăng ký"}
+      </button>
+    </form>
   );
 }
 
