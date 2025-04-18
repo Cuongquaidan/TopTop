@@ -3,6 +3,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const fs=require('fs');
 const cloudinary = require("../services/cloudinary");
+
 const register=async(req,res)=>{
     try {
         const {account,password,username}=req.body
@@ -41,4 +42,13 @@ const register=async(req,res)=>{
     }
 }
 
-module.exports={register}
+const getAllUser=async(req,res)=>{
+    try {
+        const data=await User.find()
+        res.status(200).json({data:data})
+    } catch (error) {
+        res.status(500).json({message:`Lỗi server: ${error}`})
+    }
+}
+
+module.exports={register,getAllUser}

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true,index:true},
     display_name: { type: String, required: true },
     profile_picture: { type: String, default: '' }, // URL ảnh đại diện
     description: { type: String, default: '' },
@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     videos: [{ type: String }],
     saveVideos: [{ type: String }],
     likeVideos: [{ type: String }],
-    account:{type:String,required:true,unique:true},
+    account:{type:String,required:true,unique:true,index:true},
     password:{type:String,required:true,select:false}
 }, { timestamps: true });
 
