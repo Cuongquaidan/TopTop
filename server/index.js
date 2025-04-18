@@ -4,6 +4,7 @@ const connectMongo = require('./services/mongooseConnect')
 require('dotenv').config()
 const UserRoutes=require('./routes/UserRoute')
 const AuthRoutes=require('./routes/AuthRoute')
+const VideoRoute=require('./routes/VideoRoute')
 
 const app=express()
 app.use(cors())
@@ -13,6 +14,7 @@ connectMongo()
 
 app.use('/user',UserRoutes)
 app.use('/auth',AuthRoutes)
+app.use('/video',VideoRoute)
 
 const PORT=process.env.PORT||5000
 app.listen(PORT,()=>{
