@@ -11,11 +11,7 @@ import { FaSearchLocation } from "react-icons/fa";
 import extractTags from '../helper/extractTags';
 import { IoReload } from "react-icons/io5";
 
-const user={
-    username:'test',
-    display_name:'test',
-    profile_picture:'https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744947248/profile_picture/y0lzpa2w7ldmb5nj4fkr.png'
-}
+const userID='6801c83174602c8e7b70a33b'
 const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
     
@@ -114,9 +110,7 @@ const Upload=()=>{
             formData.append("caption", description);
             formData.append("location", location);
             formData.append("publicity", publicState);
-            formData.append("username", user.username);
-            formData.append("display_name", user.display_name);
-            formData.append("profile_picture", user.profile_picture);
+            formData.append("user", userID);
             let tags=extractTags(description)
             formData.append("tags", JSON.stringify(tags || []))
 

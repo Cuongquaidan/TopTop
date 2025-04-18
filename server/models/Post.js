@@ -1,14 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    postId: { type: String, required: true, unique: true },//username+Date.now()
-
-    user: {
-        username: { type: String, required: true },
-        display_name: { type: String, required: true },
-        profile_picture: { type: String, required: true },
-    },
-
+    user:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
     caption: { type: String, default: '' },
     tags: [{ type: String }],
     type: { type: String, enum: ['video'], default: 'video' },

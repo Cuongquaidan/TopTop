@@ -1,13 +1,21 @@
 const fs=require('fs')
 const cloudinary=require('../services/cloudinary');
 const Post = require('../models/Post');
+const User = require('../models/User');
 const uploadPost=async(req,res)=>{
     try {
-        const {caption,tags,username,display_name,profile_picture,publicity,location}=req.body
-
+        const {caption,tags,user,publicity,location}=req.body    
         if(!req.files||!req.files.video||!req.files.thumbnail) {
             await fs.promises.unlink(req.files.video[0].path)
+            await fs.promises.unlink(req.files.thumbnail[0].path)
             return res.status(400).json({ message: "Thiếu video hoặc thumbnail" });
+        }
+
+        const existUser=await User.findById(user)
+        if(!existUser){
+            await fs.promises.unlink(req.files.video[0].path)
+            await fs.promises.unlink(req.files.thumbnail[0].path)
+            return res.status(400).json({ message: "Không tìm thấy userID" });
         }
 
         const videoUploadResult=await cloudinary.uploader.upload(req.files.video[0].path,{
@@ -23,12 +31,7 @@ const uploadPost=async(req,res)=>{
         await fs.promises.unlink(req.files.thumbnail[0].path)
 
         const newPost=new Post({
-            postId:username+'_'+Date.now(),
-            user:{
-                username,
-                display_name,
-                profile_picture
-            },
+            user,
             caption,
             tags:tags?JSON.parse(tags):[],
             media:{
