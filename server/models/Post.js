@@ -1,14 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    postId: { type: String, required: true, unique: true },//username+Date.now()
-
-    user: {
-        username: { type: String, required: true },
-        display_name: { type: String, required: true },
-        profile_picture: { type: String, required: true },
-    },
-
+    user:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
     caption: { type: String, default: '' },
     tags: [{ type: String }],
     type: { type: String, enum: ['video'], default: 'video' },
@@ -25,6 +18,9 @@ const PostSchema = new mongoose.Schema({
     numOfComments: { type: Number, default: 0 },
     numOfSave: { type: Number, default: 0 },
     numOfShare: { type: Number, default: 0 },
+    likeList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
+    saveList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
+    shareList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     isDeleted:{type:Boolean,default:false},
     deletedAt:{type:Date,default:null},
     state:{type:String,enum:['recommended','normal','restricted'],default:'normal'}
