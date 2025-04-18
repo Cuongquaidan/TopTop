@@ -8,12 +8,10 @@ import { useRef, useState } from 'react';
 import { FaCircleCheck } from "react-icons/fa6";
 import { RiExchangeLine } from "react-icons/ri";
 import { FaSearchLocation } from "react-icons/fa";
+import extractTags from '../helper/extractTags';
+import { IoReload } from "react-icons/io5";
 
-const user={
-    username:'test',
-    display_name:'test',
-    profile_picture:'https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744947248/profile_picture/y0lzpa2w7ldmb5nj4fkr.png'
-}
+const userID='6801c83174602c8e7b70a33b'
 const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
     
@@ -27,6 +25,7 @@ const Upload=()=>{
     const [uploadTime,setUploadTime]=useState("Now")
     const [publicState,setPublicState]=useState("Mọi người")
     const [descriptionLength,setDescriptionLength]=useState(0)
+    const [isLoading,setIsLoading]=useState(false)
     const handleChooseVideo=(e)=>{
         const video=e.target.files[0]
         setVideo(video)
@@ -99,6 +98,7 @@ const Upload=()=>{
         }
 
         try {
+            setIsLoading(true)
             const formData=new FormData()
             formData.append("video",video)
             if (thumbnail) {
@@ -110,9 +110,9 @@ const Upload=()=>{
             formData.append("caption", description);
             formData.append("location", location);
             formData.append("publicity", publicState);
-            formData.append("username", user.username);
-            formData.append("display_name", user.display_name);
-            formData.append("profile_picture", user.profile_picture);
+            formData.append("user", userID);
+            let tags=extractTags(description)
+            formData.append("tags", JSON.stringify(tags || []))
 
             const res=await fetch('http://localhost:3000/post/upload',{
                 method:'POST',
@@ -133,11 +133,31 @@ const Upload=()=>{
             setUploadTime("Now");
             setPublicState("Mọi người");
             setDescriptionLength(0);
+            setIsLoading(false)
         } catch (error) {
             console.log('Lỗi khi uploadPost:',error);
             
         }
     }
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('video/')) {
+            setVideo(file);
+            setDescription(file.name);
+            setDescriptionLength(file.name.length);
+        } else {
+            alert("Vui lòng thả video hợp lệ");
+        }
+    };
+
     return(
         <div className="w-full h-full bg-gray-100 p-8 flex flex-col justify-start items-center min-w-[900px]">
             <input type='file' className='hidden' 
@@ -157,6 +177,8 @@ const Upload=()=>{
                         className="flex flex-col justify-center items-center gap-2 bg-gray-100 rounded-2xl border border-gray-300 border-dashed h-[600px] cursor-pointer
                         hover:border-blue-600"
                         onClick={()=>{inputVideoRef.current.click()}}
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
                     >
                         <img src={upload} className='w-[100px]'/>
                         <p className='font-bold text-3xl'>Chọn video để tải lên</p>
@@ -290,7 +312,8 @@ const Upload=()=>{
                             <input 
                                 list="locations" 
                                 className='bg-gray-300 p-2 ps-15 w-[350px] rounded-xl relative'
-                                placeholder="Tìm kiếm vị trí" 
+                                placeholder="Tìm kiếm vị trí"
+                                onChange={(e)=>setLocation(e.target.value)}
                             />
                             <FaSearchLocation size={20} className='text-gray-500 absolute left-4'/>
                             <datalist id="locations">
@@ -345,13 +368,28 @@ const Upload=()=>{
                     </div>
                     <p className='font-bold text-2xl mt-4'>Kiểm tra</p>
                     <div className='flex gap-2'>
-                        <button 
-                            className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg 
-                            cursor-pointer hover:bg-red-600'
-                            onClick={UploadVideoHandler}
-                        >
-                            {uploadTime==="Now"?"Bài đăng":"Lên lịch"}
-                        </button>
+                        {
+                            !isLoading&&
+                            (
+                                <button 
+                                className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg 
+                                cursor-pointer hover:bg-red-600'
+                                onClick={UploadVideoHandler}>
+                                    {uploadTime==="Now"?"Bài đăng":"Lên lịch"}
+                                </button>
+                            )
+                        }
+                        {
+                            isLoading&&
+                            (
+                                <button 
+                                className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg flex items-center justify-center
+                                cursor-not-allowed'
+                                >
+                                    <IoReload className='animate-spin text-2xl'/>
+                                </button>
+                            )
+                        }
                         <button 
                             className='bg-gray-300 p-2 px-3 rounded-xl  text-lg
                             cursor-pointer hover:bg-gray-400/60'
