@@ -1,8 +1,7 @@
 import React, { use } from 'react'
 import UserRow from './UserRow'
-import users from '../../../data/DataUser'
 
-function UserTable() {
+function UserTable({users}) {
   return (
     <table className="w-full text-sm text-left text-gray-500">
   <thead className="text-xs text-gray-700 font-bold bg-slate-300 uppercase ">

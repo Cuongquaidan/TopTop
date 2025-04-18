@@ -1,8 +1,7 @@
 import React from "react";
 import ReportRow from "./ReportRow";
-import reports from "../../../data/DataReports";
 
-function ReportTable() {
+function ReportTable({reports}) {
   return (
     <table className="w-full text-sm text-left text-gray-600  h-full">
       <thead className="text-xs text-gray-700 font-bold bg-slate-300 uppercase">
