@@ -101,7 +101,7 @@ const getAllPostByUser=async(req,res)=>{
                 message:`Không tìm thấy user ${user}`,
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 
@@ -133,7 +133,7 @@ const likePost=async(req,res)=>{
                 message:`Không tìm thấy user ${user}`,
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 
@@ -154,7 +154,7 @@ const likePost=async(req,res)=>{
                 message:`user đã like post rồi`,
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 
@@ -164,7 +164,7 @@ const likePost=async(req,res)=>{
                 message:'post đã có trong likePosts của user rồi',
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 
@@ -201,7 +201,7 @@ const unLikePost = async (req, res) => {
                 message: `Không tìm thấy user ${user}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -212,7 +212,7 @@ const unLikePost = async (req, res) => {
                 message: `Không tìm thấy post ${postID}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -222,7 +222,7 @@ const unLikePost = async (req, res) => {
                 message: `user chưa like post`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -232,7 +232,7 @@ const unLikePost = async (req, res) => {
                 message: 'post chưa có trong likePosts của user',
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -269,7 +269,7 @@ const savePost = async (req, res) => {
                 message: `Không tìm thấy user ${user}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -279,7 +279,7 @@ const savePost = async (req, res) => {
                 message: `Không tìm thấy post ${postID}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -288,7 +288,7 @@ const savePost = async (req, res) => {
                 message: `user đã save post rồi`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -297,7 +297,7 @@ const savePost = async (req, res) => {
                 message: 'post đã có trong savePosts của user rồi',
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -334,7 +334,7 @@ const unSavePost = async (req, res) => {
                 message: `Không tìm thấy user ${user}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -344,7 +344,7 @@ const unSavePost = async (req, res) => {
                 message: `Không tìm thấy post ${postID}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -353,7 +353,7 @@ const unSavePost = async (req, res) => {
                 message: `user chưa save post`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -362,7 +362,7 @@ const unSavePost = async (req, res) => {
                 message: 'post chưa có trong savePosts của user',
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -398,7 +398,7 @@ const sharePost = async (req, res) => {
                 message: `Không tìm thấy user ${user}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -408,7 +408,7 @@ const sharePost = async (req, res) => {
                 message: `Không tìm thấy post ${postID}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 
@@ -451,7 +451,7 @@ const getPostByID = async (req, res) => {
                 message: `Không tìm thấy post ${postID}`,
                 data: [],
                 success: false,
-                error: false
+                error: true
             });
         }
 

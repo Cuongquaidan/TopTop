@@ -29,7 +29,7 @@ const register=async(req,res)=>{
                     message:'Sđt đã được đăng ký',
                     data:[],
                     success:false,
-                    error:false
+                    error:true
                 });
             }
         }
@@ -40,7 +40,7 @@ const register=async(req,res)=>{
                     message:'Other đã được đăng ký',
                     data:[],
                     success:false,
-                    error:false
+                    error:true
                 });
             }
         }
@@ -83,7 +83,7 @@ const loginOther=async(req,res)=>{
                 message:'Không tìm thấy tài khoản',
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
         
@@ -93,7 +93,7 @@ const loginOther=async(req,res)=>{
                 message:'Sai mật khẩu',
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 
@@ -133,7 +133,7 @@ const loginPhone=async(req,res)=>{
                 message:'Sai mật khẩu',
                 data:[],
                 success:false,
-                error:false
+                error:true
             })
         }
 

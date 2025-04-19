@@ -15,7 +15,10 @@ import LoginWithPhone from "../modal/LoginWithPhone";
 import LoginWithOther from "../modal/LoginWithOther";
 import ForgotPassword from "../modal/ForgotPassword";
 import AuthForm from "../modal/AuthForm";
+import { FaUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 function Sidebar() {
+    const user = useSelector((state)=>state.user.user);
     const location = useLocation(); // Lấy thông tin URL hiện tại
     const [currentPathname, setCurrentPathname] = useState(location.pathname);
     const [showMore, setShowMore] = useState(false);
@@ -23,7 +26,7 @@ function Sidebar() {
     const {showModal,setShowModal, typeModal,setTypeModal} = useGlobalContext();
 
    
-
+    console.log(user   )
     useEffect(() => {
         setCurrentPathname(location.pathname); // Tự cập nhật khi pathname thay đổi
     }, [location.pathname]);
@@ -120,7 +123,9 @@ function Sidebar() {
                     {" "}
                     Hồ sơ
                 </motion.div> */}
-                <button className="p-2 px-4 max-w-[200px] bg-primary text-lg cursor-pointer rounded text-white font-bold" onClick={
+               {
+                !user ? (
+                    <button className="p-2 px-4 max-w-[200px] bg-primary text-lg cursor-pointer rounded text-white font-bold" onClick={
                     () => {
                         setShowModal(true);
                         setTypeModal("login");
@@ -128,6 +133,23 @@ function Sidebar() {
                 }>
                     Đăng nhập
                 </button>
+                ):(
+                    <div className="flex items-center p-2 gap-2  max-w-[200px]  text-md font-semibold cursor-pointer rounded ">
+                    {
+                        user.profile_picture ? (
+                            <div className="w-20 h-20 rounded-full overflow-hidden">
+                                <img src={user.profile_picture} className="w-full h-full object-cover" alt="" />
+                            </div>
+                        ):(
+                            <FaUserCircle size={32} className="text-amber-900" />)
+                    }
+                        <motion.div variants={variants} animate={"textAnimate"} className="flex flex-col">
+                            <p>{user.display_name}</p>
+                            <p className="text-sm italic">@{user.username}</p>
+                        </motion.div>
+                    </div>
+                )
+               }
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                    <AuthForm></AuthForm>
                 </Modal>

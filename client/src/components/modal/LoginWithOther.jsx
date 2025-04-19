@@ -44,18 +44,16 @@ function LoginWithOther() {
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
       const resjson =  await axiosInstance.post(SUMMARY_API.auth.login.other, payload);
-      if(resjson.status){
+      if(resjson.success){
         toast.success("Đăng nhập thành công!");
         reset();
         dispatch(setUser({
-          username: resjson.data.username,
-          displayName: resjson.data.display_name,
-          profilePicture: resjson.data.profile_picture,
-          email: resjson.data.email,
-          phone: resjson.data.phone
+          user: resjson.data,
         }))
         navigate("/");
 
+      }else{
+        toast.error(resjson.message || "Đăng nhập thất bại!");
       }
     } catch (error) {
       console.error(error.response?.data?.message || "Đăng nhập thất bại!");

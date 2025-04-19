@@ -10,41 +10,22 @@ const createAxiosInstance = (url) => {
 
   axiosInstance.interceptors.response.use(
     (response) => {
-      switch (response.status) {
-        case 400:
-          toast.error("Có lỗi xảy ra, vui lòng thử lại sau!");
-          return Promise.reject(response.data);
-        case 401:
-          toast.error("Bạn chưa đăng nhập!");
-          return Promise.reject(response.data);
-        case 403:
-          toast.error("Bạn không có quyền truy cập vào tài nguyên này!");
-          return Promise.reject(response.data);
-        case 404:
-          toast.error("Không tìm thấy tài nguyên!");
-          return Promise.reject(response.data);
-        case 500:
-          toast.error("Có lỗi xảy ra, vui lòng thử lại sau!");
-          return Promise.reject(response.data);
-        case 503:
-        case 504:
-          toast.error("Máy chủ đang bảo trì, vui lòng thử lại sau!");
-          return Promise.reject(response.data);
-        case 429:
-          toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau!");
-          return Promise.reject(response.data);
-        case 408:
-          toast.error("Yêu cầu đã hết thời gian chờ!");
-          return Promise.reject(response.data);
-        default:
-          return response.data;
+      console.log("✅ Response:", response);
+      if (response.data.success) {
+        toast.success(response.data.message || "Thành công!");
+        return response.data;
+      } else {
+        toast.error(response.data.message || "Có lỗi xảy ra!");
+        return Promise.reject(response.data);
       }
     },
     (error) => {
-      toast.error("Có lỗi xảy ra khi gửi yêu cầu, vui lòng kiểm tra lại kết nối!");
-      return Promise.reject(error);
+      console.log("❌ Error response:", error.response);
+      toast.error(error.response?.data?.message || "Có lỗi xảy ra!");
+      return Promise.reject(error.response?.data || error);
     }
   );
+  
 
   return axiosInstance;
 };

@@ -28,29 +28,25 @@ function LoginWithPhone() {
   });
 
   const onSubmit = async (data) => {
-    try {
+    
+     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
       const resjson = await axiosInstance.post(SUMMARY_API.auth.login.phone, {
         phone: data.phone,
         password: data.password
       });
-      if(resjson.status) {
-        toast.success("Đăng nhập thành công!");
+     
         reset();
-        console.log(resjson);
         dispatch(setUser({
-          username: resjson.data.username,
-          displayName: resjson.data.display_name,
-          profilePicture: resjson.data.profile_picture,
-          email: resjson.data.email,
-          phone: resjson.data.phone
+          user: resjson.data,
         }));
         setShowModal(false);
         navigate("/");
-      }
-    } catch (error) {
-      console.error(error || "Đăng nhập thất bại!");
-    }
+     
+     } catch (error) {
+       console.log(error.response?.data?.message || "Đăng nhập thất bại!");
+     }
+
   };
 
   return (
