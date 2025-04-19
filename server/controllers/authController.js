@@ -4,10 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 
 const register=async(req,res)=>{
     try {
-        const {email,phone,password}=req.body
-        if(!email&&!phone){
+        const {other,phone,password}=req.body
+        if(!other&&!phone){
             return res.status(400).json({
-                message:"Thiếu email/phone",
+                message:"Thiếu other/phone",
                 data:[],
                 success:false,
                 error:false
@@ -33,11 +33,11 @@ const register=async(req,res)=>{
                 });
             }
         }
-        if(email){
-            existUser=await User.findOne({email})
+        if(other){
+            existUser=await User.findOne({other})
             if(existUser){
                 return res.status(409).json({
-                    message:'Email đã được đăng ký',
+                    message:'Other đã được đăng ký',
                     data:[],
                     success:false,
                     error:false
@@ -52,7 +52,7 @@ const register=async(req,res)=>{
             display_name:username,
             profile_picture:null,
             password:hashedPassword,
-            email:email?email:null,
+            other:other?other:null,
             phone:phone?phone:null,
         })
 
@@ -74,10 +74,10 @@ const register=async(req,res)=>{
     }
 }
 
-const loginEmail=async(req,res)=>{
+const loginOther=async(req,res)=>{
     try {
-        const {email,password}=req.body
-        const existUser=await User.findOne({email}).select('+password')
+        const {other,password}=req.body
+        const existUser=await User.findOne({other}).select('+password')
         if(!existUser){
             return res.status(404).json({
                 message:'Không tìm thấy tài khoản',
@@ -156,5 +156,5 @@ const loginPhone=async(req,res)=>{
     }
 }
 
-module.exports={register,loginEmail,loginPhone}
+module.exports={register,loginOther,loginPhone}
 
