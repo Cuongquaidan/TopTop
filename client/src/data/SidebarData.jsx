@@ -69,6 +69,7 @@ const data = [
             ></BiSolidMessageDetail>
         ),
         option: "activities",
+        requireLogin: true,
     },
     {
         title: "Tin nhắn",
@@ -77,6 +78,7 @@ const data = [
             <BsFillSendFill size={28} className="text-primary"></BsFillSendFill>
         ),
         option: "messages",
+        requireLogin: true,
     },
     {
         title: "Trực tiếp",

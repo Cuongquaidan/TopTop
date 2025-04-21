@@ -76,6 +76,7 @@ function Sidebar() {
             <div className="flex flex-col gap-2">
                 {data
                 .filter((_,index) => index !== data.length - 1)
+                .filter((item)=> user ? true: item.requireLogin !== true)
                 .map((item, index) => 
                        {
                          return   item.href ? (   <SidebarItem
