@@ -4,7 +4,7 @@ const PostController=require('../controllers/PostController')
 const uploadCloudinary = require('../middleware/uploadCloudinary')
 
 router.post(
-    '/upload',
+    '/upload/video',
     uploadCloudinary.fields([
         {name:"video",maxCount:1},
         {name:"thumbnail",maxCount:1}
