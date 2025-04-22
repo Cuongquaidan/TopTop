@@ -9,7 +9,7 @@ router.post(
         {name:"video",maxCount:1},
         {name:"thumbnail",maxCount:1}
     ]),
-    PostController.uploadPost
+    PostController.uploadVideoPost
 )
 router.get('/all',PostController.getAllPost)
 router.get('/:postID',PostController.getPostByID)

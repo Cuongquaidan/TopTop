@@ -1,5 +1,5 @@
 const express=require('express')
-const AuthController=require('../controllers/AuthController')
+const AuthController=require('../controllers/authController')
 const uploadCloudinary = require('../middleware/uploadCloudinary')
 const router=express.Router()
 

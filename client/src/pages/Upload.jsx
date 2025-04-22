@@ -10,13 +10,16 @@ import { RiExchangeLine } from "react-icons/ri";
 import { FaSearchLocation } from "react-icons/fa";
 import extractTags from '../helper/extractTags';
 import { IoReload } from "react-icons/io5";
+import createAxiosInstance from '../libs/axios/AxiosInstance';
+import { BASE_URL, SUMMARY_API } from '../shared/Route';
+import { toast } from 'react-toastify';
+import ThumbnailUploader from '../components/upload/ThumbnailUploader';
 
 const userID='6801c83174602c8e7b70a33b'
 const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
     
     const inputVideoRef=useRef()
-    const inputThumbnailRef=useRef()
     const inputTimeUploadRef=useRef()
     const [video,setVideo]=useState(null)
     const [thumbnail,setThumbnail]=useState(null)
@@ -93,38 +96,35 @@ const Upload=()=>{
 
     const UploadVideoHandler=async()=>{
         if(!video){
-            alert("Chưa chọn video!")
+            toast.error("Chưa chọn video!")
             return
         }
 
         try {
+            const axiosInstance=createAxiosInstance(BASE_URL)
             setIsLoading(true)
             const formData=new FormData()
-            formData.append("video",video)
+
+            formData.append('video',video)
             if (thumbnail) {
-                formData.append("thumbnail", thumbnail);
+                formData.append('thumbnail',thumbnail)
             }
             else{
-                formData.append("thumbnail",defaultThumbnail)
+                formData.append('thumbnail',defaultThumbnail)
             }
-            formData.append("caption", description);
-            formData.append("location", location);
-            formData.append("publicity", publicState);
-            formData.append("user", userID);
+            formData.append('caption',description)
+            formData.append('location',location)
+            formData.append('publicity',publicState)
+            formData.append('user',userID)
             let tags=extractTags(description)
-            formData.append("tags", JSON.stringify(tags || []))
+            formData.append('tags',JSON.stringify(tags||[]))
 
-            const res=await fetch('http://localhost:3000/post/upload',{
-                method:'POST',
-                body:formData
-            })
-
-            const data=await res.json()
-            if(!res.ok){
-                throw new Error(data.message)
-            }
-
-            alert("Upload post thành công")
+            for (let pair of formData.entries()) {
+                console.log(`${pair[0]}:`, pair[1]);
+              }
+            
+            await axiosInstance.post(SUMMARY_API.post.upload.video, formData)
+            toast.success("Đăng video thành công")
 
             setVideo(null);
             setThumbnail(null);
@@ -135,8 +135,8 @@ const Upload=()=>{
             setDescriptionLength(0);
             setIsLoading(false)
         } catch (error) {
-            console.log('Lỗi khi uploadPost:',error);
-            
+            toast.error(error.response?.data?.message || "Đăng video thất bại")
+            setIsLoading(false)
         }
     }
 
@@ -164,11 +164,6 @@ const Upload=()=>{
                 accept='video/*'
                 ref={inputVideoRef}
                 onChange={handleChooseVideo}
-            />
-            <input type='file' className='hidden' 
-                accept='image/*'
-                ref={inputThumbnailRef}
-                onChange={chooseThumbnailHandler}
             />
             {!video&&
             (
@@ -299,14 +294,7 @@ const Upload=()=>{
                             </div>
                         </div>
                         <p className='font-bold text-2xl mt-4'>Ảnh bìa</p>
-                        <div 
-                            className='relative flex justify-center
-                            cursor-pointer'
-                            onClick={()=>{inputThumbnailRef.current.click()}}
-                        >
-                            <img src={thumbnail} className='border border-gray-500 rounded-2xl object-cover w-[180px] h-[270px]'/>
-                            <p className='absolute bottom-5 w-[80%] bg-gray-500 text-center p-1 rounded-lg text-white text-lg'>Sửa ảnh bìa</p>
-                        </div>
+                        <ThumbnailUploader video={video} changeThumbnail={setThumbnail}/>
                         <p className='font-bold text-2xl mt-4'>Vị trí</p>
                         <div className='flex justify-center items-center relative'>
                             <input 

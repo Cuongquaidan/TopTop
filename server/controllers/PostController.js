@@ -2,9 +2,10 @@ const fs=require('fs')
 const cloudinary=require('../services/cloudinary');
 const Post = require('../models/Post');
 const User = require('../models/User');
-const uploadPost=async(req,res)=>{
+const uploadVideoPost=async(req,res)=>{
     try {
-        const {caption,tags,user,publicity,location}=req.body    
+        const {caption,tags,user,publicity,location}=req.body
+
         if(!req.files||!req.files.video||!req.files.thumbnail) {
             await fs.promises.unlink(req.files.video[0].path)
             await fs.promises.unlink(req.files.thumbnail[0].path)
@@ -61,7 +62,7 @@ const uploadPost=async(req,res)=>{
             error:false
         })
     } catch (error) {
-        console.log('Lỗi khi uploadPost: ',error);
+        console.log('Lỗi khi uploadVideoPost: ',error);
         await fs.promises.unlink(req.files.video[0].path)
         res.status(500).json({
             message:`Lỗi server: ${error}`,
@@ -472,4 +473,4 @@ const getPostByID = async (req, res) => {
     }
 };
 
-module.exports={uploadPost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID}
+module.exports={uploadVideoPost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID}

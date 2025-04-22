@@ -7,5 +7,23 @@ export const SUMMARY_API = {
       other: "auth/login/other",
       phone: "auth/login/phone",
     },
+  },
+  post:{
+    upload:{
+      video:"post/upload/video",
+      image:"post/upload/image",
+    },
+    get:{
+      all:"post/all",
+      byID:"post/:postID",
+      byUser:"post/:user",
+    },
+    update:{
+      like:"post/like",
+      unLike:"post/unlike",
+      save:"post/save",
+      unSave:"post/unsave",
+      share:"post/share",
+    }
   }
 }
