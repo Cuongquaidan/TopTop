@@ -27,6 +27,9 @@ export const SUMMARY_API = {
     }
   },
   user:{
-    get:"user/:userID"
+    get:{
+      all:"user/all",
+      byID:"user/:userID"
+    }
   }
 }
