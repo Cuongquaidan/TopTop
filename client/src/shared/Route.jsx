@@ -28,10 +28,16 @@ export const SUMMARY_API = {
     import: "post/import",
   },
   user:{
-    get:"user/:userID",
+    get:{
+      all:"user/all",
+      byID:"user/:userID"
+    },
     import:"user/import",
   },
   report :{
     import:"report/import",
-  }
+    get:{
+      all:"report/all",
+    }
+  },
 }

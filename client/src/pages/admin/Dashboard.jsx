@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,6 +12,9 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { Pie } from 'react-chartjs-2';
+import createAxiosInstance from '../../libs/axios/AxiosInstance';
+import { BASE_URL, SUMMARY_API } from '../../shared/Route';
+import { toast } from 'react-toastify';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
 
@@ -55,6 +58,89 @@ export const optionsForNewUsers = {
 };
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function Dashboard() {
+  const [realTypePostInYear,setRealTypePostInYear]=useState([typePostInYear])
+  const [newPostsInMonthAndYear,setNewPostsInMonthAndYear]=useState(statisticsNewPostsInMonthAndYear)
+  const [newUsersInMonthAndYear,setNewUsersInMonthAndYear]=useState(statisticsNewUsersInMonthAndYear)
+  const [newReportsInMonthAndYear,setNewReportsInMonthAndYear]=useState(statisticsNewReportsInMonthAndYear)
+  const [realStatusOfReport,setRealStatusOfReport]=useState(statusOfReport)
+  const limit=1000000000
+  useEffect(()=>{
+    const fetchPost=async()=>{
+      try {
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const res=await axiosInstance.post(SUMMARY_API.post.get.all,{
+          limit
+        })
+        const videoPost=res.data.data.filter(item=>item.type==='video').length
+        const imagePost=res.data.data.filter(item=>item.type==='image').length
+        setRealTypePostInYear({
+          video:videoPost,
+          image:imagePost
+        })
+        
+        let postCountByMonth=Array(12).fill(0);
+        const currentYear=new Date(Date.now()).getFullYear();
+        res.data.data.forEach(item=>{
+          const month=new Date(item.createdAt).getMonth()
+          if(new Date(item.createdAt).getFullYear()===currentYear)
+            postCountByMonth[month]++
+        })
+        setNewPostsInMonthAndYear(postCountByMonth)
+        
+      } catch (error) {
+        toast.error(error.message||"Lỗi server")
+      }
+    }
+
+    const fetchUser=async()=>{
+      try {
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const res=await axiosInstance.post(SUMMARY_API.user.get.all,{
+          limit
+        })
+        
+        let newUserCountByMonth=Array(12).fill(0);
+        const currentYear=new Date(Date.now()).getFullYear();
+        res.data.data.forEach(item=>{
+          const month=new Date(item.createdAt).getMonth()
+          if(new Date(item.createdAt).getFullYear()===currentYear)
+            newUserCountByMonth[month]++
+        })
+        setNewUsersInMonthAndYear(newUserCountByMonth)
+        
+      } catch (error) {
+        toast.error(error.message||"Lỗi server")
+      }
+    }
+    const fetchReport=async()=>{
+      try {
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const res=await axiosInstance.post(SUMMARY_API.report.get.all,{
+          limit
+        })
+        
+        let newReportCountByMonth=Array(12).fill(0);
+        const currentYear=new Date(Date.now()).getFullYear();
+        res.data.data.forEach(item=>{
+          const month=new Date(item.createdAt).getMonth()
+          if(new Date(item.createdAt).getFullYear()===currentYear)
+            newReportCountByMonth[month]++
+        })
+        setNewReportsInMonthAndYear(newReportCountByMonth)
+        setRealStatusOfReport({
+          pending:res.data.data.filter(item=>item.status==='pending').length,
+          reviewed:res.data.data.filter(item=>item.status==='reviewed').length,
+          action_taken:res.data.data.filter(item=>item.status==='action_taken').length
+        })
+      } catch (error) {
+        toast.error(error.message||"Lỗi server")
+      }
+    }
+
+    fetchPost()
+    fetchUser()
+    fetchReport()
+  },[])
   const [tab,setTab] = useState("reports")
   return (
     <div className='w-full h-full flex flex-col   p-10'>
@@ -79,8 +165,8 @@ function Dashboard() {
             <div className='w-[50%] '>
             <Pie className='' data={{
               labels: [
-                   `Video (${typePostInYear["video"]})`,
-                   `Image (${typePostInYear["image"]})`,
+                   `Video (${realTypePostInYear.video})`,
+                   `Image (${realTypePostInYear.image})`,
           ],
               datasets:[
                 {
@@ -104,7 +190,7 @@ function Dashboard() {
               datasets: [
                 {
                   label: 'Số bài mới trong năm',
-                  data: statisticsNewPostsInMonthAndYear,
+                  data: newPostsInMonthAndYear,
                   borderColor: 'rgba(255, 11, 85, 0.5)',
                   backgroundColor: 'rgba(255, 11, 85, 1)',
                 },
@@ -131,8 +217,8 @@ function Dashboard() {
               labels,
               datasets: [
                 {
-                  label: 'Số người moới trong năm',
-                  data: statisticsNewUsersInMonthAndYear,
+                  label: 'Số người mới trong năm',
+                  data: newUsersInMonthAndYear,
                   borderColor: 'rgba(255, 11, 85, 0.5)',
                   backgroundColor: 'rgba(255, 11, 85, 1)',
                 },
@@ -156,14 +242,14 @@ function Dashboard() {
             <div className='w-[50%] '>
             <Pie className='' data={{
               labels: [
-                   `Pending: (${statusOfReport["pending"]})`,
-                   `Reviewed: (${statusOfReport["reviewed"]})`,
-                     `Action taken: (${statusOfReport["action_taken"]})`,
+                   `Pending: (${realStatusOfReport["pending"]})`,
+                   `Reviewed: (${realStatusOfReport["reviewed"]})`,
+                     `Action taken: (${realStatusOfReport["action_taken"]})`,
           ],
               datasets:[
                 {
                   label: "num of post",
-                  data: Object.values(statusOfReport),
+                  data: Object.values(realStatusOfReport),
                   backgroundColor: [
                     "rgba(255, 11, 85, 1)",
                     "rgba(1, 24, 216, 1)",
@@ -183,7 +269,7 @@ function Dashboard() {
               datasets: [
                 {
                   label: 'Number of new reports in year',
-                  data: statisticsNewReportsInMonthAndYear,
+                  data: newReportsInMonthAndYear,
                   borderColor: 'rgba(254, 79, 45, 0.5)',
                   backgroundColor: 'rgba(254, 79, 45, 1)',
                 },
