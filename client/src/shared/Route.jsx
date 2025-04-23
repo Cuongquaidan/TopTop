@@ -24,9 +24,15 @@ export const SUMMARY_API = {
       save:"post/save",
       unSave:"post/unsave",
       share:"post/share",
-    }
+    },
+    import: "post/import",
   },
   user:{
+    get:"user/:userID",
+    import:"user/import",
+  },
+  report :{
+    import:"report/import",
     get:{
       all:"user/all",
       byID:"user/:userID"

@@ -2,7 +2,6 @@ import React from "react";
 import PostRow from "./PostRow";
 
 function PostTable({posts}) {
-  console.log(posts);
   
   return (
     <table className="w-full text-sm text-left text-gray-600 h-full overflow-y-auto">

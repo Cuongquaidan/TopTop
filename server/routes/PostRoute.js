@@ -13,5 +13,6 @@ router.put('/unlike',PostController.unLikePost)
 router.put('/save',PostController.savePost)
 router.put('/unsave',PostController.unSavePost)
 router.put('/share',PostController.sharePost)
+router.post('/import',PostController.importFile)
 
 module.exports=router
