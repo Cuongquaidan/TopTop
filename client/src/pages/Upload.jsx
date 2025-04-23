@@ -240,11 +240,11 @@ const Upload=()=>{
                         onDrop={handleDrop}
                     >
                         <img src={upload} className='w-[100px]'/>
-                        <p className='font-bold text-3xl'>Chọn video để tải lên</p>
+                        <p className='font-bold text-2xl'>Chọn video để tải lên</p>
                         <p className='text-xl text-gray-500'>Hoặc kéo và thả vào đây</p>
                         <button 
-                            className='flex items-center justify-center p-3 w-[300px] rounded-2xl bg-red-500/90 cursor-pointer text-white text-xl mt-4
-                            hover:bg-red-700/80'
+                            className='flex items-center justify-center p-3 w-[300px] rounded-2xl bg-primary cursor-pointer text-white text-xl mt-4
+                            hover:bg-primary/80'
                         >
                             Chọn video
                         </button>
@@ -253,29 +253,29 @@ const Upload=()=>{
                         <div className='flex justify-center items-start gap-2'>
                             <BsCameraReelsFill size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Dung lượng và thời lượng</p>
-                                <p className='text-gray-500 text-lg'>Dung lượng tối đa: 30 GB, thời lượng video: 60 phút.</p>
+                                <p className='font-bold text-lg'>Dung lượng và thời lượng</p>
+                                <p className='text-gray-500 text-md'>Dung lượng tối đa: 30 GB, thời lượng video: 60 phút.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <FaFolderMinus size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Định dạng tập tin</p>
+                                <p className='font-bold text-lg'>Định dạng tập tin</p>
                                 <p className='text-gray-500 text-lg'>Đề xuất: “.mp4”. Có hỗ trợ các định dạng chính khác.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <MdHd size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Độ phân giải video</p>
-                                <p className='text-gray-500 text-lg'>Độ phân giải cao khuyến nghị: 1080p, 1440p, 4K.</p>
+                                <p className='font-bold text-lg'>Độ phân giải video</p>
+                                <p className='text-gray-500 text-md'>Độ phân giải cao khuyến nghị: 1080p, 1440p, 4K.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <FaLightbulb  size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Tỷ lệ khung hình</p>
-                                <p className='text-gray-500 text-lg'>Đề xuất: 16:9 cho chế độ ngang, 9:16 cho chế độ dọc.</p>
+                                <p className='font-bold text-lg'>Tỷ lệ khung hình</p>
+                                <p className='text-gray-500 text-md'>Đề xuất: 16:9 cho chế độ ngang, 9:16 cho chế độ dọc.</p>
                             </div>
                         </div>
                     </div>
@@ -292,11 +292,11 @@ const Upload=()=>{
                         </p>
                     </div>
                     <button 
-                        className='p-2 px-4 flex justify-center items-center gap-2 bg-gray-300 rounded-xl cursor-pointer
+                        className=' px-4 flex justify-center items-center  bg-gray-300 rounded-xl cursor-pointer
                         hover:bg-gray-400/60'
                             
                     >
-                        <img src={defaultThumbnail} className='object-fill w-15 h-15'/>
+                        <img src={defaultThumbnail} className='object-contain w-16 h-16 mix-blend-multiply'/>
                         <p className='text-lg'>Thử ngay</p>
                     </button>
                 </div>
@@ -308,10 +308,10 @@ const Upload=()=>{
                         hover:border-blue-600"
                         onClick={()=>{inputImagesRef.current.click()}}
                     >
-                        <p className='font-bold text-3xl'>Hoặc chọn ảnh để tải lên</p>
+                        <p className='font-bold text-2xl'>Hoặc chọn ảnh để tải lên</p>
                         <button 
-                            className='flex items-center justify-center p-3 w-[300px] rounded-2xl bg-red-500/90 cursor-pointer text-white text-xl mt-4
-                            hover:bg-red-700/80'
+                            className='flex items-center justify-center p-3 w-[300px] rounded-2xl bg-primary cursor-pointer text-white text-xl mt-4
+                            hover:bg-primary/80'
                         >
                             Chọn ảnh
                         </button>
@@ -320,29 +320,29 @@ const Upload=()=>{
                         <div className='flex justify-center items-start gap-2'>
                             <BsCameraReelsFill size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Dung lượng và số lượng ảnh</p>
-                                <p className='text-gray-500 text-lg'>Dung lượng tối đa: 500MB, số lượng ảnh tối đa: 10 ảnh.</p>
+                                <p className='font-bold text-lg'>Dung lượng và số lượng ảnh</p>
+                                <p className='text-gray-500 text-md'>Dung lượng tối đa: 500MB, số lượng ảnh tối đa: 10 ảnh.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <FaFolderMinus size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Định dạng tập tin</p>
+                                <p className='font-bold text-lg'>Định dạng tập tin</p>
                                 <p className='text-gray-500 text-lg'>Đề xuất: “.png, .img, .jpeg”. Có hỗ trợ các định dạng chính khác.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <MdHd size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Độ phân giải ảnh</p>
-                                <p className='text-gray-500 text-lg'>Độ phân giải cao khuyến nghị: 1080p, 1440p, 4K.</p>
+                                <p className='font-bold text-lg'>Độ phân giải ảnh</p>
+                                <p className='text-gray-500 text-md'>Độ phân giải cao khuyến nghị: 1080p, 1440p, 4K.</p>
                             </div>
                         </div>
                         <div className='flex justify-center items-start gap-2'>
                             <FaLightbulb  size={30} className=''/>
                             <div>
-                                <p className='font-bold text-xl'>Tỷ lệ khung hình</p>
-                                <p className='text-gray-500 text-lg'>Đề xuất: 16:9 cho chế độ ngang, 9:16 cho chế độ dọc.</p>
+                                <p className='font-bold text-lg'>Tỷ lệ khung hình</p>
+                                <p className='text-gray-500 text-md'>Đề xuất: 16:9 cho chế độ ngang, 9:16 cho chế độ dọc.</p>
                             </div>
                         </div>
                     </div>
@@ -351,7 +351,7 @@ const Upload=()=>{
             {(video||images)&&(
                 <div className='flex flex-col h-full w-full gap-6'>
                     {video&&(
-                        <div className='bg-white rounded-xl border border-gray-300 p-5 py-7 flex justify-between items-center'>
+                        <div className='bg-white rounded-xl border border-gray-300 p-4 py-6 flex justify-between items-center'>
                             <div className='flex flex-col'>
                                 <div className='flex gap-4 items-center'>
                                     <p className='font-bold text-xl'>
@@ -376,7 +376,7 @@ const Upload=()=>{
                     )}
                     {images&&
                     (
-                        <div className='bg-white rounded-xl border border-gray-300 p-5 py-7 flex justify-between items-center'>
+                        <div className='bg-white rounded-xl border border-gray-300 p-4  flex justify-between items-center'>
                             <div className='flex flex-col'>
                                 <div className='flex gap-4 items-center'>
                                     <ImageUploader imageLimit={10} data={images}/>
@@ -395,9 +395,9 @@ const Upload=()=>{
                             </button>
                         </div>
                     )}
-                    <p className='font-bold text-2xl mt-4'>Chi tiết</p>
+                    <p className='font-bold text-xl mt-4'>Chi tiết</p>
                     <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white'>
-                        <p className='font-bold text-2xl mt-2'>Mô tả</p>
+                        <p className='font-bold text-xl mt-2'>Mô tả</p>
                         <div className='w-full relative h-[300px] bg-gray-200 rounded-2xl'>
                             <textarea 
                                 className='bg-gray-200 border-0 rounded-xl w-full h-60 p-5 text-start 
@@ -428,12 +428,12 @@ const Upload=()=>{
                             </div>
                         </div>
                         {video&&(
-                            <p className='font-bold text-2xl mt-4'>Ảnh bìa</p>
+                            <p className='font-bold text-xl mt-4'>Ảnh bìa</p>
                         )}
                         {video&&(
                             <ThumbnailUploader video={video} changeThumbnail={setThumbnail}/>
                         )}
-                        <p className='font-bold text-2xl mt-4'>Vị trí</p>
+                        <p className='font-bold text-xl mt-4'>Vị trí</p>
                         <div className='flex justify-center items-center relative'>
                             <input 
                                 list="locations" 
@@ -449,9 +449,9 @@ const Upload=()=>{
                             </datalist>
                         </div>
                     </div>
-                    <p className='font-bold text-2xl mt-4'>Cài đặt</p>
+                    <p className='font-bold text-xl mt-4'>Cài đặt</p>
                     <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white'>
-                        <p className='font-bold text-2xl mt-2'>Thời điểm đăng</p>
+                        <p className='font-bold text-xl mt-2'>Thời điểm đăng</p>
                         <div className='flex gap-8'>
                             <label className='flex items-center gap-2'>
                                 <input type='radio' 
@@ -481,7 +481,7 @@ const Upload=()=>{
                                 />
                             </div>
                         )}
-                        <p className='font-bold text-2xl mt-2'>Ai có thể xem {video?"video":"ảnh"} này</p>
+                        <p className='font-bold text-xl mt-2'>Ai có thể xem {video?"video":"ảnh"} này</p>
                         <select 
                             className='p-2 bg-gray-300 rounded-xl w-[350px] 
                             focus:bg-white focus:outline-1'
@@ -492,7 +492,7 @@ const Upload=()=>{
                             <option>Chỉ mình bạn</option>
                         </select>
                     </div>
-                    <p className='font-bold text-2xl mt-4'>Kiểm tra</p>
+                    <p className='font-bold text-xl mt-4'>Kiểm tra</p>
                     <div className='flex gap-2'>
                         {
                             !isLoading&&
@@ -512,7 +512,7 @@ const Upload=()=>{
                                 className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg flex items-center justify-center
                                 cursor-not-allowed'
                                 >
-                                    <IoReload className='animate-spin text-2xl'/>
+                                    <IoReload className='animate-spin text-xl'/>
                                 </button>
                             )
                         }
