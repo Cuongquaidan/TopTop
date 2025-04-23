@@ -13,6 +13,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import Posts from "../pages/admin/Posts";
 import Reports from "../pages/admin/Reports";
+import Profile from "../pages/Profile";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
                     {
                         path:'/upload',
                         element:<Upload/>
+                    },
+                    {
+                        path:'/profile',
+                        element:<Profile/>
                     }
                 ],
             },
