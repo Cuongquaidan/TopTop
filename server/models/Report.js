@@ -12,7 +12,7 @@ const ReportSchema = new mongoose.Schema({
   description: { type: String },
   status: {
     type: String,
-    enum: ['pending', 'reviewed', 'rejected'],
+    enum: ['pending', 'reviewed', 'action_taken'],
     default: 'pending'
   },
   reviewedBy: {
