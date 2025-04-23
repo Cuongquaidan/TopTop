@@ -4,6 +4,7 @@ const connectMongo = require('./services/mongooseConnect')
 require('dotenv').config()
 const UserRoutes=require('./routes/UserRoute')
 const AuthRoutes=require('./routes/AuthRoute')
+const ReportRoutes=require('./routes/ReportRoute')
 const PostRoute=require('./routes/PostRoute')
 
 const app=express()
@@ -15,6 +16,7 @@ connectMongo()
 app.use('/user',UserRoutes)
 app.use('/auth',AuthRoutes)
 app.use('/post',PostRoute)
+app.use('/report',ReportRoutes)
 
 const PORT=process.env.PORT||5000
 app.listen(PORT,()=>{

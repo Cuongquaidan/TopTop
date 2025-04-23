@@ -6,5 +6,6 @@ const uploadCloudinary = require('../middleware/uploadCloudinary')
 
 router.get('/all',UserController.getAllUser)
 router.get('/:userID',UserController.getUserByID)
+router.post('/import',uploadCloudinary.uploadImage,UserController.importFile)
 
 module.exports=router
