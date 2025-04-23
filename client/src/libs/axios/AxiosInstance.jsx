@@ -4,6 +4,10 @@ const createAxiosInstance = (url) => {
   const axiosInstance = axios.create({  baseURL: url });
 
   axiosInstance.interceptors.request.use((config) => {
+    if (config.data instanceof FormData) {
+      return config;
+    }
+
     config.headers["Content-Type"] = "application/json";
     return config;
   });

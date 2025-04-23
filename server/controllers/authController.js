@@ -4,10 +4,11 @@ const { v4: uuidv4 } = require('uuid');
 
 const register=async(req,res)=>{
     try {
-        const {other,phone,password}=req.body
-        if(!other&&!phone){
+        const {email,phone,password,username}=req.body
+        
+        if(!email&&!phone&&!username){
             return res.status(400).json({
-                message:"Thiếu other/phone",
+                message:"Thiếu email/phone/username",
                 data:[],
                 success:false,
                 error:false
@@ -22,6 +23,7 @@ const register=async(req,res)=>{
             })
         }
 
+        let existUser=null
         if(phone){
             existUser=await User.findOne({phone})
             if(existUser){
@@ -33,11 +35,22 @@ const register=async(req,res)=>{
                 });
             }
         }
-        if(other){
-            existUser=await User.findOne({other})
+        if(email){
+            existUser=await User.findOne({email})
             if(existUser){
                 return res.status(409).json({
-                    message:'Other đã được đăng ký',
+                    message:'Email đã được đăng ký',
+                    data:[],
+                    success:false,
+                    error:false
+                });
+            }
+        }
+        if(username){
+            existUser=await User.findOne({username})
+            if(existUser){
+                return res.status(409).json({
+                    message:'Username đã được đăng ký',
                     data:[],
                     success:false,
                     error:true
@@ -45,14 +58,17 @@ const register=async(req,res)=>{
             }
         }
 
-        const username = 'user_' + uuidv4().slice(0, 8)
+        let tempUserName
+        if(!username) 
+            tempUserName = 'user_' + uuidv4().slice(0, 8)
+
         const hashedPassword=await bcrypt.hash(password,10)
         const newUser=new User({
-            username,
-            display_name:username,
+            username:username?username:tempUserName,
+            display_name:username?username:tempUserName,
             profile_picture:null,
             password:hashedPassword,
-            other:other?other:null,
+            email:email?email:null,
             phone:phone?phone:null,
         })
 
@@ -76,17 +92,50 @@ const register=async(req,res)=>{
 
 const loginOther=async(req,res)=>{
     try {
-        const {other,password}=req.body
-        const existUser=await User.findOne({other}).select('+password')
-        if(!existUser){
-            return res.status(404).json({
-                message:'Không tìm thấy tài khoản',
+        const {email,username,password}=req.body
+        let existUser=null
+
+        if(!email&&!username){
+            return res.status(400).json({
+                message:'Thiếu email/username',
                 data:[],
                 success:false,
                 error:true
             })
         }
-        
+        if(!password){
+            return res.status(400).json({
+                message:'Thiếu mật khẩu',
+                data:[],
+                success:false,
+                error:false
+            })
+        }
+
+        if(email){
+        existUser=await User.findOne({email}).select('+password')
+            if(!existUser){
+                return res.status(404).json({
+                    message:'Không tìm thấy tài khoản theo email',
+                    data:[],
+                    success:false,
+                    error:false
+                })
+            }
+        }
+
+        if(username){
+            existUser=await User.findOne({username}).select('+password')
+            if(!existUser){
+                return res.status(404).json({
+                    message:'Không tìm thấy tài khoản theo username',
+                    data:[],
+                    success:false,
+                    error:false
+                })
+            }
+        }
+
         const checkPasword=await bcrypt.compare(password,existUser.password)
         if(!checkPasword){
             return res.status(409).json({

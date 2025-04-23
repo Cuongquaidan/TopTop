@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
     savePosts: [{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
     likePosts: [{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
     password:{type:String,required:true,select:false},
-    other:{type:String,unique:true,index:true,sparse:true},
+    email:{type:String,unique:true,index:true,sparse:true},
     phone:{type:String,unique:true,index:true,sparse:true},
     state:{type:String,enum:['active','restricted','permanently_banned'],default:'active'},
     role:{type:String,enum:['user','admin'],default:'user'},
