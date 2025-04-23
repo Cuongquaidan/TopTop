@@ -13,6 +13,7 @@ const PostSchema = new mongoose.Schema({
     numOfComments: { type: Number, default: 0 },
     numOfSave: { type: Number, default: 0 },
     numOfShare: { type: Number, default: 0 },
+    numOfViews: { type: Number, default: 0 },
     likeList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     saveList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     shareList:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
