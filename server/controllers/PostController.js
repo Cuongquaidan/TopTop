@@ -2,6 +2,7 @@ const fs=require('fs')
 const cloudinary=require('../services/cloudinary');
 const Post = require('../models/Post');
 const User = require('../models/User');
+const { totalmem } = require('os');
 const uploadVideoPost=async(req,res)=>{
     try {
         const {caption,tags,user,publicity,location}=req.body
@@ -149,17 +150,25 @@ const uploadImagePost=async(req,res)=>{
 
 const getAllPost=async(req,res)=>{
     try {
-        let data=await Post.find()
+        const {page=1,limit=10}=req.body
+        let data=await Post.find().skip((page-1)*limit).limit(limit)
+        let totalItem=await Post.countDocuments()
         res.status(200).json({
             message:'Lấy tất cả post thành công',
-            data:data,
+            data:{
+                data,
+                totalItem
+            },
             success:true,
             error:false
         })
     } catch (error) {
         res.status(500).json({
             message:`Lỗi server: ${error}`,
-            data:[],
+            data:{
+                data:[],
+                totalItem:0
+            },
             success:false,
             error:true
         })
