@@ -1,9 +1,9 @@
-import React, {useState}, { useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import UserTable from '../../components/admin/table/UserTable'
 import users from '../../data/DataUser'
 import Pagination from '../../components/Pagination'
 import ButtonImport from '../../components/admin/ButtonImport'
-import { SUMMARY_API } from '../../shared/Route'import createAxiosInstance from '../../libs/axios/AxiosInstance'
+import createAxiosInstance from '../../libs/axios/AxiosInstance'
 import { BASE_URL, SUMMARY_API } from '../../shared/Route'
 import { toast } from 'react-toastify'
 
