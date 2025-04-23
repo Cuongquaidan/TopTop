@@ -5,7 +5,7 @@ const uploadCloudinary = require('../middleware/uploadCloudinary')
 
 router.post('/upload/video',uploadCloudinary.uploadVideo,PostController.uploadVideoPost)
 router.post('/upload/image',uploadCloudinary.uploadImage,PostController.uploadImagePost)
-router.get('/all',PostController.getAllPost)
+router.post('/all',PostController.getAllPost)
 router.get('/ID/:postID',PostController.getPostByID)
 router.get('/user/:user',PostController.getAllPostByUser)
 router.put('/like',PostController.likePost)

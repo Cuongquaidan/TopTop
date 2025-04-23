@@ -4,7 +4,7 @@ const UserController=require('../controllers/UserController')
 const uploadCloudinary = require('../middleware/uploadCloudinary')
 
 
-router.get('/all',UserController.getAllUser)
+router.post('/all',UserController.getAllUser)
 router.get('/:userID',UserController.getUserByID)
 
 module.exports=router
