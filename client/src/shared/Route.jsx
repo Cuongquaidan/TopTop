@@ -15,8 +15,8 @@ export const SUMMARY_API = {
     },
     get:{
       all:"post/all",
-      byID:"post/:postID",
-      byUser:"post/:user",
+      byID:"post/ID/:postID",
+      byUser:"post/user/:user",
     },
     update:{
       like:"post/like",
@@ -25,5 +25,8 @@ export const SUMMARY_API = {
       unSave:"post/unsave",
       share:"post/share",
     }
+  },
+  user:{
+    get:"user/:userID"
   }
 }

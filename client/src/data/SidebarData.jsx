@@ -87,6 +87,17 @@ const data = [
         href: "/live",
     },
     {
+        title: "Hồ sơ",
+        icon: <PiPlusSquare size={28}></PiPlusSquare>,
+        iconActive: (
+            <BiSolidPlusSquare
+                size={28}
+                className="text-primary"
+            ></BiSolidPlusSquare>
+        ),
+        href: "/profile",
+    },
+    {
         title: "Thêm",
         icon: <TfiMoreAlt size={28}></TfiMoreAlt>,
         iconActive: (
