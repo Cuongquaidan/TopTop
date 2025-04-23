@@ -14,7 +14,7 @@ const options = [
         content: "Phản hồi và trợ giúp",
         type: "link",
     },
-    { id: "log-out", content: "Đăng xuất", type: "link" },
+    { id: "log-out", content: "Đăng xuất", type: "button" },
 ];
 
 export default options;

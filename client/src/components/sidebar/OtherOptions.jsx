@@ -27,7 +27,7 @@ function OtherOptions({ option, setOption }) {
             className="border-x border-neutral-300 p-0 fixed  top-0 left-[80px] w-full flex bg-transparent h-screen "
         >
             
-            <div className="h-full p-6 px-0 border-r border-neutral-300 shrink-0">
+            <div className="h-full p-6 px-0 border-r border-neutral-300 shrink-0 bg-white">
             {option === "messages" && (
                <Messages option={option} setOption={option}></Messages>
             )}

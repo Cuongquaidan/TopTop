@@ -28,15 +28,15 @@ function RegisterWithPhone() {
         phone: data.phone,
         password: data.password
       });
-      if(isSubmitSuccessful) {
+      
         setTypeModal("login-with-phone");
-        toast.success("Đăng ký thành công!");
+        
         reset({
           phone: "",
           password: "",
           confirmPassword: ""
         });
-      }
+     
     } catch (error) {
       // toast.error(error.response?.data?.message || "Đăng ký thất bại!");
       console.log(error.response?.data?.message || "Đăng ký thất bại!");

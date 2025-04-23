@@ -6,11 +6,14 @@ import { useGlobalContext } from '../../context/AppContext';
 import { toast } from 'react-toastify';
 import createAxiosInstance from '../../libs/axios/AxiosInstance';
 import { BASE_URL, SUMMARY_API } from '../../shared/Route';
-
+import  { useDispatch } from 'react-redux';
+import {setUser} from "../../redux/features/userSlice"
+import { useNavigate } from 'react-router-dom';
 function LoginWithPhone() {
-  const { setTypeModal } = useGlobalContext();
+  const { setTypeModal, setShowModal } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,18 +28,26 @@ function LoginWithPhone() {
   });
 
   const onSubmit = async (data) => {
-    try {
+    
+     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
-      await axiosInstance.post(SUMMARY_API.auth.login.phone, {
+      const resjson = await axiosInstance.post(SUMMARY_API.auth.login.phone, {
         phone: data.phone,
         password: data.password
       });
+     
+        toast.success(resjson.message || "Đăng nhập thành công!");
+        reset();
+        dispatch(setUser({
+          user: resjson.data,
+        }));
+        setShowModal(false);
+        navigate("/");
+     
+     } catch (error) {
+       console.log(error.response?.data?.message || "Đăng nhập thất bại!");
+     }
 
-      toast.success("Đăng nhập thành công!");
-      reset(); // clear form
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Đăng nhập thất bại!");
-    }
   };
 
   return (

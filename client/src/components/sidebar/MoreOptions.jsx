@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
 import options from "../../data/OptionsData";
 import { MdCancel } from "react-icons/md";
@@ -6,9 +6,14 @@ import { motion } from "framer-motion";
 import LanguageOptions from "./LanguageOptions";
 import ToolsForCreators from "./ToolsForCreators";
 import ThemeOptions from "./ThemeOptions";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../redux/features/userSlice";
 function MoreOptions({ setShowMore }) {
     const [targetMore, setTargetMore] = useState("");
-    
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+
+
     return (
         <motion.div
             initial={{
@@ -40,7 +45,18 @@ function MoreOptions({ setShowMore }) {
                             />
                         </button>
                     </div>
-                    {options.map((option) => (
+                    {options.map((option,index) => index === options.length - 1 ? (<OptionButton
+                            option={option}
+                            key={option.id}
+                            onClick={() => {
+                                if (option.type === "button") {
+                                    // setTargetMore(option.id);
+                                    setTargetMore("");
+                                    setShowMore(false);
+                                    dispatch(clearUser());
+                                }
+                            }}
+                        ></OptionButton>):(
                         <OptionButton
                             option={option}
                             key={option.id}

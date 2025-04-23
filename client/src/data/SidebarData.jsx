@@ -15,7 +15,8 @@ import { BsFillSendFill } from "react-icons/bs";
 import { TfiMoreAlt } from "react-icons/tfi";
 import LiveCustomIcon from "../components/LiveCustomIcon";
 import SolidLiveCustomIcon from "../components/SolidLiveCustomIcon";
-
+import { RiProfileLine } from "react-icons/ri";
+import { RiProfileFill } from "react-icons/ri";
 const data = [
     {
         title: "Đề xuất",
@@ -69,6 +70,7 @@ const data = [
             ></BiSolidMessageDetail>
         ),
         option: "activities",
+        requireLogin: true,
     },
     {
         title: "Tin nhắn",
@@ -77,6 +79,7 @@ const data = [
             <BsFillSendFill size={28} className="text-primary"></BsFillSendFill>
         ),
         option: "messages",
+        requireLogin: true,
     },
     {
         title: "Trực tiếp",
@@ -86,14 +89,15 @@ const data = [
     },
     {
         title: "Hồ sơ",
-        icon: <PiPlusSquare size={28}></PiPlusSquare>,
+        icon: <RiProfileLine size={28}></RiProfileLine>,
         iconActive: (
-            <BiSolidPlusSquare
+            <RiProfileFill
                 size={28}
                 className="text-primary"
-            ></BiSolidPlusSquare>
+            ></RiProfileFill>
         ),
         href: "/profile",
+        requireLogin: true,
     },
     {
         title: "Thêm",

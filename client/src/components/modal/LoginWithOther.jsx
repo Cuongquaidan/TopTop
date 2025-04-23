@@ -6,17 +6,20 @@ import { useGlobalContext } from '../../context/AppContext';
 import { toast } from 'react-toastify';
 import createAxiosInstance from '../../libs/axios/AxiosInstance';
 import { BASE_URL, SUMMARY_API } from '../../shared/Route';
-
+import { useDispatch } from 'react-redux';
+import {setUser} from "../../redux/features/userSlice"
+import { useNavigate } from 'react-router-dom';
 function LoginWithOther() {
   const { setTypeModal } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
-
-  const {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { 
     register,
     handleSubmit,
     watch,
     reset,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, isSubmitSuccessful }
   } = useForm({
     defaultValues: {
       emailOrUsername: "",
@@ -40,11 +43,20 @@ function LoginWithOther() {
 
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
-      await axiosInstance.post(SUMMARY_API.auth.login.other, payload);
-      toast.success("Đăng nhập thành công!");
-      reset();
+      const resjson =  await axiosInstance.post(SUMMARY_API.auth.login.other, payload);
+      if(resjson.success){
+        toast.success("Đăng nhập thành công!");
+        reset();
+        dispatch(setUser({
+          user: resjson.data,
+        }))
+        navigate("/");
+
+      }else{
+        toast.error(resjson.message || "Đăng nhập thất bại!");
+      }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Đăng nhập thất bại!");
+      console.error(error.response?.data?.message || "Đăng nhập thất bại!");
     }
   };
 

@@ -24,7 +24,7 @@ function PostRow({ post }) {
 
   return (
     <tr className="bg-white border-slate-400 border-b">
-      <td className="px-4 py-3 flex items-center gap-2">
+      <td className="px-4 flex justify-between h-full items-center gap-2">
         <img src={user.profile_picture} alt={user.username} className="w-8 h-8 rounded-full" />
         <div>
           <p className="font-medium">{user.display_name}</p>
