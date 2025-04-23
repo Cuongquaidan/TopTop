@@ -8,10 +8,10 @@ const ProfilePostItem=({item})=>{
         return (
             <div
                 style={{
-                    height: 400,
+                    height: 360,
                     userSelect: "none",
                 }}
-                className="border-2 border-gray-200 w-[280px] rounded-2xl relative flex flex-col justify-center items-center cursor-pointer"
+                className="border-2 border-gray-200 w-[240px] rounded-2xl relative flex flex-col justify-center items-center cursor-pointer"
                 onMouseEnter={() => {
                     setIsHover(true);
                 }}

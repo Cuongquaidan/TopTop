@@ -36,6 +36,7 @@ function LoginWithPhone() {
         password: data.password
       });
      
+        toast.success(resjson.message || "Đăng nhập thành công!");
         reset();
         dispatch(setUser({
           user: resjson.data,

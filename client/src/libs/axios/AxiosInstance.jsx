@@ -16,7 +16,7 @@ const createAxiosInstance = (url) => {
     (response) => {
       console.log("✅ Response:", response);
       if (response.data.success) {
-        toast.success(response.data.message || "Thành công!");
+        // toast.success(response.data.message || "Thành công!");
         return response.data;
       } else {
         toast.error(response.data.message || "Có lỗi xảy ra!");
