@@ -31,5 +31,10 @@ export const SUMMARY_API = {
       all:"user/all",
       byID:"user/:userID"
     }
+  },
+  report:{
+    get:{
+      all:"report/all"
+    }
   }
 }
