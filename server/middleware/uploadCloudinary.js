@@ -30,4 +30,10 @@ const fileFilter = (req, file, cb) => {
 
 const uploadCloudinary = multer({ storage, fileFilter });
 
-module.exports = uploadCloudinary;
+module.exports ={
+  uploadImage:uploadCloudinary.array("image",10),
+  uploadVideo:uploadCloudinary.fields([
+    {name:"video",maxCount:1},
+    {name:"thumbnail",maxCount:1}
+  ])
+};

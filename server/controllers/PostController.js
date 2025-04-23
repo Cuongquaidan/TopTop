@@ -45,18 +45,19 @@ const uploadVideoPost=async(req,res)=>{
             user,
             caption,
             tags:tags?JSON.parse(tags):[],
+            publicity:publicity,
+            location:location,
+            type:'video',
             media:{
                 url:videoUploadResult.secure_url,
                 thumbnail:thumbUploadResult.secure_url,
                 duration:Math.round(videoUploadResult.duration),
-                publicity:publicity,
-                location:location
             }
         })
 
         await newPost.save()
         res.status(200).json({
-            message:'upload Post thành công',
+            message:'upload VideoPost thành công',
             data:newPost,
             success:true,
             error:false
@@ -64,6 +65,79 @@ const uploadVideoPost=async(req,res)=>{
     } catch (error) {
         console.log('Lỗi khi uploadVideoPost: ',error);
         await fs.promises.unlink(req.files.video[0].path)
+        res.status(500).json({
+            message:`Lỗi server: ${error}`,
+            data:[],
+            success:false,
+            error:true
+        })
+    }
+}
+
+const uploadImagePost=async(req,res)=>{
+    try {
+        const {caption,tags,user,publicity,location}=req.body
+
+        if(!req.files) {
+            await Promise.all(
+                req.files.map((item)=>fs.promises.unlink(item.path))
+            )
+            return res.status(400).json({ 
+                message: "Thiếu image",
+                data:[],
+                success:false,
+                error:false
+            });
+        }
+
+        const existUser=await User.findById(user)
+        if(!existUser){
+            await Promise.all(
+                req.files.map((item)=>fs.promises.unlink(item.path))
+            )
+            return res.status(400).json({
+                message: "Không tìm thấy userID",
+                data:[],
+                success:false,
+                error:false
+            });
+        }
+
+        const imageUploadResult=await Promise.all(
+            req.files.map(item=>{
+                return cloudinary.uploader.upload(item.path,{
+                    resource_type: "image",
+                    folder: "toptop/images"
+                })
+            })
+        )         
+
+        await Promise.all(
+            req.files.map((item)=>fs.promises.unlink(item.path))
+        )
+
+        const newPost=new Post({
+            user,
+            caption,
+            tags:tags?JSON.parse(tags):[],
+            type:'image',
+            publicity:publicity,
+            location:location,
+            media:imageUploadResult.map(result=>result.secure_url)
+        })
+
+        await newPost.save()
+        res.status(200).json({
+            message:'upload ImagePost thành công',
+            data:newPost,
+            success:true,
+            error:false
+        })
+    } catch (error) {
+        console.log('Lỗi khi uploadImagePost: ',error);
+        await Promise.all(
+            req.files.map((item)=>fs.promises.unlink(item.path))
+        )
         res.status(500).json({
             message:`Lỗi server: ${error}`,
             data:[],
@@ -473,4 +547,4 @@ const getPostByID = async (req, res) => {
     }
 };
 
-module.exports={uploadVideoPost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID}
+module.exports={uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID}

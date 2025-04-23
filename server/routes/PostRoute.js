@@ -3,14 +3,8 @@ const router=express.Router()
 const PostController=require('../controllers/PostController')
 const uploadCloudinary = require('../middleware/uploadCloudinary')
 
-router.post(
-    '/upload/video',
-    uploadCloudinary.fields([
-        {name:"video",maxCount:1},
-        {name:"thumbnail",maxCount:1}
-    ]),
-    PostController.uploadVideoPost
-)
+router.post('/upload/video',uploadCloudinary.uploadVideo,PostController.uploadVideoPost)
+router.post('/upload/image',uploadCloudinary.uploadImage,PostController.uploadImagePost)
 router.get('/all',PostController.getAllPost)
 router.get('/:postID',PostController.getPostByID)
 router.get('/:user',PostController.getAllPostByUser)

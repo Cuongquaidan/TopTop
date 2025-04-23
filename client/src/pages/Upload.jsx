@@ -14,14 +14,16 @@ import createAxiosInstance from '../libs/axios/AxiosInstance';
 import { BASE_URL, SUMMARY_API } from '../shared/Route';
 import { toast } from 'react-toastify';
 import ThumbnailUploader from '../components/upload/ThumbnailUploader';
+import ImageUploader from '../components/upload/ImageUploader';
 
 const userID='6801c83174602c8e7b70a33b'
 const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
-    
+    const inputImagesRef=useRef()
     const inputVideoRef=useRef()
     const inputTimeUploadRef=useRef()
     const [video,setVideo]=useState(null)
+    const [images,setImages]=useState(null)
     const [thumbnail,setThumbnail]=useState(null)
     const [description,setDescription]=useState('')
     const [location,setLocation]=useState('')
@@ -37,7 +39,7 @@ const Upload=()=>{
         inputVideoRef.current.value=''
     }
 
-    const handleChangeVideo=(e)=>{
+    const handleChangeVideo=()=>{
         setVideo(null)
         setThumbnail(null)
         setDescription('')
@@ -50,6 +52,7 @@ const Upload=()=>{
 
     const handleCancel=()=>{
         setVideo(null)
+        setImages(null)
         setThumbnail(null)
         setDescription('')
         setLocation('')
@@ -58,11 +61,27 @@ const Upload=()=>{
         setDescriptionLength(0)
     }
 
-    const chooseThumbnailHandler=(e)=>{
-        const newThumbnail=e.target.files[0]
-        setThumbnail(newThumbnail)
+    const chooseImagesHandler=(e)=>{
+        const files=Array.from(e.target.files)
+        if(files.length>10){
+            alert("Tối đa 10 ảnh")
+            return
+        }
+        setImages(files)       
+        setDescription(files[0].name)
+        setDescriptionLength(files[0].name.length)
+        inputImagesRef.current.value=''
     }
 
+    const handleChangeImages=()=>{
+        setImages(null)
+        setDescription('')
+        setLocation('')
+        setUploadTime("Now")
+        setPublicState("Mọi người")
+        setDescriptionLength(0)
+        inputImagesRef.current.click()
+    }
     const changeDescriptionHandler=(e)=>{
         let newLength=e.target.value.length
         if(newLength<=4000){
@@ -140,6 +159,45 @@ const Upload=()=>{
         }
     }
 
+    const UploadImageHandler=async()=>{
+        if(!images){
+            toast.error("Chưa chọn ảnh!")
+            return
+        }
+
+        try {
+            const axiosInstance=createAxiosInstance(BASE_URL)
+            setIsLoading(true)
+            const formData=new FormData()
+
+            images.map(item=>formData.append('image',item))
+            formData.append('caption',description)
+            formData.append('location',location)
+            formData.append('publicity',publicState)
+            formData.append('user',userID)
+            let tags=extractTags(description)
+            formData.append('tags',JSON.stringify(tags||[]))
+
+            for (let pair of formData.entries()) {
+                console.log(`${pair[0]}:`, pair[1]);
+            }
+            await axiosInstance.post(SUMMARY_API.post.upload.image, formData)
+            toast.success("Đăng ImagePost thành công")
+
+            setImages(null);
+            setThumbnail(null);
+            setDescription('');
+            setLocation('');
+            setUploadTime("Now");
+            setPublicState("Mọi người");
+            setDescriptionLength(0);
+            setIsLoading(false)
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Đăng ImagePost thất bại")
+            setIsLoading(false)
+        }
+    }
+
     const handleDragOver = (e) => {
         e.preventDefault();
     };
@@ -165,7 +223,13 @@ const Upload=()=>{
                 ref={inputVideoRef}
                 onChange={handleChooseVideo}
             />
-            {!video&&
+            <input type='file' className='hidden'
+                accept='image/*'
+                ref={inputImagesRef}
+                onChange={chooseImagesHandler}
+                multiple
+            />
+            {!video&&!images&&
             (
                 <div className="w-full p-8 rounded-2xl bg-white flex flex-col border-gray-300 border">
                     <div 
@@ -217,7 +281,7 @@ const Upload=()=>{
                     </div>
                 </div>
             )}
-            {!video&&(
+            {!video&&!images&&(
                 <div className="w-full p-4 rounded-lg bg-white flex justify-between items-center border-gray-300 border mt-6">
                     <div>
                         <p className='font-bold text-lg'>
@@ -237,30 +301,100 @@ const Upload=()=>{
                     </button>
                 </div>
             )}
-            {video&&(
-                <div className='flex flex-col h-full w-full gap-6'>
-                    <div className='bg-white rounded-xl border border-gray-300 p-5 py-7 flex justify-between items-center'>
-                        <div className='flex flex-col'>
-                            <div className='flex gap-4 items-center'>
-                                <p className='font-bold text-xl'>
-                                    {video.name}
-                                </p>
-                                <p className='p-1 px-2 border rounded-xl border-gray-400'>720P</p>
-                            </div>
-                            <div className='flex items-center gap-2 text-green-600'>
-                                <FaCircleCheck/>
-                                <p>Đã tải lên ({Math.round(video.size/(1024*1024))}MB)</p>
-                            </div>
-                        </div>
+            {!video&&!images&&(
+                <div className="mt-6 w-full p-8 rounded-2xl bg-white flex flex-col border-gray-300 border">
+                    <div 
+                        className="flex flex-col justify-center items-center gap-2 bg-gray-100 rounded-2xl border border-gray-300 border-dashed h-[300px] cursor-pointer
+                        hover:border-blue-600"
+                        onClick={()=>{inputImagesRef.current.click()}}
+                    >
+                        <p className='font-bold text-3xl'>Hoặc chọn ảnh để tải lên</p>
                         <button 
-                            className='bg-gray-300 p-3 rounded-xl flex items-center gap-2
-                            hover:bg-gray-400/60'
-                            onClick={handleChangeVideo}    
+                            className='flex items-center justify-center p-3 w-[300px] rounded-2xl bg-red-500/90 cursor-pointer text-white text-xl mt-4
+                            hover:bg-red-700/80'
                         >
-                            <RiExchangeLine size={30}/>
-                            <p>Thay thế</p>
+                            Chọn ảnh
                         </button>
                     </div>
+                    <div className='grid grid-cols-4 gap-4 mt-6'>
+                        <div className='flex justify-center items-start gap-2'>
+                            <BsCameraReelsFill size={30} className=''/>
+                            <div>
+                                <p className='font-bold text-xl'>Dung lượng và số lượng ảnh</p>
+                                <p className='text-gray-500 text-lg'>Dung lượng tối đa: 500MB, số lượng ảnh tối đa: 10 ảnh.</p>
+                            </div>
+                        </div>
+                        <div className='flex justify-center items-start gap-2'>
+                            <FaFolderMinus size={30} className=''/>
+                            <div>
+                                <p className='font-bold text-xl'>Định dạng tập tin</p>
+                                <p className='text-gray-500 text-lg'>Đề xuất: “.png, .img, .jpeg”. Có hỗ trợ các định dạng chính khác.</p>
+                            </div>
+                        </div>
+                        <div className='flex justify-center items-start gap-2'>
+                            <MdHd size={30} className=''/>
+                            <div>
+                                <p className='font-bold text-xl'>Độ phân giải ảnh</p>
+                                <p className='text-gray-500 text-lg'>Độ phân giải cao khuyến nghị: 1080p, 1440p, 4K.</p>
+                            </div>
+                        </div>
+                        <div className='flex justify-center items-start gap-2'>
+                            <FaLightbulb  size={30} className=''/>
+                            <div>
+                                <p className='font-bold text-xl'>Tỷ lệ khung hình</p>
+                                <p className='text-gray-500 text-lg'>Đề xuất: 16:9 cho chế độ ngang, 9:16 cho chế độ dọc.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {(video||images)&&(
+                <div className='flex flex-col h-full w-full gap-6'>
+                    {video&&(
+                        <div className='bg-white rounded-xl border border-gray-300 p-5 py-7 flex justify-between items-center'>
+                            <div className='flex flex-col'>
+                                <div className='flex gap-4 items-center'>
+                                    <p className='font-bold text-xl'>
+                                        {video.name}
+                                    </p>
+                                    <p className='p-1 px-2 border rounded-xl border-gray-400'>720P</p>
+                                </div>
+                                <div className='flex items-center gap-2 text-green-600'>
+                                    <FaCircleCheck/>
+                                    <p>Đã tải lên ({Math.round(video.size/(1024*1024))}MB)</p>
+                                </div>
+                            </div>
+                            <button 
+                                className='bg-gray-300 p-3 rounded-xl flex items-center gap-2
+                                hover:bg-gray-400/60'
+                                onClick={handleChangeVideo}    
+                            >
+                                <RiExchangeLine size={30}/>
+                                <p>Thay thế</p>
+                            </button>
+                        </div>
+                    )}
+                    {images&&
+                    (
+                        <div className='bg-white rounded-xl border border-gray-300 p-5 py-7 flex justify-between items-center'>
+                            <div className='flex flex-col'>
+                                <div className='flex gap-4 items-center'>
+                                    <ImageUploader imageLimit={10} data={images}/>
+                                </div>
+                                <div className='flex items-center gap-2 text-green-600'>
+                                    <FaCircleCheck/>
+                                </div>
+                            </div>
+                            <button 
+                                className='bg-gray-300 p-3 rounded-xl flex items-center gap-2
+                                hover:bg-gray-400/60'
+                                onClick={handleChangeImages}    
+                            >
+                                <RiExchangeLine size={30}/>
+                                <p>Thay thế</p>
+                            </button>
+                        </div>
+                    )}
                     <p className='font-bold text-2xl mt-4'>Chi tiết</p>
                     <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white'>
                         <p className='font-bold text-2xl mt-2'>Mô tả</p>
@@ -293,8 +427,12 @@ const Upload=()=>{
                                 </button>
                             </div>
                         </div>
-                        <p className='font-bold text-2xl mt-4'>Ảnh bìa</p>
-                        <ThumbnailUploader video={video} changeThumbnail={setThumbnail}/>
+                        {video&&(
+                            <p className='font-bold text-2xl mt-4'>Ảnh bìa</p>
+                        )}
+                        {video&&(
+                            <ThumbnailUploader video={video} changeThumbnail={setThumbnail}/>
+                        )}
                         <p className='font-bold text-2xl mt-4'>Vị trí</p>
                         <div className='flex justify-center items-center relative'>
                             <input 
@@ -343,7 +481,7 @@ const Upload=()=>{
                                 />
                             </div>
                         )}
-                        <p className='font-bold text-2xl mt-2'>Ai có thể xem video này</p>
+                        <p className='font-bold text-2xl mt-2'>Ai có thể xem {video?"video":"ảnh"} này</p>
                         <select 
                             className='p-2 bg-gray-300 rounded-xl w-[350px] 
                             focus:bg-white focus:outline-1'
@@ -362,7 +500,7 @@ const Upload=()=>{
                                 <button 
                                 className='bg-red-600/80 p-2 rounded-xl w-[300px] text-white text-lg 
                                 cursor-pointer hover:bg-red-600'
-                                onClick={UploadVideoHandler}>
+                                onClick={video?UploadVideoHandler:UploadImageHandler}>
                                     {uploadTime==="Now"?"Bài đăng":"Lên lịch"}
                                 </button>
                             )
