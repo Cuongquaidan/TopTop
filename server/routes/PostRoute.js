@@ -14,5 +14,6 @@ router.put('/save',PostController.savePost)
 router.put('/unsave',PostController.unSavePost)
 router.put('/share',PostController.sharePost)
 router.post('/import',PostController.importFile)
+router.get('/getByCursor',PostController.getPostByCursor)
 
 module.exports=router
