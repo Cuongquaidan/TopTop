@@ -11,8 +11,12 @@ import ProfilePostItem from '../components/ProfilePostItem'
 import { CiSettings } from "react-icons/ci";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 import { useSelector } from 'react-redux'
+import { useGlobalContext } from '../context/AppContext'
+import Modal from '../components/Modal'
+import StatisticsProfile from '../components/modal/StatisticsProfile'
 
 const Profile=()=>{
+    const {showModal,setShowModal, typeModal,setTypeModal} = useGlobalContext();
     const userID=useSelector(state=>state.user.user._id)
     const [user,setUser]=useState(null)
     const [postType,setPostType]=useState('Video')
@@ -24,10 +28,10 @@ const Profile=()=>{
         const fetchUser=async()=>{
             try {
                 const axiosInstance=createAxiosInstance(BASE_URL)
-                let result=await axiosInstance.get(SUMMARY_API.user.get.replace(":userID",userID))
+                let result=await axiosInstance.get(SUMMARY_API.user.get.byID.replace(":userID",userID))
                 setUser(result.data)
             } catch (error) {
-                console.log(error.response?.data?.message||"Lỗi khi lấy thông tin user")
+                console.log(error.message||"Lỗi khi lấy thông tin user")
             }
         }
 
@@ -71,8 +75,16 @@ const Profile=()=>{
 
     return(
         <div className='p-6 gap-4 flex flex-col items w-full items-start justify-start'>
+            {/* Modal */}
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                <StatisticsProfile></StatisticsProfile>
+            </Modal>
+            {/* -- */}
             <div className='flex lg:flex-row lg:items-start lg:justify-start md:flex-col md:items-center  gap-5'>
-                <img src={user?user.profile_picture:tiktokIcon} className='rounded-full w-[240px] h-[240px] object-cover'/>
+                <img 
+                    src={user?.profile_picture||tiktokIcon}
+                    className='rounded-full w-[240px] h-[240px] object-cover'
+                />
                 <div className='flex flex-col gap-6 ps-4 items-start justify-start min-w-[600px]'>
                     <div className='flex flex-col  w-full'>
                         <div className='flex gap-2 items-center'><p className='text-2xl font-bold'>{user?user.username:"TopTop"}</p>
@@ -113,7 +125,12 @@ const Profile=()=>{
                             <p className=''>
                                 {user?user.numOfFolloweds:'TopTop'}
                             </p>
-                            <button className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '>
+                            <button 
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
+                                onClick={()=>{
+                                    setShowModal(true)
+                                }}
+                            >
                                 Đã follow
                             </button>
                         </div>
@@ -124,7 +141,12 @@ const Profile=()=>{
                                     :user?user.numOfFollowers:'TopTtop'
                                 }
                             </p>
-                            <button className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '>
+                            <button 
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
+                                onClick={()=>{
+                                    setShowModal(true)
+                                }}    
+                            >
                                 Follower
                             </button>
                         </div>
