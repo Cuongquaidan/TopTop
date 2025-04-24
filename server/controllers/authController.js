@@ -68,9 +68,11 @@ const register=async(req,res)=>{
             display_name:username?username:tempUserName,
             profile_picture:null,
             password:hashedPassword,
-            email:email?email:null,
-            phone:phone?phone:null,
         })
+        if(email)
+            newUser.email=email
+        if(phone)
+            newUser.phone=phone
 
         await newUser.save()
         res.status(201).json({ 
