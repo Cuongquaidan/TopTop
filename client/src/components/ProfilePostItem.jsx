@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
+import { IoPlayOutline } from "react-icons/io5";
 
 const ProfilePostItem=({item})=>{
     const data = item;
@@ -21,7 +22,7 @@ const ProfilePostItem=({item})=>{
             >   
                 {item.type==="image"&&(
                     <img
-                        className="object-cover w-[280px] rounded-2xl"
+                        className="object-cover w-[240px] h-[360px] rounded-2xl"
                         draggable={false}
                         src={media[0]}
                     />
@@ -39,14 +40,14 @@ const ProfilePostItem=({item})=>{
                     />
                 ):item.type==="video"&&(
                     <img
-                        className="object-cover w-[280px] rounded-2xl"
+                        className="object-cover w-[240px] h-[360px] rounded-2xl"
                         draggable={false}
                         src={media.thumbnail}
                     />
                 )}
                 <div className="absolute bottom-[10px] left-[10px] flex gap-2 items-center">
-                    <FaRegHeart  className="text-2xl text-white"/>
-                    <p className="text-2xl font-bold text-white">{item.numOfLikes}</p>
+                    <IoPlayOutline  className="text-2xl text-white"/>
+                    <p className="text-2xl font-bold text-white">{item.numOfViews}</p>
                 </div>
             </div>
         );

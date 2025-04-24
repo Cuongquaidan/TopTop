@@ -1,22 +1,74 @@
-import React, { useState, useRef } from "react";
-import { FaVolumeMute } from "react-icons/fa";
-import { GoUnmute } from "react-icons/go";
-import { CiHeart } from "react-icons/ci";
-import convertNumToString from "../helper/convertNumToString";
-import { Link } from "react-router-dom";
-import ExploreCategoryVideo from "../components/explore/ExploreCategoryVideo"
+import React, { useState, useRef, useEffect } from "react";
+import titokIcon from '../assets/tiktok-icon.png'
+import createAxiosInstance from "../libs/axios/AxiosInstance";
+import { BASE_URL, SUMMARY_API } from "../shared/Route";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/features/userSlice";
 
-const FollowerItem=({item})=>{
-    const data = item;
-    const { media, numOfLikes } = data;
+const Followeruser=({user,currentUser})=>{
+    const dispatch=useDispatch()
+    const [media,setMedia]=useState(null);
     const [isHover, setIsHover] = useState(false);
+    const [followingState,setFollowingState]=useState(false)
+
+    const followClickHandler=async()=>{
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const updateUser=currentUser
+        let updateFolloweds=[...updateUser.followeds]
+        let updateNumOfFolloweds=updateUser.numOfFolloweds
+
+        if(followingState===false){
+            updateFolloweds.push(user._id)
+            updateNumOfFolloweds++
+        }
+        else{
+            updateFolloweds=updateFolloweds.filter(followed=>followed.toString()!==user._id.toString())
+            updateNumOfFolloweds--
+        }        
+        
+        const res=await axiosInstance.put(SUMMARY_API.user.put.update,{
+            user:updateUser,
+            followeds:updateFolloweds,
+            numOfFolloweds:updateNumOfFolloweds
+        })
+
+        dispatch(setUser({
+            user:res.data
+        }))
+        setFollowingState(!followingState)
+    }
+
+    useEffect(()=>{
+        const fetchRandomPost=async()=>{
+            try {
+                const axiosInstance=createAxiosInstance(BASE_URL)
+                console.log("itemFol, user:",user);
+                
+                const res=await axiosInstance.get(SUMMARY_API.post.get.byUser.replace(":user",user._id))
+                if(res.data.length===0)
+                    return
+                const randomPost=res.data.find(post=>post.type==="video")
+                if (randomPost&&randomPost.media){
+                    setMedia(randomPost.media)
+                }
+                if(currentUser.followeds.includes(user._id)){
+                    setFollowingState(true)
+                }
+            } catch (error) {
+                toast.error(error.message||"Lỗi fetchRandomPost FollowerItem")
+            }
+        }
+
+        fetchRandomPost()
+    },[])
     return (
         <div
             style={{
                 height: 400,
                 userSelect: "none",
             }}
-            className="min-w-[280px] max-w-[300px] md:max-w-[300px] sm:max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
+            className="min-w-[280px] max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
             onMouseEnter={() => {
                 setIsHover(true);
             }}
@@ -26,11 +78,11 @@ const FollowerItem=({item})=>{
         >
             {isHover ? (
                 <video
-                    src={media.url}
+                    src={media?media.url:null}
                     muted={true}
                     playsInline
                     controls={false}
-                    className="object-cover w-full h-full rounded-2xl"
+                    className={`object-cover w-full h-full rounded-2xl ${media?'block':'none'}`}
                     loop={true}
                     autoPlay={true}
                     onClick={(e) => {}}
@@ -43,23 +95,23 @@ const FollowerItem=({item})=>{
                         objectFit: "cover",
                     }}
                     draggable={false}
-                    src={media.thumbnail}
+                    src={media?media.thumbnail:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="}
                     className="rounded-2xl shadow-2xl"
                 />
             )}
             <div className="absolute flex flex-col items-center w-[80%] transform top-2/5 ">
-                <img src={data.user.profile_picture} className="rounded-full w-[70px] h-[70px] object-cover"/>
-                <p className="text-white text-xl font-bold mt-4">{data.user.display_name}</p>
-                <p className="text-white text-lg font-bold">{data.user.username}</p>
+                <img src={user.profile_picture||titokIcon} className="rounded-full w-[70px] h-[70px] object-cover"/>
+                <p className="text-white text-xl font-bold mt-4">{user.display_name}</p>
+                <p className="text-white text-lg font-bold">{user.username}</p>
                 <button 
-                    onClick={()=>{}} 
-                    className="bg-red-600 p-2 w-full rounded-lg mt-3 text-white text-2xl font-semibold"
+                    onClick={followClickHandler} 
+                    className="bg-red-600 p-2 w-full rounded-lg cursor-pointer mt-3 text-white text-2xl font-semibold"
                 >
-                    Follow
+                    {followingState?"Đã follow":"Follow"}
                 </button>
             </div>
         </div>
     );
 };
 
-export default FollowerItem;
+export default Followeruser;

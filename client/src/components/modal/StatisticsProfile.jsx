@@ -1,0 +1,106 @@
+import { useSelector } from "react-redux"
+import { useGlobalContext } from "../../context/AppContext"
+import { useEffect, useState } from "react"
+import createAxiosInstance from "../../libs/axios/AxiosInstance"
+import { BASE_URL, SUMMARY_API } from "../../shared/Route"
+
+const StatisticsProfile=()=>{
+    const [tab,setTab]=useState('Đã follow')
+    const user=useSelector(state=>state.user.user)
+    const [followeds,setFolloweds]=useState([])
+    const [followers,setFollowers]=useState([])
+    const [friend,setFriends]=useState([])
+
+    useEffect(()=>{
+        const fetchUser=async()=>{
+            try {
+                const axiosInstance=createAxiosInstance(BASE_URL)
+                const res=await axiosInstance.get(SUMMARY_API.user.get.byID.replace(":userID",user._id))
+                
+                setFolloweds(res.data.followeds)
+                setFollowers(res.data.followers)
+                setFriends(res.data.friends)
+            } catch (error) {
+                toast.error(error.message||"Lỗi khi get user")
+            }
+        }
+
+        fetchUser()
+    },[])
+    
+    return(
+        <div className="w-full h-full flex flex-col items-center justify-start">
+            <h1 className="text-xl font-bold">{user.username}</h1>
+            <div className="w-full flex border-b-gray-200 border-b-2">
+                <div 
+                    className={
+                        `flex items-start justify-center p-1 py-3 w-1/4
+                        ${tab==="Đã follow"?"border-b-3":"border-b-0"}
+                        `
+                    }
+                    onClick={()=>setTab("Đã follow")}
+                >
+                    <p className="font-medium">Đã follow {user.numOfFolloweds}</p>
+                </div>
+                <div 
+                    className={
+                        `flex items-start justify-center p-1 py-3 w-1/4
+                        ${tab==="Follower"?"border-b-3":"border-b-0"}
+                        `
+                    }
+                    onClick={()=>setTab("Follower")}
+                >
+                    <p className="font-medium">Follower {user.numOfFollowers}</p>
+                </div>
+                <div 
+                    className={
+                        `flex items-start justify-center p-1 py-3 w-1/4
+                        ${tab==="Bạn bè"?"border-b-3":"border-b-0"}
+                        `
+                    }
+                    onClick={()=>setTab("Bạn bè")}
+                >
+                    <p className="font-medium">Bạn bè {user.numOfFriends}</p>
+                </div>
+                <div 
+                    className={
+                        `flex items-start justify-center p-1 py-3 w-1/4
+                        ${tab==="Được đề xuất"?"border-b-3":"border-b-0"}
+                        `
+                    }
+                    onClick={()=>setTab("Được đề xuất")}
+                >
+                    <p className="font-medium">Được đề xuất</p>
+                </div>
+            </div>
+            <div className="w-full h-full p-3 ps-5 flex flex-col gap-6 overflow-y-auto">
+                {tab==="Đã follow"&&followeds.map((item,index)=>{
+                    return(
+                        <div key={index} className="flex gap-4 justify-start items-center">
+                            <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>
+                            <p className="font-medium">{item.username}</p>
+                        </div>
+                    )
+                })}
+                {tab==="Follow"&&followers.map((item,index)=>{
+                    return(
+                        <div key={index} className="flex gap-4 justify-start items-center">
+                            <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>
+                            <p className="font-medium">{item.username}</p>
+                        </div>
+                    )
+                })}
+                {tab==="Bạn bè"&&friend.map((item,index)=>{
+                    return(
+                        <div key={index} className="flex gap-4 justify-start items-center">
+                            <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>
+                            <p className="font-medium">{item.username}</p>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+export default StatisticsProfile

@@ -7,7 +7,7 @@ const path=require('path')
 const getAllUser = async (req, res) => {
     try {
         const {page=1,limit=10}=req.body
-        const data = await User.find().skip((page-1)*limit).limit(limit).sort({createdAt:-1});
+        const data = await User.find().skip((page-1)*limit).limit(limit).sort({createdAt:-1}).populate("followers").populate("followeds").populate("likeUsers").populate('friends');
         let totalItem=await User.countDocuments()
         res.status(200).json({
             message: "Lấy danh sách người dùng theo page và limit thành công",
@@ -17,7 +17,25 @@ const getAllUser = async (req, res) => {
             },
             success: true,
             error: false
-        });
+        });const getFamousdUser=async(req,res)=>{
+            try {
+                const {user}=req.body
+                const data = await User.find({state:active}).sort({numOfFollowers:-1});
+                res.status(200).json({
+                    message: "Lấy danh sách người dùng nổi tiếng thành công",
+                    data,
+                    success: true,
+                    error: false
+                });
+            } catch (error) {
+                res.status(500).json({
+                    message: `Lỗi server: ${error}`,
+                    data: [],
+                    success: false,
+                    error: true
+                });
+            }
+        }
     } catch (error) {
         res.status(500).json({
             message: `Lỗi server: ${error}`,
@@ -34,7 +52,7 @@ const getAllUser = async (req, res) => {
 const getUserByID = async (req, res) => {
     try {
         const { userID } = req.params;
-        const existUser = await User.findById(userID);
+        const existUser = await User.findById(userID).populate("followers").populate("followeds").populate("likeUsers").populate('friends');
         if (!existUser) {
             console.log("Không tìm thấy userID:", userID);
             return res.status(400).json({
@@ -159,5 +177,70 @@ const importFile = async (req, res) => {
     }
 };
 
-module.exports={getAllUser,getUserByID,importFile}
+const getFamousdUser=async(req,res)=>{
+    try {
+        const {user}=req.body
+        
+        const data = await User.find({state:"active",_id:{$ne:user._id}}).sort({numOfFollowers:-1}).limit(20);
+        res.status(200).json({
+            message: "Lấy danh sách người dùng nổi tiếng thành công",
+            data,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: `Lỗi server: ${error}`,
+            data: [],
+            success: false,
+            error: true
+        });
+    }
+}
+
+const updateUser=async(req,res)=>{
+    try {
+        const {user,...updateFields}=req.body
+        
+        if(!user){
+            return res.status(400).json({
+                message: `Thiếu user`,
+                data: [],
+                success: false,
+                error: false
+            });
+        }
+
+        const updatedUser=await User.findByIdAndUpdate(
+            user._id,
+            {$set:updateFields},
+            {new:true}
+        )
+
+        if(!updatedUser){
+            return res.status(404).json({
+                message: `không tìm thấy user`,
+                data: [],
+                success: false,
+                error: false
+            });
+        }
+        
+        res.status(200).json({
+            message: `Update user thành công`,
+            data: updatedUser,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: `Lỗi server: ${error}`,
+            data: [],
+            success: false,
+            error: true
+        });
+    }
+}
+
+module.exports={getAllUser,getUserByID,importFile,getFamousdUser,updateUser}
 

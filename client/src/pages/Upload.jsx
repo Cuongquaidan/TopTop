@@ -15,10 +15,11 @@ import { BASE_URL, SUMMARY_API } from '../shared/Route';
 import { toast } from 'react-toastify';
 import ThumbnailUploader from '../components/upload/ThumbnailUploader';
 import ImageUploader from '../components/upload/ImageUploader';
+import { useSelector } from 'react-redux';
 
-const userID='6801c83174602c8e7b70a33b'
 const defaultThumbnail='https://res.cloudinary.com/dv4tzxwwo/image/upload/v1744965792/toptop/thumbnails/a865wlmqqnxdj4y4qffc.png'
 const Upload=()=>{
+    const userID=useSelector((state)=>state.user.user._id)
     const inputImagesRef=useRef()
     const inputVideoRef=useRef()
     const inputTimeUploadRef=useRef()
