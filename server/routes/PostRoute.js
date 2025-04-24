@@ -15,5 +15,6 @@ router.put('/unsave',PostController.unSavePost)
 router.put('/share',PostController.sharePost)
 router.post('/import',PostController.importFile)
 router.get('/getByCursor',PostController.getPostByCursor)
+router.get('/getTop9TrendingVideo',PostController.getTop9TrendingVideo)
 
 module.exports=router

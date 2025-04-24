@@ -10,7 +10,7 @@ function Home() {
     hasNextPage,
     isFetchingNextPage
   } = useGetPostByCursor();
-  console.log(data, fetchNextPage, hasNextPage, isFetchingNextPage);
+
   const scrollRef = useRef(null);
   const observerRef = useRef(null);
 
