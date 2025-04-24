@@ -10,8 +10,10 @@ import convertNumToString from '../helper/convertNumToString'
 import ProfilePostItem from '../components/ProfilePostItem'
 import { CiSettings } from "react-icons/ci";
 import { FaRegShareFromSquare } from "react-icons/fa6";
-const userID='6801c83174602c8e7b70a33b'
+import { useSelector } from 'react-redux'
+
 const Profile=()=>{
+    const userID=useSelector(state=>state.user.user._id)
     const [user,setUser]=useState(null)
     const [postType,setPostType]=useState('Video')
     const [postTypeHover,setPostTypeHover]=useState(postType)
