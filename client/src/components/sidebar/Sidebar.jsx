@@ -60,7 +60,13 @@ function Sidebar() {
                     </h1>
                 </Link>
             </div>
-            <div className="relative">
+            <div className="relative" onClick={() => {
+                if(option== "search") {
+                    setOption("");
+                }else{
+                    setOption("search");
+                }
+            }}>
                 <LuSearch
                     size={20}
                     className="absolute transform -translate-y-1/2 cursor-pointer top-1/2 left-3"
@@ -71,6 +77,9 @@ function Sidebar() {
                         (showMore || option )&& "!w-[48px]"
                     } transition-all`}
                     placeholder="Tìm kiếm..."
+                    onFocus={() => {
+                        setOption("search")
+                    }}
                 />
             </div>
             <div className="flex flex-col gap-2">

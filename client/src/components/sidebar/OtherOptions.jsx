@@ -8,6 +8,7 @@ import ToolsForCreators from "./ToolsForCreators";
 import ThemeOptions from "./ThemeOptions";
 import Messages from "./Messages";
 import Activities from "./Activities";
+import Search from "./Search";
 function OtherOptions({ option, setOption }) {
     
     return (
@@ -35,6 +36,11 @@ function OtherOptions({ option, setOption }) {
               option === "activities" && (
                 <Activities option={option} setOption={setOption}></Activities>
               )
+            }
+            {
+                option === "search"  && (
+                    <Search option={option} setOption={setOption}></Search>
+                )
             }
             
             </div>
