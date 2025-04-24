@@ -18,20 +18,6 @@ import { toast } from 'react-toastify';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title);
 
-export const typePostInYear = {
-  video : 20000,
-  image : 5000,
-}
-export const statisticsNewPostsInMonthAndYear = [20000, 5000, 10000, 20000, 5000, 10000, 20000, 5000, 10000, 20000, 5000, 10000]
-
-export const statisticsNewUsersInMonthAndYear = [20000, 5000, 10000, 20000, 15000, 100030, 20000, 5000, 30000, 20000, 5000, 10000]
-
-export const statisticsNewReportsInMonthAndYear = [20000, 5000, 10000, 20000, 5000, 10000, 20000, 5000, 10000, 20000, 5000, 10000]
-export const statusOfReport = {
-  pending: 10000,
-  reviewed: 5000,
-  action_taken: 20000
-}
 export const optionsForNewPosts = {
   responsive: true,
   plugins: {
@@ -58,11 +44,11 @@ export const optionsForNewUsers = {
 };
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function Dashboard() {
-  const [realTypePostInYear,setRealTypePostInYear]=useState([typePostInYear])
-  const [newPostsInMonthAndYear,setNewPostsInMonthAndYear]=useState(statisticsNewPostsInMonthAndYear)
-  const [newUsersInMonthAndYear,setNewUsersInMonthAndYear]=useState(statisticsNewUsersInMonthAndYear)
-  const [newReportsInMonthAndYear,setNewReportsInMonthAndYear]=useState(statisticsNewReportsInMonthAndYear)
-  const [realStatusOfReport,setRealStatusOfReport]=useState(statusOfReport)
+  const [realTypePostInYear,setRealTypePostInYear]=useState()
+  const [newPostsInMonthAndYear,setNewPostsInMonthAndYear]=useState()
+  const [newUsersInMonthAndYear,setNewUsersInMonthAndYear]=useState()
+  const [newReportsInMonthAndYear,setNewReportsInMonthAndYear]=useState()
+  const [realStatusOfReport,setRealStatusOfReport]=useState()
   const limit=1000000000
   useEffect(()=>{
     const fetchPost=async()=>{
@@ -141,7 +127,7 @@ function Dashboard() {
     fetchUser()
     fetchReport()
   },[])
-  const [tab,setTab] = useState("reports")
+  const [tab,setTab] = useState("posts")
   return (
     <div className='w-full h-full flex flex-col   p-10'>
       <div className='grid w-full grid-cols-3'>
@@ -157,7 +143,7 @@ function Dashboard() {
       </div>
       <div className= " h-full overflow-auto py-4">
         {
-          tab === "posts" && (
+          tab === "posts"&& realTypePostInYear && (
             <div className='w-full flex flex-col gap-10 mt-10'>
             <div className='p-4 grid grid-cols-2 gap-10'>
             <div className='flex flex-col gap-10'>
@@ -171,7 +157,7 @@ function Dashboard() {
               datasets:[
                 {
                   label: "num of post",
-                  data: Object.values(typePostInYear),
+                  data: Object.values(realTypePostInYear),
                   backgroundColor: [
                     "rgba(255, 11, 85, 1)",
                     "rgba(1, 24, 216, 1)",
@@ -206,7 +192,7 @@ function Dashboard() {
           )
         }
         {
-          tab === "users" && (
+          tab === "users"&& newUsersInMonthAndYear && (
             <div className='w-full flex flex-col gap-10 mt-10 h-full '>
             <div className='p-4 grid grid-cols-1 gap-10  '>
          

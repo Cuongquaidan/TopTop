@@ -41,11 +41,14 @@ function RegisterWithOther() {
 
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
-      await axiosInstance.post(SUMMARY_API.auth.register, payload);
-
-   
+      const data = await axiosInstance.post(SUMMARY_API.auth.register, payload);
+        if (data.success) {
+          toast.success(data.message || "Đăng ký thành công!");
+          
         setTypeModal("login-with-other");
         reset();
+        } 
+   
     
     } catch (error) {
       console.log(error.response?.data?.message || "Đăng ký thất bại!");

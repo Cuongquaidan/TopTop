@@ -106,7 +106,7 @@ const importFile = async (req, res) => {
 const getAllReport=async(req,res)=>{
     try {
         const {page=1,limit=10}=req.body
-        const data=await Report.find().skip((page-1)*limit).limit(limit)
+        const data=await Report.find().skip((page-1)*limit).limit(limit).populate("reporter").populate("reportedUser").populate("reportedPost").populate("reviewedBy").sort({createdAt:-1})
         let totalItem=await Report.countDocuments()
         res.status(200).json({
             message:'getAllReport với page và limit thành công',

@@ -10,38 +10,35 @@ import { toast } from 'react-toastify'
 function Posts() {
   const [page,setPage]=useState(1)
   const [data,setData]=useState(posts)
-  const limit=10
-  useEffect(()=>{
-    const fetchPost=async()=>{
-      try {
-        const axiosInstance=createAxiosInstance(BASE_URL)
-        console.log('page:',page);
-        
-        const res=await axiosInstance.post(SUMMARY_API.post.get.all,{
-          page:parseInt(page),
-          limit
-        })
-        setData(res.data)
-        console.log(res.data);
-        
-        toast.success(res.message||"Lấy danh sách post thành công")
-      } catch (error) {
-        toast.error(error.message||"Lỗi server")
-      }
+  const [limit,setLimit] =useState(10)
+  const fetchPost=async()=>{
+    try {
+      const axiosInstance=createAxiosInstance(BASE_URL)
+      console.log('page:',page);
+      
+      const res=await axiosInstance.post(SUMMARY_API.post.get.all,{
+        page:parseInt(page),
+        limit
+      })
+      setData(res.data)
+    } catch (error) {
+      console.error(error.message||"Lỗi server")
     }
+  }
+  useEffect(()=>{
 
     fetchPost()
-  },[page])
+  },[page,limit])
   return (
-  <div className='flex h-full flex-col items-center  px-10 cursor-pointer'>
+  <div className='flex flex-col items-center  px-10 cursor-pointer'>
     <div className='w-full flex justify-end cursor-pointer'>
-      <ButtonImport endpoint={SUMMARY_API.post.import} setData={setData}></ButtonImport>
+      <ButtonImport endpoint={SUMMARY_API.post.import} fetchData={fetchPost}></ButtonImport>
     </div>
-      <div className='h-[70%] overflow-y-auto w-full cursor-pointer'>
+    <div className='h-[700px] w-full overflow-y-auto'>
       <PostTable posts={data.data||data}></PostTable>
     </div>
     <div className='flex justify-center items-center mt-6 cursor-pointer'>
-      <Pagination currentPage={page} total={Math.ceil(data.totalItem/limit)} onPageChange={setPage} onPageSizeChange={()=>{}}></Pagination>
+      <Pagination pageSize={limit}  currentPage={page} total={Math.ceil(data.totalItem/limit)} onPageChange={setPage} onPageSizeChange={setLimit}></Pagination>
     </div>
   </div>
   )

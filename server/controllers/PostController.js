@@ -153,7 +153,7 @@ const uploadImagePost=async(req,res)=>{
 const getAllPost=async(req,res)=>{
     try {
         const {page=1,limit=10}=req.body
-        let data=await Post.find().skip((page-1)*limit).limit(limit)
+        let data=await Post.find().skip((page-1)*limit).limit(limit).populate("user").sort({createdAt:-1})
         let totalItem=await Post.countDocuments()
         res.status(200).json({
             message:'Lấy tất cả post thành công',
