@@ -32,9 +32,13 @@ export const SUMMARY_API = {
   user:{
     get:{
       all:"user/all",
-      byID:"user/:userID"
+      byID:"user/:userID",
+      famous:"user/famous"
     },
     import:"user/import",
+    put:{
+      update:"user/update"
+    }
   },
   report :{
     import:"report/import",
