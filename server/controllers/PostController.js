@@ -153,7 +153,7 @@ const uploadImagePost=async(req,res)=>{
 const getAllPost=async(req,res)=>{
     try {
         const {page=1,limit=10}=req.body
-        let data=await Post.find().skip((page-1)*limit).limit(limit)
+        let data=await Post.find().sort({createdAt:-1}).skip((page-1)*limit).limit(limit).populate("user")
         let totalItem=await Post.countDocuments()
         res.status(200).json({
             message:'Lấy tất cả post thành công',
@@ -655,4 +655,76 @@ const importFile = async (req, res) => {
     }
 };
 
-module.exports={uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile}
+//  get post type video and image, except state restricted and isDeleted 
+
+const getPostByCursor = async(req,res)=>{
+    try {
+        const {cursor = null, limit = 5, onlyVideo = false} = req.query;
+        const query = {
+            isDeleted: false,
+            state: { $ne: 'restricted' }
+        };
+        if (cursor) {
+            query._id = { $lt: cursor };
+        }
+        if (onlyVideo) {
+            query.type = 'video';
+        } 
+
+        
+
+
+        const posts = await Post.find(query)
+        .populate('user')
+        .sort({ _id: -1 })
+        .limit(parseInt(limit))
+
+        const nextCursor = posts.length > 0 ? posts[posts.length - 1]._id : null;
+
+        res.status(200).json({
+            message: 'Lấy post thành công',
+            data: {
+                data: posts,
+                nextCursor
+            },
+            success: true,
+            error: false
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message:`Lỗi server: ${error}`,
+            data:[],
+            success:false,
+            error:true
+        })
+    }
+}
+// get post by type video and state recommended and isDeleted false
+const getTop9TrendingVideo = async(req,res)=>{
+    try {
+        const posts = await Post.find({ type: 'video', state: 'recommended', isDeleted: false })
+            .sort({ createdAt: -1 })
+            .limit(9)
+            .populate('user');
+        res.status(200).json({
+            message: 'Lấy top 9 video thành công',
+            data: posts,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        res.status(500).json({
+            message:`Lỗi server: ${error}`,
+            data:[],
+            success:false,
+            error:true
+        })
+    }
+}
+        
+
+
+//  get post only type video and isDeleted false and state!= restricted
+
+module.exports={getTop9TrendingVideo,uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile, getPostByCursor}

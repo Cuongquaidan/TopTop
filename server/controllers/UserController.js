@@ -7,7 +7,7 @@ const path=require('path')
 const getAllUser = async (req, res) => {
     try {
         const {page=1,limit=10}=req.body
-        const data = await User.find().skip((page-1)*limit).limit(limit);
+        const data = await User.find().skip((page-1)*limit).limit(limit).sort({createdAt:-1});
         let totalItem=await User.countDocuments()
         res.status(200).json({
             message: "Lấy danh sách người dùng theo page và limit thành công",

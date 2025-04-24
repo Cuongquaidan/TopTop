@@ -24,18 +24,16 @@ function RegisterWithPhone() {
   const submit = async (data) => {
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
-      await axiosInstance.post(SUMMARY_API.auth.register, {
+      const data =  await axiosInstance.post(SUMMARY_API.auth.register, {
         phone: data.phone,
         password: data.password
       });
       
+       if(data.success) {
+        toast.success(data.message || "Đăng ký thành công!");
         setTypeModal("login-with-phone");
-        
-        reset({
-          phone: "",
-          password: "",
-          confirmPassword: ""
-        });
+        reset();
+      }
      
     } catch (error) {
       // toast.error(error.response?.data?.message || "Đăng ký thất bại!");
