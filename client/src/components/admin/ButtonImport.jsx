@@ -3,7 +3,7 @@ import { MdDriveFolderUpload } from "react-icons/md";
 import createAxiosInstance from '../../libs/axios/AxiosInstance';
 import { BASE_URL } from '../../shared/Route';
 import { toast } from 'react-toastify';
-function ButtonImport({endpoint, setData}) {
+function ButtonImport({endpoint, fetchData}) {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -14,7 +14,7 @@ function ButtonImport({endpoint, setData}) {
     try {
       const resjson = await createAxiosInstance(BASE_URL).post(endpoint, formData)
       console.log(resjson);
-      setData(resjson.data);
+      fetchData();
       if(resjson.success) {
         toast.success(resjson.message || "Import thành công!");
       }

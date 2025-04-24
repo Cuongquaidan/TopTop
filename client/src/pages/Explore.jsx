@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { FaChevronRight } from "react-icons/fa";
 import { FaChevronLeft } from "react-icons/fa";
@@ -10,192 +10,58 @@ import ExploreTrendItem from "../components/explore/ExploreTrendItem";
 import categories from "../data/Categories";
 import Categories from "../components/Categories";
 import ExploreItem from "../components/explore/ExploreItem";
-const data = [
-    {
-        postId: 2,
-        user: {
-            username: "foodie_trung",
-            display_name: "Trung Ăn Gì",
-            profile_picture:
-                "https://images.pexels.com/photos/5984545/pexels-photo-5984545.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Bánh tráng nướng xịn xò ở Đà Nẵng 😋 #foodie #danangfood",
-        tags: ["foodie", "danangfood"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/rn4fzag0udfillzhftwm.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 20,
-        },
-        numOfLikes: 890,
-        numOfComments: 47,
-        numOfSave: 210,
-        numOfShare: 36,
-    },
-    {
-        postId: 3,
-        user: {
-            username: "hanhpham",
-            display_name: "Hạnh Phạm",
-            profile_picture:
-                "https://images.pexels.com/photos/2014027/pexels-photo-2014027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        },
-        caption:
-            "Tập yoga buổi sáng để bắt đầu ngày mới 💪🧘‍♀️ #yoga #morningroutine",
-        tags: ["yoga", "morningroutine"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 18,
-        },
-        numOfLikes: 1500123,
-        numOfComments: 102,
-        numOfSave: 480,
-        numOfShare: 92,
-    },
-    {
-        postId: 5,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-    {
-        postId: 6,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-    {
-        postId: 7,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-    {
-        postId: 8,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-    {
-        postId: 9,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-    {
-        postId: 10,
-        user: {
-            username: "hoangvu.music",
-            display_name: "Hoàng Vũ 🎧",
-            profile_picture:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-        },
-        caption: "Cover bài mới nèee 🎤 #cover #musicchallenge",
-        tags: ["cover", "musicchallenge"],
-        type: "video",
-        media: {
-            url: "https://res.cloudinary.com/dc0iymq7d/video/upload/v1744016022/toptop/sth7incmgszhsuzfkswq.mp4",
-            thumbnail:
-                "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            duration: 60,
-        },
-        numOfLikes: 3103120,
-        numOfComments: 265312,
-        numOfSave: 1200,
-        numOfShare: 305,
-    },
-];
+import createAxiosInstance from "../libs/axios/AxiosInstance";
+import { BASE_URL, SUMMARY_API } from "../shared/Route";
+import useGetPostByCursor from "../hooks/useGetPostByCursor";
+
 function Explore() {
     const ref = React.useRef();
-
+    const [data1, setData1] = useState([]);
+    useEffect(()=>{
+        const fetchData = async()=>{
+            try {
+                const axiosInstance = createAxiosInstance(BASE_URL);
+                const resjson = await axiosInstance.get(SUMMARY_API.post.get.getTop9TrendingVideo);
+                setData1(resjson.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchData();
+    },[])
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+      } = useGetPostByCursor(10, true);
+      console.log(data, fetchNextPage, hasNextPage, isFetchingNextPage);
+      const observerRef = useRef(null);
+    
+      const setLastItemRef = useCallback(
+        (node) => {
+          if (observerRef.current) observerRef.current.disconnect();
+    
+          observerRef.current = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+            },
+            { threshold: 1.0 }
+          );
+    
+          if (node) observerRef.current.observe(node);
+        },
+        [hasNextPage, isFetchingNextPage]
+      );
+    
     return (
         <div className="p-4 px-10 min-w-0">
             <p className="font-bold italic text-xl ">Thịnh hành hôm nay</p>
-            <div
+           {
+            data1 && data1.length > 0 && (
+                <div
                 style={{ width: "90%", position: "relative", height: "30vh" }}
                 className="mx-auto"
             >
@@ -215,7 +81,7 @@ function Explore() {
                                 slideComponent={ExploreTrendItem}
                                 slideWidth={200}
                                 carouselWidth={parentWidth}
-                                data={data}
+                                data={data1}
                                 currentVisibleSlide={currentVisibleSlide}
                                 maxVisibleSlide={9}
                                 useGrabCursor
@@ -254,12 +120,27 @@ function Explore() {
                     </div>
                 </>
             </div>
+            )
+           }
             <p className="font-bold italic text-xl mt-10 ">Bạn có thể thích</p>
             <Categories></Categories>
             <div className="grid grid-cols-5 gap-4 mt-4">
-                {data.map((item, index) => (
-                    <ExploreItem key={index} item={item} />
-                ))}
+            {data?.pages.map((page, i) =>
+          page.data.map((item, j) => (
+            <div
+              key={item._id}
+              ref={
+                i === data.pages.length - 1 &&
+                j === page.data.length - 1
+                  ? setLastItemRef 
+                  : null
+              }
+            >
+              <ExploreItem  item={item} />
+            </div>
+                 ))
+                  )}
+               
             </div>
         </div>
     );
