@@ -1,8 +1,9 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useEffect ,useState, useLayoutEffect} from "react";
 import PostItem from "../components/post/PostItem";
 import { FaCircleChevronUp, FaCircleChevronDown } from "react-icons/fa6";
 import useGetPostByCursor from "../hooks/useGetPostByCursor";
-
+import { setPostsData, clearPostsData, setScrollTop } from "../redux/features/postSlice";
+import { useDispatch, useSelector } from "react-redux";
 function Home() {
   const {
     data,
@@ -10,6 +11,8 @@ function Home() {
     hasNextPage,
     isFetchingNextPage
   } = useGetPostByCursor();
+  const dispatch = useDispatch();
+  const { postsData, scrollTop } = useSelector((state) => state.post);
 
   const scrollRef = useRef(null);
   const observerRef = useRef(null);
@@ -32,11 +35,44 @@ function Home() {
     },
     [hasNextPage, isFetchingNextPage]
   );
+  useEffect(() => {
+    // Nếu reload trình duyệt, thì clear data
+    console.log(performance)
+    console.log(performance.getEntriesByType('navigation'))
+    console.log(performance.getEntriesByType('navigation')[0])
+    if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+      dispatch(clearPostsData());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (data && postsData.length === 0) {
+      const flatData = data.pages.flatMap(page => page.data);
+      dispatch(setPostsData(flatData));
+    }
+  }, [data, postsData.length, dispatch]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollTop,
+        behavior: "instant",
+      });
+    }
+  }, []);
+
+  const handleScrollSave = () => {
+    if (scrollRef.current) {
+      dispatch(setScrollTop(scrollRef.current.scrollTop));
+    }
+  };
+  
 
   return (
     <div>
       <div
         ref={scrollRef}
+        onScroll={handleScrollSave}
         className="fixed top-0 pl-15 left-1/2 transform -translate-x-1/2 overflow-auto scroll-video h-screen hidden-scroll-bar flex flex-col w-full items-center z-0"
       >
         {data?.pages.map((page, i) =>
@@ -63,7 +99,7 @@ function Home() {
           onClick={() => {
             scrollRef.current?.scrollBy({
               top: -window.innerHeight,
-              behavior: "smooth"
+              behavior: "smooth",
             });
           }}
         />
@@ -73,7 +109,7 @@ function Home() {
           onClick={() => {
             scrollRef.current?.scrollBy({
               top: window.innerHeight,
-              behavior: "smooth"
+              behavior: "smooth",
             });
           }}
         />

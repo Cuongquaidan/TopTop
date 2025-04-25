@@ -47,4 +47,9 @@ export const SUMMARY_API = {
       all:"report/all",
     }
   },
+  comment:{
+    get:{
+      byPostID:"comment/post/:postID",
+    }
+  }
 }

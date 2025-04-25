@@ -132,7 +132,7 @@ function PostItem({ item, ...props }) {
 
                     <Link
                         className="flex flex-col items-center gap-2 cursor-pointer"
-                        to={`/posts/${item.postId}`}
+                        to={`/posts/${item._id}`}
                     >
                         <div className="flex items-center justify-center rounded-full bg-neutral-200 w-12 h-12">
                             <BiSolidMessageRoundedDots size={24} />

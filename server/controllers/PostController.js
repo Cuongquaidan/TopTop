@@ -531,7 +531,7 @@ const sharePost = async (req, res) => {
 const getPostByID = async (req, res) => {
     try {
         const { postID } = req.params;
-        const existPost = await Post.findById(postID);
+        const existPost = await Post.findById(postID).populate("user");
         if (!existPost) {
             return res.status(400).json({
                 message: `Không tìm thấy post ${postID}`,

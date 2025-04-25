@@ -31,30 +31,30 @@ function CommentItem({ comment }) {
     return (
         <div className="flex gap-3">
             <img
-                src={comment.profile_picture}
+                src={comment.userId.profile_picture}
                 className="w-10 h-10 rounded-full object-cover"
-                alt={comment.username}
+                alt={comment.userId.username}
             />
             <div className="flex-1">
                 <div className="flex items-center gap-2">
                     <span className="font-bold text-sm">
-                        {comment.username}
+                        {comment.userId.username}
                     </span>
                     <span className="text-xs text-neutral-400">
-                        {formatTime(comment.create_time)}
+                        {formatTime(comment.createAt)}
                     </span>
                 </div>
-                <p className="text-sm">{comment.comment}</p>
+                <p className="text-sm">{comment.content}</p>
 
                 {/* Comment Actions */}
                 <div className="flex items-center gap-4 mt-1">
                     <button className="text-neutral-400 hover:text-white text-xs flex items-center gap-1">
-                        <AiOutlineLike /> {convertNumToString(comment.likes)}
+                        <AiOutlineLike /> {convertNumToString(comment.numOfLikes)}
                     </button>
                 </div>
 
                 {/* Replies */}
-                {comment?.replies?.length > 0 && (
+                {/* {comment?.replies?.length > 0 && (
                     <div className="mt-2 ml-2 border-l-2 border-white/10 pl-4">
                         {comment.replies
                             .slice(0, visibleReplies)
@@ -79,7 +79,7 @@ function CommentItem({ comment }) {
                             </button>
                         )}
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );
