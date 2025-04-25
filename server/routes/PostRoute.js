@@ -16,5 +16,6 @@ router.put('/share',PostController.sharePost)
 router.post('/import',PostController.importFile)
 router.get('/getByCursor',PostController.getPostByCursor)
 router.get('/getTop9TrendingVideo',PostController.getTop9TrendingVideo)
+router.get("/getPostOfFolloweds", PostController.getPostOfFolloweds)
 
 module.exports=router
