@@ -133,7 +133,7 @@ function Sidebar() {
                     {" "}
                     Hồ sơ
                 </motion.div> */}
-               {
+               {showMore ||(
                 !user ? (
                     <button className="p-2 px-4 max-w-[200px] bg-primary text-lg cursor-pointer rounded text-white font-bold" onClick={
                     () => {
@@ -158,7 +158,7 @@ function Sidebar() {
                             <p className="text-sm italic">@{user.username}</p>
                         </motion.div>
                     </div>
-                )
+                ))
                }
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                    <AuthForm></AuthForm>

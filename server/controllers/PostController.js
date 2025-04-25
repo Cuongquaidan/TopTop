@@ -722,9 +722,52 @@ const getTop9TrendingVideo = async(req,res)=>{
         })
     }
 }
-        
-
 
 //  get post only type video and isDeleted false and state!= restricted
 
-module.exports={getTop9TrendingVideo,uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile, getPostByCursor}
+const getPostOfFolloweds = async(req,res)=>{
+    try {
+        const {cursor = null, userID} = req.query;
+        const user = await User.findOne({_id: userID})
+        // console.log(user)
+
+        const query = {
+            isDeleted: false,
+            state: { $ne: 'restricted' },
+            user: {$in: user.followeds},
+        };
+
+        if (cursor) {
+            query._id = { $lt: cursor };
+        }
+
+
+        const posts = await Post.find(query)
+        .populate('user')
+        .limit(10)
+        .sort({ _id: -1 })
+
+
+        const nextCursor = posts.length > 0 ? posts[posts.length - 1]._id : null;
+
+        res.status(200).json({
+            message: 'Lấy post thành công',
+            data: {
+                data: posts,
+                nextCursor
+            },
+            success: true,
+            error: false
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message:`Lỗi server: ${error}`,
+            data:[],
+            success:false,
+            error:true
+        })
+    }
+}
+
+module.exports={getPostOfFolloweds,getTop9TrendingVideo,uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile, getPostByCursor}
