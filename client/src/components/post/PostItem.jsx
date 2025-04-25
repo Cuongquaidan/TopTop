@@ -5,16 +5,17 @@ import {  FaCheck, FaCheckCircle, FaHeart } from "react-icons/fa";
 import { BiSolidMessageRoundedDots } from "react-icons/bi";
 import { IoBookmark } from "react-icons/io5";
 import { IoIosShareAlt } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import convertNumToString from "../../helper/convertNumToString";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../redux/features/userSlice";
+import { setUser,setSelectedUser } from "../../redux/features/userSlice";
 import createAxiosInstance from "../../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../../shared/Route";
 import { toast } from "react-toastify";
 import { FaCirclePlus } from "react-icons/fa6";
 
 function PostItem({ item, ...props }) {
+    const navigate= useNavigate()
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
 
@@ -30,7 +31,15 @@ function PostItem({ item, ...props }) {
         }
     }, [user, item.user._id]);
 
-    const followClickHandler = async () => {
+    const AvatarClickHandler=()=>{
+        dispatch(setSelectedUser({
+            selectedUser:item.user
+        }))
+        navigate(`/profile/${item.user.username}`)
+    }
+
+    const followClickHandler = async (e) => {
+        e.stopPropagation()
         try {
             const axiosInstance = createAxiosInstance(BASE_URL);
             let updateFolloweds = [...user.followeds];
@@ -84,7 +93,8 @@ function PostItem({ item, ...props }) {
                     <img
                         src={item.user.profile_picture}
                         alt={item.user.username}
-                        className="w-full h-full rounded-full object-cover"
+                        className="w-full h-full rounded-full object-cover cursor-pointer"
+                        onClick={AvatarClickHandler}
                     />
                     <div
                         className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 cursor-pointer"

@@ -4,8 +4,6 @@ import createAxiosInstance from "../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/features/userSlice";
-import { useDispatch } from "react-redux";
 import { setSelectedUser, setUser } from "../redux/features/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +17,8 @@ const Followeruser = ({ item }) => {
 
     const user = useSelector((state) => state.user.user);
 
-    const followClickHandler = async () => {
+    const followClickHandler = async (e) => {
+        e.stopPropagation()
         if (isLoading) return;
         setIsLoading(true);
 
@@ -53,42 +52,11 @@ const Followeruser = ({ item }) => {
         }
     };
 
-    useEffect(() => {
-        const fetchRandomPost = async () => {
     const clickUserHandler=()=>{
         dispatch(setSelectedUser({
-            selectedUser:user
+            selectedUser:item
         }))
-        navigate(`/profile/${user.username}`)
-    }
-
-    const followClickHandler=async(e)=>{
-        const axiosInstance=createAxiosInstance(BASE_URL)
-        const updateUser=currentUser
-        let updateFolloweds=[...updateUser.followeds]
-        let updateNumOfFolloweds=updateUser.numOfFolloweds
-
-        e.stopPropagation()
-
-        if(followingState===false){
-            updateFolloweds.push(user._id)
-            updateNumOfFolloweds++
-        }
-        else{
-            updateFolloweds=updateFolloweds.filter(followed=>followed.toString()!==user._id.toString())
-            updateNumOfFolloweds--
-        }        
-        
-        const res=await axiosInstance.put(SUMMARY_API.user.put.update,{
-            user:updateUser,
-            followeds:updateFolloweds,
-            numOfFolloweds:updateNumOfFolloweds
-        })
-
-        dispatch(setUser({
-            user:res.data
-        }))
-        setFollowingState(!followingState)
+        navigate(`/profile/${item.username}`)
     }
 
     useEffect(()=>{
@@ -119,6 +87,7 @@ const Followeruser = ({ item }) => {
             className="min-w-[280px] max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
+            onClick={clickUserHandler}
         >
             {isHover ? (
                 <video
