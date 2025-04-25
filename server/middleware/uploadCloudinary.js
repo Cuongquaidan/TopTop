@@ -35,5 +35,6 @@ module.exports ={
   uploadVideo:uploadCloudinary.fields([
     {name:"video",maxCount:1},
     {name:"thumbnail",maxCount:1}
-  ])
+  ]),
+  uploadSingleImage:uploadCloudinary.single("profile_picture")
 };

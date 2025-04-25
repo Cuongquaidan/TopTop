@@ -14,7 +14,7 @@ import { BASE_URL, SUMMARY_API } from "../../shared/Route";
 import { toast } from "react-toastify";
 import { FaCirclePlus } from "react-icons/fa6";
 
-function PostItem({ item, ...props }) {
+function FriendPostItem({ item, ...props }) {
     const navigate= useNavigate()
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
@@ -24,7 +24,7 @@ function PostItem({ item, ...props }) {
     const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
-        if (user && user.followeds.includes(item.user._id)) {
+        if (user && user.friends.includes(item.user._id)) {
             setIsFollowing(true);
         } else {
             setIsFollowing(false);
@@ -37,85 +37,6 @@ function PostItem({ item, ...props }) {
         }))
         navigate(`/profile/${item.user.username}`)
     }
-
-    const followClickHandler = async (e) => {
-        e.stopPropagation()
-        try {
-            const axiosInstance = createAxiosInstance(BASE_URL);
-            let updateFolloweds = [...user.followeds];
-            let updateNumOfFolloweds = user.numOfFolloweds;
-            let updateFriends=[...user.friends]
-            let updateNumOfFriends=user.numOfFriends
-            let updateItemFollowers=[...item.user.followers]
-            let updateItemNumOfFollowers=item.user.numOfFollowers
-            let updateItemFriends=[...item.user.friends]
-            let updateItemNumOfFriends=item.user.numOfFriends
-            
-            
-            let checkUpdateFriendStatus=false
-            
-            if (updateFolloweds.includes(item.user._id)) {
-                // Unfollow
-                updateFolloweds = updateFolloweds.filter(id => id !== item.user._id);
-                updateNumOfFolloweds--;
-                updateItemFollowers=updateItemFollowers.filter(id=>id!==user._id)
-                updateItemNumOfFollowers--
-                //kiểm tra để delete friend
-                if(item.user.followeds.includes(user._id)){
-                    checkUpdateFriendStatus=true
-                    updateFriends=updateFriends.filter(id=>id!==item.user._id)
-                    updateItemFriends=updateItemFriends.filter(id=>id!==user._id)
-                    updateNumOfFriends--
-                    updateItemNumOfFriends--
-                }
-            } else {
-                // Follow
-                updateFolloweds.push(item.user._id);
-                updateNumOfFolloweds++;
-                updateItemFollowers.push(user._id)
-                updateItemNumOfFollowers++
-                //kiểm tra để add friend
-                if(item.user.followeds.includes(user._id)){
-                    checkUpdateFriendStatus=true
-                    updateFriends.push(item.user._id)
-                    updateItemFriends.push(user._id)
-                    updateNumOfFriends++
-                    updateItemNumOfFriends++
-                }
-            }
-
-            //cập nhật followeds,followers,numOf... của 2 user
-            const res = await axiosInstance.put(SUMMARY_API.user.put.update, {
-                user: user,
-                followeds: updateFolloweds,
-                numOfFolloweds: updateNumOfFolloweds
-            });
-            await axiosInstance.put(SUMMARY_API.user.put.update, {
-                user: item.user,
-                followers: updateItemFollowers,
-                numOfFollowers: updateItemNumOfFollowers
-            });
-
-            //cập nhật friends,numOF... cho 2 user
-            if(checkUpdateFriendStatus){
-                await axiosInstance.put(SUMMARY_API.user.put.update, {
-                    user: user,
-                    friend: updateFriends,
-                    numOfFriends: updateNumOfFriends
-                });
-                await axiosInstance.put(SUMMARY_API.user.put.update, {
-                    user: item.user,
-                    friend: updateItemFriends,
-                    numOfFriends: updateItemNumOfFriends
-                });
-            }
-
-            dispatch(setUser({ user: res.data }));
-            setIsFollowing(updateFolloweds.includes(item.user._id));
-        } catch (error) {
-            toast.error(error.message || "Lỗi khi follow/unfollow");
-        }
-    };
 
     return (
         <div
@@ -147,7 +68,6 @@ function PostItem({ item, ...props }) {
                     />
                     <div
                         className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 cursor-pointer"
-                        onClick={followClickHandler}
                     >
                         {isFollowing ? (
                             <FaCheckCircle className="text-primary bg-white rounded-full" size={24} />
@@ -224,4 +144,4 @@ function PostItem({ item, ...props }) {
     );
 }
 
-export default PostItem;
+export default FriendPostItem;

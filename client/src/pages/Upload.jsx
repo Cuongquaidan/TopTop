@@ -138,10 +138,6 @@ const Upload=()=>{
             formData.append('user',userID)
             let tags=extractTags(description)
             formData.append('tags',JSON.stringify(tags||[]))
-
-            for (let pair of formData.entries()) {
-                console.log(`${pair[0]}:`, pair[1]);
-              }
             
             await axiosInstance.post(SUMMARY_API.post.upload.video, formData)
             toast.success("Đăng video thành công")
@@ -179,9 +175,6 @@ const Upload=()=>{
             let tags=extractTags(description)
             formData.append('tags',JSON.stringify(tags||[]))
 
-            for (let pair of formData.entries()) {
-                console.log(`${pair[0]}:`, pair[1]);
-            }
             await axiosInstance.post(SUMMARY_API.post.upload.image, formData)
             toast.success("Đăng ImagePost thành công")
 
