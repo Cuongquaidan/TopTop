@@ -3,10 +3,11 @@ import { useGlobalContext } from "../../context/AppContext"
 import { useEffect, useState } from "react"
 import createAxiosInstance from "../../libs/axios/AxiosInstance"
 import { BASE_URL, SUMMARY_API } from "../../shared/Route"
+import { toast } from "react-toastify"
 
-const StatisticsProfile=()=>{
+const StatisticsProfile=({selectedUser})=>{
     const [tab,setTab]=useState('Đã follow')
-    const user=useSelector(state=>state.user.user)
+    const [user,setUser]=useState(null)
     const [followeds,setFolloweds]=useState([])
     const [followers,setFollowers]=useState([])
     const [friend,setFriends]=useState([])
@@ -14,14 +15,16 @@ const StatisticsProfile=()=>{
     useEffect(()=>{
         const fetchUser=async()=>{
             try {
-                const axiosInstance=createAxiosInstance(BASE_URL)
-                const res=await axiosInstance.get(SUMMARY_API.user.get.byID.replace(":userID",user._id))
+                console.log("selected:",selectedUser);
                 
+                const axiosInstance=createAxiosInstance(BASE_URL)
+                const res=await axiosInstance.get(SUMMARY_API.user.get.byID.replace(":userID",selectedUser._id))
+                setUser(res.data)
                 setFolloweds(res.data.followeds)
                 setFollowers(res.data.followers)
                 setFriends(res.data.friends)
             } catch (error) {
-                toast.error(error.message||"Lỗi khi get user")
+                console.log(error.message||"Lỗi khi get user")
             }
         }
 
@@ -30,7 +33,7 @@ const StatisticsProfile=()=>{
     
     return(
         <div className="w-full h-full flex flex-col items-center justify-start">
-            <h1 className="text-xl font-bold">{user.username}</h1>
+            <h1 className="text-xl font-bold">{user?user.username:'TopTop'}</h1>
             <div className="w-full flex border-b-gray-200 border-b-2">
                 <div 
                     className={
@@ -40,7 +43,7 @@ const StatisticsProfile=()=>{
                     }
                     onClick={()=>setTab("Đã follow")}
                 >
-                    <p className="font-medium">Đã follow {user.numOfFolloweds}</p>
+                    <p className="font-medium">Đã follow {user?user.numOfFolloweds:"TopTop"}</p>
                 </div>
                 <div 
                     className={
@@ -50,7 +53,7 @@ const StatisticsProfile=()=>{
                     }
                     onClick={()=>setTab("Follower")}
                 >
-                    <p className="font-medium">Follower {user.numOfFollowers}</p>
+                    <p className="font-medium">Follower {user?user.numOfFollowers:"TopTop"}</p>
                 </div>
                 <div 
                     className={
@@ -60,7 +63,7 @@ const StatisticsProfile=()=>{
                     }
                     onClick={()=>setTab("Bạn bè")}
                 >
-                    <p className="font-medium">Bạn bè {user.numOfFriends}</p>
+                    <p className="font-medium">Bạn bè {user?user.numOfFriends:"TopTop"}</p>
                 </div>
                 <div 
                     className={
@@ -82,7 +85,7 @@ const StatisticsProfile=()=>{
                         </div>
                     )
                 })}
-                {tab==="Follow"&&followers.map((item,index)=>{
+                {tab==="Follower"&&followers.map((item,index)=>{
                     return(
                         <div key={index} className="flex gap-4 justify-start items-center">
                             <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>

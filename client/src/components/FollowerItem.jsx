@@ -4,19 +4,30 @@ import createAxiosInstance from "../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/features/userSlice";
+import { setSelectedUser, setUser } from "../redux/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Followeruser=({user,currentUser})=>{
     const dispatch=useDispatch()
+    const navigate=useNavigate()
     const [media,setMedia]=useState(null);
     const [isHover, setIsHover] = useState(false);
     const [followingState,setFollowingState]=useState(false)
 
-    const followClickHandler=async()=>{
+    const clickUserHandler=()=>{
+        dispatch(setSelectedUser({
+            selectedUser:user
+        }))
+        navigate(`/profile/${user.username}`)
+    }
+
+    const followClickHandler=async(e)=>{
         const axiosInstance=createAxiosInstance(BASE_URL)
         const updateUser=currentUser
         let updateFolloweds=[...updateUser.followeds]
         let updateNumOfFolloweds=updateUser.numOfFolloweds
+
+        e.stopPropagation()
 
         if(followingState===false){
             updateFolloweds.push(user._id)
@@ -43,7 +54,6 @@ const Followeruser=({user,currentUser})=>{
         const fetchRandomPost=async()=>{
             try {
                 const axiosInstance=createAxiosInstance(BASE_URL)
-                console.log("itemFol, user:",user);
                 
                 const res=await axiosInstance.get(SUMMARY_API.post.get.byUser.replace(":user",user._id))
                 if(res.data.length===0)
@@ -68,13 +78,14 @@ const Followeruser=({user,currentUser})=>{
                 height: 400,
                 userSelect: "none",
             }}
-            className="min-w-[280px] max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
+            className="min-w-[280px] max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center cursor-pointer"
             onMouseEnter={() => {
                 setIsHover(true);
             }}
             onMouseLeave={() => {
                 setIsHover(false);
             }}
+            onClick={clickUserHandler}
         >
             {isHover ? (
                 <video

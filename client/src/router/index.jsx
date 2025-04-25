@@ -14,6 +14,7 @@ import Users from "../pages/admin/Users";
 import Posts from "../pages/admin/Posts";
 import Reports from "../pages/admin/Reports";
 import Profile from "../pages/Profile";
+import FollowerProfile from "../pages/FollowerProfile";
 
 const router = createBrowserRouter([
     {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
                     {
                         path:'/profile',
                         element:<Profile/>
+                    }
+                    ,{
+                        path:"/profile/:username",
+                        element:<FollowerProfile></FollowerProfile>
                     }
                 ],
             },
