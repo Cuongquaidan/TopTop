@@ -4,10 +4,12 @@ import createAxiosInstance from "../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/features/userSlice";
+import { setSelectedUser, setUser } from "../redux/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Followeruser = ({ item }) => {
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const [media, setMedia] = useState(null);
     const [isHover, setIsHover] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +17,8 @@ const Followeruser = ({ item }) => {
 
     const user = useSelector((state) => state.user.user);
 
-    const followClickHandler = async () => {
+    const followClickHandler = async (e) => {
+        e.stopPropagation()
         if (isLoading) return;
         setIsLoading(true);
 
@@ -49,8 +52,15 @@ const Followeruser = ({ item }) => {
         }
     };
 
-    useEffect(() => {
-        const fetchRandomPost = async () => {
+    const clickUserHandler=()=>{
+        dispatch(setSelectedUser({
+            selectedUser:item
+        }))
+        navigate(`/profile/${item.username}`)
+    }
+
+    useEffect(()=>{
+        const fetchRandomPost=async()=>{
             try {
                 const axiosInstance = createAxiosInstance(BASE_URL);
                 const res = await axiosInstance.get(SUMMARY_API.post.get.byUser.replace(":user", item._id));
@@ -77,6 +87,7 @@ const Followeruser = ({ item }) => {
             className="min-w-[280px] max-w-[300px] rounded-2xl relative flex flex-col justify-center items-center"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
+            onClick={clickUserHandler}
         >
             {isHover ? (
                 <video

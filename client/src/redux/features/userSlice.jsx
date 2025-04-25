@@ -3,6 +3,7 @@ import { set } from "react-hook-form";
 
 const initialState = {
   user: null,
+  selectedUser: null
 }
 
 export const userSlice = createSlice({
@@ -15,6 +16,12 @@ export const userSlice = createSlice({
     },
     clearUser: (state)=>{
       state.user = null;
+    },
+    setSelectedUser:(state,action)=>{
+      state.selectedUser=action.payload.selectedUser
+    },
+    clearSelectedUser:(state)=>{
+      state.selectedUser=null
     },
 
     updateUser: (state, action) => {
@@ -38,5 +45,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const {setUser, clearUser, addFollowedUser, removeFollowedUser} = userSlice.actions;
+export const {setUser, clearUser,setSelectedUser,clearSelectedUser, addFollowedUser, removeFollowedUser} = userSlice.actions;
 export default userSlice.reducer;
