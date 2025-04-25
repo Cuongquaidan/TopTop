@@ -4,7 +4,6 @@ const PostSchema = new mongoose.Schema({
     user:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
     caption: { type: String, default: '' },
     tags: [{ type: String }],
-
     publicity:{type:String,enum: ['Mọi người','Bạn bè','Chỉ mình bạn'], default: 'Mọi người'},
     location:{type:String,default:''},
     type: { type: String, enum: ['video','image'],required:true},
