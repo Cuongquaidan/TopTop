@@ -3,11 +3,12 @@ const Comment = require("../models/Comment")
 
 const createComment = async (req,res)=>{
   try {
-    const { postId, content, userId } = req.body;
+    const { postId, content, userId,parentId } = req.body;
 
     const newComment = new Comment({
       postId,
       userId,
+      parentId: parentId || null,
       content,
     });
 
@@ -43,29 +44,7 @@ const getCommentsByPostId = async (req,res)=>{
   }
 }
 
-const replyComment = async (req,res)=>{
-  try { 
-    const { parentId } = req.params;
-    const { postId, content,  userId } = req.body;
-    const newComment = new Comment({
-      postId,
-      userId,
-      content,
-      parentId
-    });
-    await newComment.save();
-    res.status(201).json({
-      data: newComment,
-      message: "Comment created successfully",
-      success: true,
-      error: false
-    });
-  }
-  catch (error) {
-    console.error("Error creating comment:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
+
 const deleteComment = async (req,res)=>{
   
   try {
@@ -100,7 +79,6 @@ const deleteComment = async (req,res)=>{
 module.exports = {
   createComment,
   getCommentsByPostId,
-  replyComment,
   deleteComment
 }
 

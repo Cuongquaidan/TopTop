@@ -19,6 +19,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { IoIosShareAlt } from "react-icons/io";
 import CommentItem from "../components/post/CommentItem";
 import { FaPhoneAlt } from "react-icons/fa";
+import CommentsSection from "../components/CommentsSection";
 // const comments = [
 //     {
 //         username: "petdaily",
@@ -151,7 +152,7 @@ function PostItemDetails() {
           SUMMARY_API.comment.get.byPostID.replace(":postID", id)
         );
         setComments(res.data);
-        console.log(res)
+        console.log(res.data)
       }
       fetchComment();
     }, [id]);
@@ -214,7 +215,7 @@ function PostItemDetails() {
               filter: "blur(20px)",
             }}
           />
-          <div className="absolute inset-0 bg-black/40 z-10" />
+          <div className="absolute inset-0 bg-black/80 z-10" />
   
           <div className="relative z-20 flex items-center justify-center">
             {currentPost &&
@@ -228,7 +229,7 @@ function PostItemDetails() {
   
         {/* Right Side: Info */}
         {currentPost && (
-          <div className="relative z-20 flex flex-col p-4 gap-4 text-white w-full bg-black/90 rounded-lg">
+          <div className="relative z-20 flex flex-col p-4 gap-4 text-black w-full bg-white rounded-lg">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -246,7 +247,7 @@ function PostItemDetails() {
                         <FiAlertTriangle className="text-yellow-400" />
                       )}
                     </div>
-                    <p className="text-sm text-neutral-300">
+                    <p className="text-sm text-neutral-700">
                       @{currentPost.user.username}
                     </p>
                   </div>
@@ -258,31 +259,31 @@ function PostItemDetails() {
             </div>
   
             {currentPost.caption && (
-              <p className="text-lg text-neutral-300">{currentPost.caption}</p>
+              <p className="text-lg text-neutral-900">{currentPost.caption}</p>
             )}
   
             <div className="flex justify-between items-center text-sm">
-              <div className="flex gap-4 text-neutral-300">
+              <div className="flex gap-4 text-neutral-900">
                 <div
                   className="flex items-center gap-2 cursor-pointer"
                   onClick={() => setIsLiked(!isLiked)}
                 >
-                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-800">
+                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-200">
                     <FaHeart
                       size={16}
                       className={isLiked ? "text-red-600" : ""}
                     />
                   </div>
-                  <p className="text-[12px] font-bold text-neutral-400">
+                  <p className="text-[12px] font-bold text-neutral-900">
                     {convertNumToString(currentPost.numOfLikes)}
                   </p>
                 </div>
   
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-800">
+                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-200">
                     <BiSolidMessageRoundedDots size={16} />
                   </div>
-                  <p className="text-[12px] font-bold text-neutral-400">
+                  <p className="text-[12px] font-bold text-neutral-900">
                     {convertNumToString(currentPost.numOfComments)}
                   </p>
                 </div>
@@ -291,13 +292,13 @@ function PostItemDetails() {
                   className="flex items-center gap-2 cursor-pointer"
                   onClick={() => setIsSaved(!isSaved)}
                 >
-                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-800">
+                  <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-200">
                     <IoBookmark
                       size={16}
                       className={isSaved ? "text-orange-400" : ""}
                     />
                   </div>
-                  <p className="text-[12px] font-bold text-neutral-400">
+                  <p className="text-[12px] font-bold text-neutral-900">
                     {convertNumToString(currentPost.numOfSave)}
                   </p>
                 </div>
@@ -325,11 +326,7 @@ function PostItemDetails() {
               </div>
             </div>
   
-            <div className="mt-4 space-y-4 overflow-y-auto">
-              {comments.map((comment) => (
-                <CommentItem key={comment._id} comment={comment} />
-              ))}
-            </div>
+            <CommentsSection comments={comments} setComments={setComments}></CommentsSection>
           </div>
         )}
       </div>
