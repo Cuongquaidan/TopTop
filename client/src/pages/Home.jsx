@@ -2,9 +2,10 @@ import React, { useRef, useCallback, useEffect ,useState, useLayoutEffect} from 
 import PostItem from "../components/post/PostItem";
 import { FaCircleChevronUp, FaCircleChevronDown } from "react-icons/fa6";
 import useGetPostByCursor from "../hooks/useGetPostByCursor";
-import { setPostsData, clearPostsData, setScrollTop } from "../redux/features/postSlice";
+import {   clearPageData, setPageData, setPageScrollTop } from "../redux/features/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 function Home() {
+  const pageKey = "home"
   const {
     data,
     fetchNextPage,
@@ -12,7 +13,7 @@ function Home() {
     isFetchingNextPage
   } = useGetPostByCursor();
   const dispatch = useDispatch();
-  const { postsData, scrollTop } = useSelector((state) => state.post);
+  const { data: postsData, scrollTop } = useSelector((state) => state.post.pages[pageKey]);
 
   const scrollRef = useRef(null);
   const observerRef = useRef(null);
@@ -36,19 +37,18 @@ function Home() {
     [hasNextPage, isFetchingNextPage]
   );
   useEffect(() => {
-    // Nếu reload trình duyệt, thì clear data
     console.log(performance)
     console.log(performance.getEntriesByType('navigation'))
     console.log(performance.getEntriesByType('navigation')[0])
     if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
-      dispatch(clearPostsData());
+      dispatch(clearPageData({ page: pageKey }));
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (data && postsData.length === 0) {
       const flatData = data.pages.flatMap(page => page.data);
-      dispatch(setPostsData(flatData));
+      dispatch(setPageData({ page: pageKey, data: flatData }));
     }
   }, [data, postsData.length, dispatch]);
 
@@ -63,10 +63,18 @@ function Home() {
 
   const handleScrollSave = () => {
     if (scrollRef.current) {
-      dispatch(setScrollTop(scrollRef.current.scrollTop));
+      dispatch(setPageScrollTop({
+        page: pageKey,
+        scrollTop: scrollRef.current.scrollTop,
+      }));
     }
   };
-  
+  useEffect(() => {
+  if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+    dispatch(clearPageData({ page: pageKey }));
+  }
+}, []);
+
 
   return (
     <div>

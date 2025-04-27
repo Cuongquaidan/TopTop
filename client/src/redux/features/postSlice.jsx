@@ -3,19 +3,24 @@ import { createSlice } from "@reduxjs/toolkit";
 const postSlice = createSlice({
   name: "post",
   initialState: {
-    postsData: [],
-    scrollTop: 0,
+    pages: {
+      home: { data: [], scrollTop: 0 },
+      explore: { data: [], scrollTop: 0 },
+    },
     postStack: [],
   },
   reducers: {
-    setPostsData: (state, action) => {
-      state.postsData = action.payload;
+    setPageData: (state, action) => {
+      const { page, data } = action.payload;
+      state.pages[page].data = data;
     },
-    clearPostsData: (state) => {
-      state.postsData = [];
+    clearPageData: (state, action) => {
+      const { page } = action.payload;
+      state.pages[page].data = [];
     },
-    setScrollTop: (state, action) => {
-      state.scrollTop = action.payload;
+    setPageScrollTop: (state, action) => {
+      const { page, scrollTop } = action.payload;
+      state.pages[page].scrollTop = scrollTop;
     },
     pushPostStack: (state, action) => {
       state.postStack.push(action.payload);
@@ -25,9 +30,9 @@ const postSlice = createSlice({
     },
     clearPostStack: (state) => {
       state.postStack = [];
-    }
+    },
   }
 });
 
-export const { setPostsData, clearPostsData, setScrollTop, pushPostStack, popPostStack, clearPostStack } = postSlice.actions;
+export const { setPageData, clearPageData, setPageScrollTop, pushPostStack, popPostStack, clearPostStack } = postSlice.actions;
 export default postSlice.reducer;

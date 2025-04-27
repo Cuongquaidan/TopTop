@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 
 function CommentItem({comment, replies, level = 1, setReplyingTo, setLikedComments=()=>{},likedComments=[]}) {
   
-  let numOfLikes = useState(comment.numOfLikes)
+  let [numOfLikes,setNumOfLikes] = useState(comment.numOfLikes)
   const [isShowMore, setIsShowMore] = useState(false)
     const user = useSelector(state => state.user.user)
   const formatTimeAgo = (dateString) => {
@@ -33,8 +33,11 @@ function CommentItem({comment, replies, level = 1, setReplyingTo, setLikedCommen
       const likedObject = { commentId: resjson.data.commentId, userId: resjson.data.userId };
       const isLiked = prev.some(like => like.commentId === likedObject.commentId && like.userId === likedObject.userId);
       if (isLiked) {
+        setNumOfLikes(numOfLikes-1)
         return prev.filter(like => !(like.commentId === likedObject.commentId && like.userId === likedObject.userId));
       } else {
+        setNumOfLikes(numOfLikes+ 1)
+
         return [...prev, likedObject];
       }
     });
