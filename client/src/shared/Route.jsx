@@ -51,5 +51,13 @@ export const SUMMARY_API = {
     get:{
       byPostID:"comment/post/:postID",
     }
-  }
+  },
+  likeComment:{
+    get:{
+      byUserID:"likeComment/user/:userID",
+    },
+    post:{
+      click:"likeComment/click",
+    }
+  },
 }

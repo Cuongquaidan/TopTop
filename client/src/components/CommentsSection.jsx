@@ -5,7 +5,7 @@ import CommentItem from "./CommentItem"
 import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import createAxiosInstance from "../libs/axios/AxiosInstance"
-import { BASE_URL } from "../shared/Route"
+import { BASE_URL, SUMMARY_API } from "../shared/Route"
 
 // Sample creator videos
 const creatorVideos = [
@@ -40,7 +40,7 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
     content: "",
   })
   const [activeTab, setActiveTab] = useState("comments")
-
+  const [likedComments, setLikedComments] = useState([])
   const inputRef = useRef(null)
 
   const handleSubmitComment = async() => {
@@ -64,6 +64,7 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
     }
    
   }
+  
 
   useEffect(()=>{
     if (inputRef.current) {
@@ -76,6 +77,18 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
     }))
   },[replyingTo])
 
+  useEffect(()=>{
+    const fetchComment  = async () => {
+      const AxiosInstance = createAxiosInstance(BASE_URL);
+     const resjson = await AxiosInstance.get(SUMMARY_API.likeComment.get.byUserID.replace(":userID", user._id))
+     if(resjson.success){
+      setLikedComments(resjson.data)
+     }
+    }
+    fetchComment()
+  },[])
+   
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -107,7 +120,7 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
             {comments.filter((item)=> item.parentId === null).map((comment) => (
               <CommentItem comment={comment}  replies={
                 comments.filter((item) => item.parentId === comment._id)
-              } key={comment._id}  setReplyingTo={setReplyingTo} ></CommentItem>
+              } key={comment._id}  setReplyingTo={setReplyingTo} likedComments={likedComments} setLikedComments={setLikedComments} ></CommentItem>
             ))}
           </div>
 

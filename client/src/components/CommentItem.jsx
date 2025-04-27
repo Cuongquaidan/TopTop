@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { FaEllipsisH } from 'react-icons/fa'
 import { FaHeart } from 'react-icons/fa6'
+import createAxiosInstance from '../libs/axios/AxiosInstance'
+import { BASE_URL, SUMMARY_API } from '../shared/Route'
+import { useSelector } from 'react-redux'
 
-function CommentItem({comment, replies, level = 1, setReplyingTo}) {
+function CommentItem({comment, replies, level = 1, setReplyingTo, setLikedComments=()=>{},likedComments=[]}) {
   
-
+  let numOfLikes = useState(comment.numOfLikes)
   const [isShowMore, setIsShowMore] = useState(false)
-    
-    const [likedComments, setLikedComments] = useState({})
+    const user = useSelector(state => state.user.user)
   const formatTimeAgo = (dateString) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -20,11 +22,23 @@ function CommentItem({comment, replies, level = 1, setReplyingTo}) {
       return `${diffInDays} ngày trước`
     }
   }
-  const toggleLike = (commentId) => {
-    setLikedComments((prev) => ({
-      ...prev,
-      [commentId]: !prev[commentId],
-    }))
+  const handleLikeComment = async ()=>{
+    const AxiosInstance = createAxiosInstance(BASE_URL);
+    const resjson = await AxiosInstance.post(SUMMARY_API.likeComment.post.click,{
+    userId: user._id,
+    commentId: comment._id,
+   })
+   if(resjson.success){
+    setLikedComments(prev => {
+      const likedObject = { commentId: resjson.data.commentId, userId: resjson.data.userId };
+      const isLiked = prev.some(like => like.commentId === likedObject.commentId && like.userId === likedObject.userId);
+      if (isLiked) {
+        return prev.filter(like => !(like.commentId === likedObject.commentId && like.userId === likedObject.userId));
+      } else {
+        return [...prev, likedObject];
+      }
+    });
+   }
   }
 
   const handleReply = (comment) => {
@@ -34,7 +48,6 @@ function CommentItem({comment, replies, level = 1, setReplyingTo}) {
     
   }
   const paddingValue = `${level * 20}px`;
- 
   return (
                   <div key={comment._id} className='mt-2' style={{ paddingLeft: paddingValue }}>
                     <div className="flex gap-3">
@@ -72,13 +85,15 @@ function CommentItem({comment, replies, level = 1, setReplyingTo}) {
                             <button className="p-1">
                               <FaEllipsisH className="w-4 h-4 text-gray-400" />
                             </button>
-                            <button onClick={() => toggleLike(comment._id)} className="p-1">
+                            <button 
+                              onClick={handleLikeComment}
+                             className="p-1">
                               <FaHeart
-                                className={`w-4 h-4 ${likedComments[comment._id] ? "text-red-500" : "text-gray-300"}`}
+                                  className={`w-4 h-4 ${likedComments.some(like => like.commentId === comment._id && like.userId === user._id) ? "text-red-500" : "text-gray-300"}`}
                               />
                             </button>
                             <span className="text-xs text-gray-500">
-                              {likedComments[comment._id] ? comment.numOfLikes + 1 : comment.numOfLikes}
+                              {numOfLikes} 
                             </span>
                           </div>
                         </div>

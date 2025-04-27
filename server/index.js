@@ -20,7 +20,7 @@ app.use('/auth',AuthRoutes)
 app.use('/post',PostRoutes)
 app.use('/report',ReportRoutes)
 app.use('/comment',CommentRoutes)
-app.use('/likecomment',LikeCommentRoutes)
+app.use('/likeComment',LikeCommentRoutes)
 
 
 const PORT=process.env.PORT||5000
