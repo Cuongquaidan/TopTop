@@ -4,6 +4,7 @@ import { FaCircleChevronUp, FaCircleChevronDown } from "react-icons/fa6";
 import useGetPostByCursor from "../hooks/useGetPostByCursor";
 import {   clearPageData, setPageData, setPageScrollTop } from "../redux/features/postSlice";
 import { useDispatch, useSelector } from "react-redux";
+import VirtualizedItem from "../components/VirtualizedItem";
 function Home() {
   const pageKey = "home"
   const {
@@ -94,7 +95,11 @@ function Home() {
                   : null
               }
             >
+              <VirtualizedItem 
+                scrollView={scrollRef}
+              >
               <PostItem item={item} />
+              </VirtualizedItem>
             </div>
           ))
         )}
