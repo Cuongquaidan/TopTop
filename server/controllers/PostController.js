@@ -707,6 +707,7 @@ const getTop9TrendingVideo = async(req,res)=>{
             .sort({ createdAt: -1 })
             .limit(9)
             .populate('user');
+            res.set('Cache-Control', 'public, max-age=600');
         res.status(200).json({
             message: 'Lấy top 9 video thành công',
             data: posts,

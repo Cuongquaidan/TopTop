@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import useSmartPrefetch from "../../hooks/useSmartRefetch";
 function SidebarItem({
     item,
     currentPathname,
@@ -25,6 +26,7 @@ function SidebarItem({
                
                 }
             }}
+            onMouseEnter={item.preloadUrl ? useSmartPrefetch(item.preloadUrl).onMouseEnter : ()=>{}}
         >
             <div>{isActive && !showMore && !option ? item.iconActive : item.icon}</div>
             <motion.p

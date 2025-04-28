@@ -17,6 +17,7 @@ import LiveCustomIcon from "../components/LiveCustomIcon";
 import SolidLiveCustomIcon from "../components/SolidLiveCustomIcon";
 import { RiProfileLine } from "react-icons/ri";
 import { RiProfileFill } from "react-icons/ri";
+import { BASE_URL, SUMMARY_API } from "../shared/Route";
 const data = [
     {
         title: "Đề xuất",
@@ -29,6 +30,7 @@ const data = [
         icon: <MdOutlineExplore size={28}></MdOutlineExplore>,
         iconActive: <MdExplore size={28} className="text-primary"></MdExplore>,
         href: "/explore",
+        preloadUrl: new URL(SUMMARY_API.post.get.getTop9TrendingVideo, BASE_URL).toString()
     },
     {
         title: "Đã follow",
