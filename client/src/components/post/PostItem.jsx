@@ -8,7 +8,7 @@ import { IoIosShareAlt } from "react-icons/io";
 import { Link,useNavigate } from "react-router-dom";
 import convertNumToString from "../../helper/convertNumToString";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser,setSelectedUser } from "../../redux/features/userSlice";
+import { setUser,setSelectedUser, addLikePost, removeLikePost, removeSavePost, addSavePost } from "../../redux/features/userSlice";
 import createAxiosInstance from "../../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../../shared/Route";
 import { toast } from "react-toastify";
@@ -16,12 +16,16 @@ import { FaCirclePlus } from "react-icons/fa6";
 
 function PostItem({ item, ...props }) {
     const navigate= useNavigate()
+    const [isFollowing, setIsFollowing] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
+    const likePosts = useSelector(state => state.user.likePosts);
+    const savePosts = useSelector(state => state.user.savePosts);
+    const isLiked = likePosts?.some(likePost => likePost.postId === item._id);
+    const isSaved = savePosts?.some(savePost => savePost.postId === item._id);
+    const [numOfLikes, setNumOfLikes] = useState(item.numOfLikes);
+    const [numOfSave, setNumOfSave] = useState(item.numOfSave);
 
-    const [isLiked, setIsLiked] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
-    const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
         if (user && user.followeds.includes(item.user._id)) {
@@ -67,6 +71,42 @@ function PostItem({ item, ...props }) {
             toast.error(error.message || "Lỗi khi follow/unfollow");
         }
     };
+    const handleLikePost = async ()=>{
+        const AxiosInstance = createAxiosInstance(BASE_URL);
+        const resjson = await AxiosInstance.post(SUMMARY_API.likePost.post.click,{
+        userId: user._id,
+        postId: item._id,
+       })
+       if(resjson.success){
+        if(likePosts.some(likePost => likePost.postId === item._id)){
+            dispatch(removeLikePost(item._id))
+            setNumOfLikes(numOfLikes - 1);
+       }else{
+            dispatch(addLikePost(resjson.data))
+            setNumOfLikes(numOfLikes + 1);
+       }
+      }
+    }
+    const handleSavePost = async ()=>{
+        const AxiosInstance = createAxiosInstance(BASE_URL);
+        const resjson = await AxiosInstance.post(SUMMARY_API.savePost.post.click,{
+            userId: user._id,
+            postId: item._id,
+        })
+        if(resjson.success){
+            if(savePosts.some(savePost => savePost.postId === item._id)){
+                dispatch(removeSavePost(item._id))
+                setNumOfSave(numOfSave - 1);
+            }else{
+                dispatch(addSavePost(resjson.data))
+                setNumOfSave(numOfSave + 1);
+            }
+        }
+    }
+
+
+
+
 
     return (
         <div
@@ -111,7 +151,7 @@ function PostItem({ item, ...props }) {
                 <div className="flex flex-col gap-4 justify-end py-10">
                     <div
                         className="flex flex-col items-center gap-2 cursor-pointer"
-                        onClick={() => setIsLiked(!isLiked)}
+                        onClick={() => handleLikePost()}
                     >
                         <div
                             className={`flex items-center justify-center rounded-full w-12 h-12 ${
@@ -126,7 +166,7 @@ function PostItem({ item, ...props }) {
                             />
                         </div>
                         <p className="text-[12px] font-bold text-neutral-800">
-                            {convertNumToString(item.numOfLikes)}
+                            {convertNumToString(numOfLikes)}
                         </p>
                     </div>
 
@@ -144,7 +184,7 @@ function PostItem({ item, ...props }) {
 
                     <div
                         className="flex flex-col items-center gap-2 cursor-pointer"
-                        onClick={() => setIsSaved(!isSaved)}
+                        onClick={() => handleSavePost()}
                     >
                         <div
                             className={`flex items-center justify-center rounded-full w-12 h-12 ${
@@ -157,7 +197,7 @@ function PostItem({ item, ...props }) {
                             />
                         </div>
                         <p className="text-[12px] font-bold text-neutral-800">
-                            {convertNumToString(item.numOfSave)}
+                            {convertNumToString(numOfSave)}
                         </p>
                     </div>
 

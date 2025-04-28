@@ -20,6 +20,7 @@ import { IoIosShareAlt } from "react-icons/io";
 import CommentItem from "../components/post/CommentItem";
 import { FaPhoneAlt } from "react-icons/fa";
 import CommentsSection from "../components/CommentsSection";
+import { addLikePost, addSavePost, removeSavePost, removeLikePost } from "../redux/features/userSlice";
 // const comments = [
 //     {
 //         username: "petdaily",
@@ -123,14 +124,19 @@ import CommentsSection from "../components/CommentsSection";
 
 function PostItemDetails() {
     const { id } = useParams();
-    const dispatch = useDispatch();
     const postStack = useSelector((state) => state.post.postStack);
     const goBack = useBackToPreviousPage();
   
     const [currentPost, setCurrentPost] = useState(null);
     const [comments,setComments] = useState([])
-    const [isLiked, setIsLiked] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
+        const dispatch = useDispatch();
+        const user = useSelector(state => state.user.user);
+        const likePosts = useSelector(state => state.user.likePosts);
+        const savePosts = useSelector(state => state.user.savePosts);
+        const isLiked = likePosts?.some(likePost => likePost.postId === currentPost?._id);
+        const isSaved = savePosts?.some(savePost => savePost.postId === currentPost?._id);
+        const [numOfLikes, setNumOfLikes] = useState(0);
+        const [numOfSave, setNumOfSave] = useState(0);
   
     const ratio = 9 / 16;
     const height = window.innerHeight;
@@ -144,8 +150,12 @@ function PostItemDetails() {
           SUMMARY_API.post.get.byID.replace(":postID", id)
         );
         setCurrentPost(res.data);
+        
+      setNumOfLikes(res.data.numOfLikes);
+      setNumOfSave(res.data.numOfSave);
       };
       fetchData();
+
 
       const fetchComment = async ()=>{
         const res = await createAxiosInstance(BASE_URL).get(
@@ -174,6 +184,38 @@ function PostItemDetails() {
       if (num >= 10000) return (num / 1000).toFixed(1) + "K";
       return num;
     };
+    const handleLikePost = async ()=>{
+      const AxiosInstance = createAxiosInstance(BASE_URL);
+      const resjson = await AxiosInstance.post(SUMMARY_API.likePost.post.click,{
+      userId: user._id,
+      postId: currentPost._id,
+     })
+     if(resjson.success){
+      if(likePosts.some(likePost => likePost.postId === currentPost._id)){
+          dispatch(removeLikePost(currentPost._id))
+          setNumOfLikes(numOfLikes - 1);
+     }else{
+          dispatch(addLikePost(resjson.data))
+          setNumOfLikes(numOfLikes + 1);
+     }
+    }
+  }
+  const handleSavePost = async ()=>{
+      const AxiosInstance = createAxiosInstance(BASE_URL);
+      const resjson = await AxiosInstance.post(SUMMARY_API.savePost.post.click,{
+          userId: user._id,
+          postId: currentPost._id,
+      })
+      if(resjson.success){
+          if(savePosts.some(savePost => savePost.postId === currentPost._id)){
+              dispatch(removeSavePost(currentPost._id))
+              setNumOfSave(numOfSave - 1);
+          }else{
+              dispatch(addSavePost(resjson.data))
+              setNumOfSave(numOfSave + 1);
+          }
+      }
+  }
   
     return (
       <div className="w-screen h-screen grid grid-cols-[70vw_30vw] relative overflow-hidden">
@@ -266,7 +308,7 @@ function PostItemDetails() {
               <div className="flex gap-4 text-neutral-900">
                 <div
                   className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => setIsLiked(!isLiked)}
+                  onClick={() => handleLikePost()}
                 >
                   <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-200">
                     <FaHeart
@@ -275,7 +317,7 @@ function PostItemDetails() {
                     />
                   </div>
                   <p className="text-[12px] font-bold text-neutral-900">
-                    {convertNumToString(currentPost.numOfLikes)}
+                    {convertNumToString(numOfLikes)}
                   </p>
                 </div>
   
@@ -290,7 +332,7 @@ function PostItemDetails() {
   
                 <div
                   className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => setIsSaved(!isSaved)}
+                  onClick={() => handleSavePost()}
                 >
                   <div className="flex items-center justify-center rounded-full w-8 h-8 bg-neutral-200">
                     <IoBookmark
@@ -299,7 +341,7 @@ function PostItemDetails() {
                     />
                   </div>
                   <p className="text-[12px] font-bold text-neutral-900">
-                    {convertNumToString(currentPost.numOfSave)}
+                    {convertNumToString(numOfSave)}
                   </p>
                 </div>
               </div>

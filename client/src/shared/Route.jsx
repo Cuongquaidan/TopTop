@@ -60,4 +60,20 @@ export const SUMMARY_API = {
       click:"likeComment/click",
     }
   },
+  likePost:{
+    get:{
+      byUserID:"likePost/user/:userID",
+    },
+    post:{
+      click:"likePost/click",
+    }
+  },
+  savePost:{
+    get:{
+      byUserID:"savePost/user/:userID",
+    },
+    post:{
+      click:"savePost/click",
+    }
+  },
 }
