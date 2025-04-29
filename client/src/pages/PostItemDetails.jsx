@@ -21,106 +21,6 @@ import CommentItem from "../components/post/CommentItem";
 import { FaPhoneAlt } from "react-icons/fa";
 import CommentsSection from "../components/CommentsSection";
 import { addLikePost, addSavePost, removeSavePost, removeLikePost } from "../redux/features/userSlice";
-// const comments = [
-//     {
-//         username: "petdaily",
-//         display_name: "Pet Daily 🐶🐱",
-//         profile_picture:
-//             "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//         comment: "Video dễ thương quá 🥰",
-//         create_time: "2025-04-07T15:32:10Z",
-//         likes: 145,
-//         replies: [
-//             {
-//                 username: "petdaily",
-//                 display_name: "Pet Daily 🐶🐱",
-//                 profile_picture:
-//                     "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//                 comment: "Đồng ý luôn á 🥰",
-//                 create_time: "2025-04-07T15:33:00Z",
-//                 likes: 12,
-//             },
-//             {
-//                 username: "petdaily",
-//                 display_name: "Pet Daily 🐶🐱",
-//                 profile_picture:
-//                     "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//                 comment: "Cute xỉu luôn í 😍",
-//                 create_time: "2025-04-07T15:33:21Z",
-//                 likes: 8,
-//             },
-//         ],
-//     },
-//     {
-//         username: "petdaily",
-//         display_name: "Pet Daily 🐶🐱",
-//         profile_picture:
-//             "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//         comment: "Ai còn nghe bài này năm 2025 không? 😭",
-//         create_time: "2025-04-07T15:33:45Z",
-//         likes: 212,
-//         replies: [
-//             {
-//                 username: "petdaily",
-//                 display_name: "Pet Daily 🐶🐱",
-//                 profile_picture:
-//                     "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//                 comment: "Tui đây nè 😢",
-//                 create_time: "2025-04-07T15:34:01Z",
-//                 likes: 21,
-//             },
-//             {
-//                 username: "petdaily",
-//                 display_name: "Pet Daily 🐶🐱",
-//                 profile_picture:
-//                     "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//                 comment: "Ký ức ùa về luôn á 😭",
-//                 create_time: "2025-04-07T15:34:25Z",
-//                 likes: 17,
-//             },
-//         ],
-//     },
-//     {
-//         username: "petdaily",
-//         display_name: "Pet Daily 🐶🐱",
-//         profile_picture:
-//             "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//         comment: "Lên xu hướng là đúng rồi 👏",
-//         create_time: "2025-04-07T15:34:22Z",
-//         likes: 89,
-//         replies: [],
-//     },
-//     {
-//         username: "petdaily",
-//         display_name: "Pet Daily 🐶🐱",
-//         profile_picture:
-//             "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//         comment: "Nhạc gì vậy mn ơi?",
-//         create_time: "2025-04-07T15:35:10Z",
-//         likes: 34,
-//         replies: [
-//             {
-//                 username: "petdaily",
-//                 display_name: "Pet Daily 🐶🐱",
-//                 profile_picture:
-//                     "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//                 comment: "Bài: 'Em là kẻ mộng mơ - Hoàng Dũng' á",
-//                 create_time: "2025-04-07T15:35:45Z",
-//                 likes: 26,
-//             },
-//         ],
-//     },
-//     {
-//         username: "petdaily",
-//         display_name: "Pet Daily 🐶🐱",
-//         profile_picture:
-//             "https://images.pexels.com/photos/28169410/pexels-photo-28169410.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-//         comment: "Tiktok này chill thật luôn ấy 😌",
-//         create_time: "2025-04-07T15:35:55Z",
-//         likes: 178,
-//         replies: [],
-//     },
-// ];
 
 function PostItemDetails() {
     const { id } = useParams();
@@ -262,7 +162,7 @@ function PostItemDetails() {
           <div className="relative z-20 flex items-center justify-center">
             {currentPost &&
               (currentPost?.type === "video" ? (
-                <VideoItemDetails media={currentPost?.media} />
+                <VideoItemDetails key={currentPost._id} media={currentPost?.media} />
               ) : (
                 <ImagesItem media={currentPost?.media} />
               ))}
@@ -271,7 +171,7 @@ function PostItemDetails() {
   
         {/* Right Side: Info */}
         {currentPost && (
-          <div className="relative z-20 flex flex-col p-4 gap-4 text-black w-full bg-white rounded-lg">
+          <div className="relative z-20 flex flex-col p-4 gap-4 text-black w-[544px] bg-white rounded-lg">
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
