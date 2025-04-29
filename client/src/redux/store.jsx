@@ -7,9 +7,11 @@ import {persistReducer , FLUSH,
   PURGE,
   REGISTER} from "redux-persist"
 import persistConfig from './persist/persistConfig'
+import postReducer from "./features/postSlice"
 
 const rootReducer =  combineReducers({
-  user: userReducer
+  user: userReducer,
+  post: postReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

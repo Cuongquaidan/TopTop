@@ -13,10 +13,16 @@ import ExploreItem from "../components/explore/ExploreItem";
 import createAxiosInstance from "../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 import useGetPostByCursor from "../hooks/useGetPostByCursor";
+import { useDispatch, useSelector } from "react-redux";
+import { setPageData, setPageScrollTop } from "../redux/features/postSlice";
 
 function Explore() {
-    const ref = React.useRef();
+    const ref = useRef();
     const [data1, setData1] = useState([]);
+    const scrollRef = useRef(null);
+    const pageKey = "explore";
+    const dispatch = useDispatch();
+    const { data: postsData, scrollTop } = useSelector((state) => state.post.pages[pageKey]);
     useEffect(()=>{
         const fetchData = async()=>{
             try {
@@ -55,9 +61,16 @@ function Explore() {
         },
         [hasNextPage, isFetchingNextPage]
       );
-    
+        useEffect(() => {
+          if (data && postsData.length === 0) {
+            const flatData = data.pages.flatMap(page => page.data);
+            dispatch(setPageData({ page: pageKey, data: flatData }));
+          }
+        }, [data, postsData.length, dispatch]);
+      
     return (
-        <div className="p-4 px-10 min-w-0">
+        <div className="p-4 px-10 min-w-0 "
+        >
             <p className="font-bold italic text-xl ">Thịnh hành hôm nay</p>
            {
             data1 && data1.length > 0 && (

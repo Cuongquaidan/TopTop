@@ -6,7 +6,10 @@ const UserRoutes=require('./routes/UserRoute')
 const AuthRoutes=require('./routes/AuthRoute')
 const ReportRoutes=require('./routes/ReportRoute')
 const PostRoutes=require('./routes/PostRoute')
-const ReportRoute=require('./routes/ReportRoute')
+const CommentRoutes=require('./routes/CommentRoute')
+const LikeCommentRoutes=require('./routes/LikeCommentRoute')
+const LikePostRoutes=require('./routes/LikePostRoute')
+const SavePostRoutes=require('./routes/SavePostRoute')
 
 const app=express()
 app.use(cors())
@@ -18,6 +21,10 @@ app.use('/user',UserRoutes)
 app.use('/auth',AuthRoutes)
 app.use('/post',PostRoutes)
 app.use('/report',ReportRoutes)
+app.use('/comment',CommentRoutes)
+app.use('/likeComment',LikeCommentRoutes)
+app.use('/likePost',LikePostRoutes)
+app.use('/savePost',SavePostRoutes)
 
 
 const PORT=process.env.PORT||5000

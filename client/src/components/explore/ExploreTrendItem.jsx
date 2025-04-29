@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const ExploreTrendItem = React.memo(function (props) {
     const { data, dataIndex } = props;
-    const { media, numOfLikes, postID } = data[dataIndex];
+    const { media, numOfLikes, _id } = data[dataIndex];
     const [isHover, setIsHover] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const videoRef = useRef(null);
@@ -41,9 +41,12 @@ const ExploreTrendItem = React.memo(function (props) {
             }}
         >
             <Link
-                to={`/posts/${postID}`}
+                to={`/posts/${_id}`}
                 className="absolute inset-0 z-10"
                 style={{ borderRadius: "1rem" }}
+                state={{
+                    from: "/explore",
+                }}
             ></Link>
 
             {isHover ? (

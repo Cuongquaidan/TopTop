@@ -48,4 +48,33 @@ export const SUMMARY_API = {
       all:"report/all",
     }
   },
+  comment:{
+    get:{
+      byPostID:"comment/post/:postID",
+    }
+  },
+  likeComment:{
+    get:{
+      byUserID:"likeComment/user/:userID",
+    },
+    post:{
+      click:"likeComment/click",
+    }
+  },
+  likePost:{
+    get:{
+      byUserID:"likePost/user/:userID",
+    },
+    post:{
+      click:"likePost/click",
+    }
+  },
+  savePost:{
+    get:{
+      byUserID:"savePost/user/:userID",
+    },
+    post:{
+      click:"savePost/click",
+    }
+  },
 }
