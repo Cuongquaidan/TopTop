@@ -211,7 +211,7 @@ const FollowerProfile=()=>{
                 <div className='lg:w-6/10 md:w-full flex'>
                     <div className='flex relative justify-start w-full max-w-[900px]'>
                         <div
-                            className="absolute bottom-0 left-0 w-1/3 h-[3px] bg-black transition-all duration-400 ease-in-out"
+                            className="absolute -bottom-0.5 left-0 w-1/3 h-[3px] bg-black transition-all duration-400 ease-in-out"
                             style={{
                                 transform: `translateX(${postTypeHover === 'Video' ? '0%' : postTypeHover === 'Bài đăng lại' ? '100%' : '200%'})`
                             }}
