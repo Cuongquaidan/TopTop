@@ -18,7 +18,6 @@ const Follow=()=>{
         hasNextPage,
         isFetchingNextPage
       } = useGetPostOfFollowedByCursor(user._id);
-      console.log(data?.pages)
       const observerRef = useRef(null);
     
       const scrollRef = useRef(null);

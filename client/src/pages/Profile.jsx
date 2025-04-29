@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { useGlobalContext } from '../context/AppContext'
 import Modal from '../components/Modal'
 import StatisticsProfile from '../components/modal/StatisticsProfile'
+import InfoProfile from '../components/modal/InfoProfile'
 
 const Profile=()=>{
     const {showModal,setShowModal, typeModal,setTypeModal} = useGlobalContext();
@@ -55,29 +56,16 @@ const Profile=()=>{
         
     },[])
 
-    const sortPostHandler=(value)=>{
-        setSortPost(value)
-        let tempList
-        switch (value) {
-            case "Mới nhất":
-                tempList=postList.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
-                return setPostListFinal(tempList)
-            case "Thịnh hành":
-                tempList=postList.sort((a,b)=>new Date(b.numOfLikes)-new Date(a.numOfLikes))
-                return setPostListFinal(tempList)  
-            case "Cũ nhất":
-                tempList=postList.sort((a,b)=>new Date(a.createdAt)-new Date(b.createdAt))
-                return setPostListFinal(tempList)
-            default:
-                break;
-        }
-    }
-
     return(
         <div className='p-6 gap-4 flex flex-col items w-full items-start justify-start'>
             {/* Modal */}
             <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-                <StatisticsProfile selectedUser={user}></StatisticsProfile>
+                {typeModal=="Thống kê"&&(
+                    <StatisticsProfile selectedUser={user}></StatisticsProfile>
+                )}
+                {typeModal=="Sửa hồ sơ"&&(
+                    <InfoProfile/>
+                )}
             </Modal>
             {/* -- */}
             <div className='flex lg:flex-row lg:items-start lg:justify-start md:flex-col md:items-center  gap-5'>
@@ -97,6 +85,10 @@ const Profile=()=>{
                         <button 
                             className='bg-primary transition-all rounded-lg text-white text-xl font-medium p-2 px-6
                             hover:scale-110 cursor-pointer'
+                            onClick={()=>{
+                                setTypeModal("Sửa hồ sơ")
+                                setShowModal(true)
+                            }}
                         >
                             Sửa hồ sơ
                         </button>
@@ -128,6 +120,7 @@ const Profile=()=>{
                             <button 
                                 className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
                                 onClick={()=>{
+                                    setTypeModal("Thống kê")
                                     setShowModal(true)
                                 }}
                             >
@@ -144,6 +137,7 @@ const Profile=()=>{
                             <button 
                                 className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
                                 onClick={()=>{
+                                    setTypeModal("Thống kê")
                                     setShowModal(true)
                                 }}    
                             >

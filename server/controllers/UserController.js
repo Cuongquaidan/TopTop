@@ -3,6 +3,7 @@ const User = require("../models/User")
 const fs=require('fs')
 const multer=require('multer')
 const path=require('path')
+const cloudinary=require('../services/cloudinary');
 
 const getAllUser = async (req, res) => {
     try {
@@ -108,7 +109,7 @@ const importFile = async (req, res) => {
 
             if (ext === ".json") {
                 try {
-                    const data = fs.readFileSync(filePath, 'utf8');
+                    const data = fs.readFileync(filePath, 'utf8');
                     const jsonData = JSON.parse(data);
                     const inserted = await User.insertMany(jsonData); // 🔥 Dùng await
 
@@ -242,5 +243,53 @@ const updateUser=async(req,res)=>{
     }
 }
 
-module.exports={getAllUser,getUserByID,importFile,getFamousdUser,updateUser}
+const updateProfilePicture=async(req,res)=>{
+    try {
+        const {userID}=req.body
+        
+        if(!req.file){
+            return res.status(400).json({
+                message: `Thiếu ảnh`,
+                data: [],
+                success: false,
+                error: true
+            });
+        }
 
+        const user=await User.findById(userID)
+        if(!user){
+            await fs.promises.unlink(req.file.path)
+            return res.status(404).json({
+                message: `không tìm thấy user ${userID}`,
+                data: [],
+                success: false,
+                error: true
+            });
+        }
+        
+        const imageUploadResult=await cloudinary.uploader.upload(req.file.path,{
+            resource_type: "image",
+            folder: "toptop/images"
+        })
+        
+        user.profile_picture=imageUploadResult.secure_url
+        await user.save()
+
+        await fs.promises.unlink(req.file.path)
+        res.status(200).json({
+            message: `Update profile_picture thành công`,
+            data: user,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        await fs.promises.unlink(req.file.path)
+        res.status(500).json({
+            message: `Lỗi server: ${error}`,
+            data: [],
+            success: false,
+            error: true
+        });
+    }
+}
+module.exports={getAllUser,getUserByID,importFile,getFamousdUser,updateUser,updateProfilePicture}

@@ -38,7 +38,8 @@ export const SUMMARY_API = {
     },
     import:"user/import",
     put:{
-      update:"user/update"
+      update:"user/update",
+      updateProfilePicture:"user/updateProfilePicture"
     }
   },
   report :{
