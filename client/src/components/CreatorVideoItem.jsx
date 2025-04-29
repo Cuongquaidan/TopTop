@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { FaRegHeart } from "react-icons/fa";
 import { IoPlayOutline } from "react-icons/io5";
 import {useNavigate} from 'react-router-dom'
-const ProfilePostItem=({item})=>{
+const CreatorVideoItem=({item})=>{
     const navigate=useNavigate()
     const data = item;
         const { media, numOfLikes } = data;
@@ -10,10 +9,9 @@ const ProfilePostItem=({item})=>{
         return (
             <div
                 style={{
-                    height: 360,
                     userSelect: "none",
                 }}
-                className="border-2 border-gray-200 w-[240px] rounded-2xl relative flex flex-col justify-center items-center cursor-pointer"
+                className="border-2 border-gray-200 w-[30%] h-[200px] rounded-2xl relative flex flex-col justify-center items-center cursor-pointer"
                 onMouseEnter={() => {
                     setIsHover(true);
                 }}
@@ -24,7 +22,7 @@ const ProfilePostItem=({item})=>{
             >   
                 {item.type==="image"&&(
                     <img
-                        className="object-cover w-[240px] h-[360px] rounded-2xl"
+                        className="object-cover w-full h-[200px] rounded-2xl"
                         draggable={false}
                         src={media[0]}
                     />
@@ -42,7 +40,7 @@ const ProfilePostItem=({item})=>{
                     />
                 ):item.type==="video"&&(
                     <img
-                        className="object-cover w-[240px] h-[360px] rounded-2xl"
+                        className="object-cover w-full h-full rounded-2xl"
                         draggable={false}
                         src={media.thumbnail}
                     />
@@ -55,4 +53,4 @@ const ProfilePostItem=({item})=>{
         );
 }
 
-export default ProfilePostItem
+export default CreatorVideoItem

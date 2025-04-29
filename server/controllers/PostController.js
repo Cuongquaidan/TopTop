@@ -531,6 +531,8 @@ const sharePost = async (req, res) => {
 const getPostByID = async (req, res) => {
     try {
         const { postID } = req.params;
+        console.log("postID là:",postID);
+        
         const existPost = await Post.findById(postID).populate("user");
         if (!existPost) {
             return res.status(400).json({
@@ -771,4 +773,88 @@ const getPostOfFolloweds = async(req,res)=>{
     }
 }
 
-module.exports={getPostOfFolloweds,getTop9TrendingVideo,uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile, getPostByCursor}
+const getPostOfFriends = async(req,res)=>{
+    try {
+        const {cursor = null, userID} = req.query;
+        const user = await User.findOne({_id: userID})
+
+
+        const query = {
+            isDeleted: false,
+            state: { $ne: 'restricted' },
+            user: {$in: user.friends},
+        };
+
+        if (cursor) {
+            query._id = { $lt: cursor };
+        }
+
+
+        const posts = await Post.find(query)
+        .populate('user')
+        .limit(10)
+        .sort({ _id: -1 })
+
+
+        const nextCursor = posts.length > 0 ? posts[posts.length - 1]._id : null;
+
+        res.status(200).json({
+            message: 'Lấy post thành công',
+            data: {
+                data: posts,
+                nextCursor
+            },
+            success: true,
+            error: false
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message:`Lỗi server: ${error}`,
+            data:[],
+            success:false,
+            error:true
+        })
+    }
+}
+
+const getCreaterPostByPostID=async(req,res)=>{
+    try {
+        const {postID}=req.body
+        if(!postID){
+            return res.status(400).json({
+                message: 'thiếu postID',
+                data: [],
+                success: false,
+                error: false
+            });
+        }
+
+        const existPost=await Post.findById(postID)
+        if(!existPost){
+            return res.status(404).json({
+                message: `không tìm thấy post với postID: ${postID}`,
+                data: [],
+                success: false,
+                error: false
+            });
+        }
+
+        const creatorPosts=await Post.find({user:existPost.user})
+        res.status(200).json({
+            message: `get creatorPost thành công`,
+            data: creatorPosts,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: `Lỗi server khi getCreaterPostByPostID: ${error}`,
+            data: [],
+            success: false,
+            error: true
+        });
+    }
+}
+
+module.exports={getPostOfFolloweds,getPostOfFriends,getTop9TrendingVideo,uploadVideoPost,uploadImagePost,getAllPost,getAllPostByUser,likePost,unLikePost,savePost,unSavePost,sharePost,getPostByID, importFile, getPostByCursor}
