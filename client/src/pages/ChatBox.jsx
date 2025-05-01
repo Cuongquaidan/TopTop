@@ -61,7 +61,7 @@ function ChatBox() {
   },[])
 
   return (
-    <div className="flex flex-col h-screen w-[calc(100vw-500px)] ml-auto bg-gray-200 p-8">
+    <div className="flex flex-col h-full w-[calc(100%-80px)] ml-auto bg-gray-200 p-8 z-[999] relative">
       <div className="flex h-full w-full mx-auto rounded-lg overflow-hidden shadow-lg bg-white">
         <div className="flex flex-col flex-1">
           <AvatarHeader />

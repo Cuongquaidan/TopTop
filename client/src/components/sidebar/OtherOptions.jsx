@@ -30,7 +30,7 @@ function OtherOptions({ option, setOption }) {
             
             <div className="h-full p-6 px-0 border-r border-neutral-300 shrink-0 bg-white">
             {option === "messages" && (
-               <Messages option={option} setOption={option}></Messages>
+               <Messages option={option} setOption={setOption}></Messages>
             )}
             {
               option === "activities" && (
@@ -44,7 +44,9 @@ function OtherOptions({ option, setOption }) {
             }
             
             </div>
-            <div className="bg-transparent opacity-0 grow"
+           {
+            option !== "messages" && (
+                <div className="bg-transparent opacity-0 grow"
                 onClick= {
                     ()=>{
                         setOption("");
@@ -54,6 +56,8 @@ function OtherOptions({ option, setOption }) {
                     setOption("");
                 }}
             ></div>
+            )
+           }
         </motion.div>
     );
 }
