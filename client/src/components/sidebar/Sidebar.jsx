@@ -46,7 +46,7 @@ function Sidebar() {
         };
     }, []);
     return (
-        <div className="flex flex-col gap-4 p-4 fixed top-0 left-0 z-[999]">
+        <div className="flex flex-col gap-4 p-4 fixed top-0 left-0 z-[999] dark:bg-neutral-900 dark:text-gray-200">
             <div>
                 <Link
                     className="flex text-3xl italic font-black text-primary"
