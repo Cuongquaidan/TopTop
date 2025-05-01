@@ -19,7 +19,8 @@ export const SUMMARY_API = {
       byUser:"post/user/:user",
       byCursor:"post/getByCursor",
       getTop9TrendingVideo: "post/getTop9TrendingVideo",
-      ofFolloweds: "post/getPostOfFolloweds"
+      ofFolloweds: "post/getPostOfFolloweds",
+      ofFriends:"post/getPostOfFriends"
     },
     update:{
       like:"post/like",

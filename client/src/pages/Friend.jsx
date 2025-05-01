@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import createAxiosInstance from "../libs/axios/AxiosInstance";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 import { toast } from "react-toastify";
-import useGetPostOfFollowedByCursor from "../hooks/useGetPostOfFollowedByCursor";
-import FriendPostItem from "../components/post/FriendPostItem";
+import useGetPostOfFriendByCursor from "../hooks/useGetPostOfFriendByCursor";
+import PostItem from "../components/post/PostItem";
 
 const Friend=()=>{
     const user=useSelector(state=>state.user.user)
@@ -16,7 +16,7 @@ const Friend=()=>{
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-      } = useGetPostOfFollowedByCursor(user._id);
+      } = useGetPostOfFriendByCursor(user._id);
       console.log(data?.pages)
       const observerRef = useRef(null);
     
@@ -88,7 +88,7 @@ const Friend=()=>{
                   : null
               }
             >
-              <FriendPostItem item={item} />
+              <PostItem item={item} />
             </div>
           ))
         )}

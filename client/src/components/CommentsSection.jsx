@@ -6,31 +6,10 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import createAxiosInstance from "../libs/axios/AxiosInstance"
 import { BASE_URL, SUMMARY_API } from "../shared/Route"
+import { toast } from "react-toastify"
+import CreatorVideoItem from "./CreatorVideoItem"
 
 // Sample creator videos
-const creatorVideos = [
-  {
-    id: "video1",
-    thumbnail: "https://source.unsplash.com/random/400x300?sig=10",
-    title: "Bài tập giảm mỡ bụng hiệu quả",
-    views: "1.2M",
-    date: "2025-04-15",
-  },
-  {
-    id: "video2",
-    thumbnail: "https://source.unsplash.com/random/400x300?sig=11",
-    title: "Chia sẻ bí quyết làm đẹp",
-    views: "890K",
-    date: "2025-04-10",
-  },
-  {
-    id: "video3",
-    thumbnail: "https://source.unsplash.com/random/400x300?sig=12",
-    title: "Vlog cuối tuần cùng gia đình",
-    views: "560K",
-    date: "2025-04-05",
-  },
-]
 export default function CommentsSection({comments=[],setComments=()=>{}}) {
   const {id} = useParams()
   const user = useSelector(state => state.user.user)
@@ -41,6 +20,7 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
   })
   const [activeTab, setActiveTab] = useState("comments")
   const [likedComments, setLikedComments] = useState([])
+  const [creatorVideos,setCreatorVideos]=useState([])
   const inputRef = useRef(null)
 
   const handleSubmitComment = async() => {
@@ -86,6 +66,23 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
      }
     }
     fetchComment()
+
+    const fetchcCreatorVideos=async()=>{
+      try {
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const resCreator=await axiosInstance.get(SUMMARY_API.post.get.byID.replace(":postID",id))
+        const resCreatorPosts=await axiosInstance.get(SUMMARY_API.post.get.byUser.replace(":user",resCreator.data.user._id))
+        
+        let creatorVideos=resCreatorPosts.data.filter(item=>item.type==="video")
+        console.log("1 dong video:",creatorVideos);
+        
+        setCreatorVideos(creatorVideos)
+      } catch (error) {
+        toast.error(error.message||"Lỗi khi fetchCreaterVideos")
+      }
+    }
+
+    fetchcCreatorVideos()
   },[])
    
   
@@ -173,25 +170,9 @@ export default function CommentsSection({comments=[],setComments=()=>{}}) {
 
       {/* Creator videos tab */}
       {activeTab === "creator" && (
-        <div className="max-h-[500px] overflow-y-auto p-2">
-          {creatorVideos.map((video) => (
-            <div key={video.id} className="flex gap-3 p-2 border-b last:border-b-0">
-              <div className="w-24 h-16 rounded overflow-hidden flex-shrink-0">
-                <img
-                  src={video.thumbnail || "/placeholder.svg"}
-                  alt={video.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-medium text-sm line-clamp-2">{video.title}</h3>
-                <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                  <span>{video.views} lượt xem</span>
-                  <span>•</span>
-                  <span>{formatDate(video.date)}</span>
-                </div>
-              </div>
-            </div>
+        <div className="max-h-[500px] flex flex-wrap w-full overflow-y-auto p-2 gap-3">
+          {creatorVideos.map((video,index) => (
+            <CreatorVideoItem key={index} item={video}/>
           ))}
         </div>
       )}
