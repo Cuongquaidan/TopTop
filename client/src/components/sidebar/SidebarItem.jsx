@@ -23,7 +23,6 @@ function SidebarItem({
                 if (showMore) setShowMore(false);
                 if (item.option) {
                         setOption("");
-               
                 }
             }}
             onMouseEnter={item.preloadUrl ? useSmartPrefetch(item.preloadUrl).onMouseEnter : ()=>{}}

@@ -15,9 +15,6 @@ function ChatInput({ onSend }) {
   return (
     <div className="border-t border-gray-300 p-3 bg-white">
       <form onSubmit={handleSubmit} className="flex items-center">
-        <button type="button" className="p-2 text-gray-500 rounded-full hover:bg-gray-100">
-          <Paperclip size={20} />
-        </button>
         <div className="flex-1 mx-2 relative">
           <input
             type="text"

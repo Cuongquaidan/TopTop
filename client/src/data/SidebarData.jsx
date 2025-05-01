@@ -80,7 +80,7 @@ const data = [
         iconActive: (
             <BsFillSendFill size={28} className="text-primary"></BsFillSendFill>
         ),
-        // option: "messages",
+        option: "messages",
         requireLogin: true,
         href:"/chat"
     },

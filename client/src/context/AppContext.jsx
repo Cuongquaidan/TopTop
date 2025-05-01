@@ -7,9 +7,10 @@ const AppContext = React.createContext();
 const AppProvider = ({children})=>{
   const [showModal,setShowModal] = useState(false);
   const [typeModal,setTypeModal] = useState("");
+  const [option, setOption] = useState("");
   
   return (
-    <AppContext.Provider value={{showModal,setShowModal, typeModal,setTypeModal}}>
+    <AppContext.Provider value={{showModal,setShowModal, typeModal,setTypeModal, option, setOption}}>
       
       {children}
     </AppContext.Provider>

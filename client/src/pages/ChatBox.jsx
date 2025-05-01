@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react"
 import AvatarHeader from "../components/chatbox/AvatarHeader"
 import MessageItem from "../components/chatbox/MessageItem"
 import ChatInput from "../components/chatbox/ChatInput"
+import { useGlobalContext } from "../context/AppContext"
 
 function ChatBox() {
+  const {setOption} = useGlobalContext();
   const [messages, setMessages] = useState([
     {
       type: "system",
@@ -50,8 +52,16 @@ function ChatBox() {
     ])
   }
 
+  useEffect(()=>{
+      setOption("messages")
+      return () => {
+        setOption("");
+      }
+
+  },[])
+
   return (
-    <div className="flex flex-col h-screen bg-gray-200 p-8">
+    <div className="flex flex-col h-screen w-[calc(100vw-500px)] ml-auto bg-gray-200 p-8">
       <div className="flex h-full w-full mx-auto rounded-lg overflow-hidden shadow-lg bg-white">
         <div className="flex flex-col flex-1">
           <AvatarHeader />

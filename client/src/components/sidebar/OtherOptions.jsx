@@ -29,9 +29,9 @@ function OtherOptions({ option, setOption }) {
         >
             
             <div className="h-full p-6 px-0 border-r border-neutral-300 shrink-0 bg-white">
-            {/* {option === "messages" && (
+            {option === "messages" && (
                <Messages option={option} setOption={option}></Messages>
-            )} */}
+            )}
             {
               option === "activities" && (
                 <Activities option={option} setOption={setOption}></Activities>
