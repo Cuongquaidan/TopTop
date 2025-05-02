@@ -40,12 +40,12 @@ const getAllChatsByUserId = async (req,res)=>{
         }
       },
       {
-        $sort: { createdAt: -1 }
+        $sort: { createdAt: 1 }
       },
       {
         $group:{
           _id: "$otherUser",
-          lastMessage: {$first: "$$ROOT"}
+          lastMessage: {$last: "$$ROOT"}
         }
       },{
         $lookup:{
@@ -133,7 +133,7 @@ const getChat = async (req,res)=>{
           ]
         }
       ]
-    }).sort({createdAt:-1}).populate('sender receiver', 'username display_name profile_picture blue_tick');
+    }).sort({createdAt:1}).populate('sender receiver', 'username display_name profile_picture blue_tick');
     if(messages.length === 0){
       res.status(200).json({
         data:[],
@@ -188,12 +188,14 @@ const sendMessage = async (req,res)=>{
       content
     })
     await message.save();
+    const populatedMessage = await message.populate('sender receiver', 'username display_name profile_picture blue_tick');
+
     res.status(200).json({
-      data:message,
-      message:"Send message successfully",
-      success:true,
-      error:false
-    })
+      data: populatedMessage,
+      message: "Send message successfully",
+      success: true,
+      error: false
+    });
   } catch (error) {
     res.status(500)
     .json({

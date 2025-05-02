@@ -3,7 +3,7 @@ import formatTimestamp from "../../helper/formatTimestamps";
 
 function MessageItem({ msg }) {
   const currentUserId = useSelector((state) => state.user.user._id);
-  const isSender = msg?.sender?._id === currentUserId;
+  const isSender = msg?.sender?._id == currentUserId;
   console.log(msg, currentUserId, isSender);
   return (
     msg && (

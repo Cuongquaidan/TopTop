@@ -4,7 +4,7 @@ import { useGlobalContext } from "../../context/AppContext"
 
 function AvatarHeader() {
   const { currentChat , currentRecipientId} = useGlobalContext()
-  const currentRecipient = currentChat[0]?.sender._id ===currentRecipientId ? currentChat[0]?.receiver : currentChat[0]?.sender
+  const currentRecipient = currentChat[0]?.sender._id !==currentRecipientId ? currentChat[0]?.receiver : currentChat[0]?.sender
   return (
     <div className="flex items-center p-3 border-b border-gray-300">
       <div className="flex items-center flex-1">

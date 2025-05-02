@@ -33,7 +33,7 @@ function ChatBox() {
   },[])
 
   return (
-    <div className="flex flex-col h-full w-[calc(100%-80px)] ml-auto bg-gray-200 p-8 z-[999] relative">
+    <div className="flex flex-col h-[100%] overflow-scroll w-[calc(100%-80px)] ml-auto bg-gray-200 p-8 z-[999] relative">
       <div className="flex h-full w-full mx-auto rounded-lg overflow-hidden shadow-lg bg-white">
       {
         !recipientId ? (
@@ -47,14 +47,12 @@ function ChatBox() {
           <div className="flex flex-col flex-1">
           <AvatarHeader />
           <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-            {[...currentChat].reverse().map((msg, index) => (
+            {[...currentChat].map((msg, index) => (
               <MessageItem key={index} msg = {msg} />
             ))}
             <div ref={messagesEndRef} />
           </div>
-          <ChatInput onSend={()=>{
-            
-          }} />
+          <ChatInput  />
         </div>
           </>
         )

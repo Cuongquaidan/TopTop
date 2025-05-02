@@ -13,10 +13,17 @@ const AppProvider = ({children})=>{
   const [option, setOption] = useState("");
   const [currentChats, setCurrentChats] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
-  const [recipientId, setRecipientId] = useState("");
-  const [newMessage, setNewMessage] = useState();
-  const [socket,setSocket] = useState(null);
+  
   const currentUserId = useSelector((state) => state?.user?.user?._id || null);
+  const [recipientId, setRecipientId] = useState("");
+  const [newMessage, setNewMessage] = useState({
+    sender: currentUserId,
+    receiver: recipientId,
+    content: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+  const [socket,setSocket] = useState(null);
   console.log(currentUserId)
 
   const getAllChatOfUser =  async ()=>{
@@ -48,6 +55,11 @@ const AppProvider = ({children})=>{
     if(!recipientId) return;
     if(!socket) return;
     if(!currentUserId) return;
+    setNewMessage({
+      ...newMessage,
+      sender: currentUserId,
+      receiver: recipientId,
+    })
     getChat();
 
   },[recipientId, currentUserId])
