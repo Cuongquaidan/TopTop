@@ -6,7 +6,7 @@ import createAxiosInstance from "../../libs/axios/AxiosInstance"
 import { BASE_URL, SUMMARY_API } from "../../shared/Route"
 
 function ChatInput() {
-  const {setCurrentChat, setNewMessage, newMessage, socket} = useGlobalContext()
+  const {setCurrentChat, setNewMessage, newMessage, socket, setCurrentChats} = useGlobalContext()
 
 
 
@@ -26,6 +26,23 @@ function ChatInput() {
           content: "",
         })
         socket.emit("sendMessage", resjson.data)
+         setCurrentChats((prev) => {
+                const indexN = prev.findIndex(
+                  (chat) => chat.user._id === resjson.data.receiver._id
+                );
+                console.log(indexN)
+                if (indexN !== -1) {
+                  const updated = [...prev];
+                  updated[indexN] = {
+                    ...updated[indexN],
+                    message: {
+                      ...updated[indexN].message,
+                      content: resjson.data.content,
+                      createdAt: resjson.data.createdAt,
+                    },
+                  };
+                  return updated;
+                }})
         
       }
     } catch (error) {

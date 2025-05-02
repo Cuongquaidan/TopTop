@@ -26,7 +26,6 @@ function Sidebar() {
     const {showModal,setShowModal, typeModal,setTypeModal, option, setOption} = useGlobalContext();
     const navigate = useNavigate();
    
-    console.log(user   )
     useEffect(() => {
         setCurrentPathname(location.pathname); // Tự cập nhật khi pathname thay đổi
     }, [location.pathname]);

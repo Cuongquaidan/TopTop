@@ -17,7 +17,7 @@ function ChatSidebar() {
 
   useEffect(() => {
     const unmessagedUsers = followeds.filter(
-      (followed) => !currentChats.some((chat) => chat.user._id === followed)
+      (followed) => !currentChats?.some((chat) => chat.user._id === followed)
     );
   
     if (unmessagedUsers.length === 0) {
@@ -65,7 +65,7 @@ function ChatSidebar() {
 
 
   return (
-    <div className="w-full min-w-[400px] md:w-80  bg-white">
+    currentChats &&  <div className="w-full min-w-[400px] md:w-80  bg-white">
       <div className="p-3 border-b border-gray-300">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-semibold">Messages</h2>
