@@ -41,6 +41,9 @@ export const SUMMARY_API = {
     put:{
       update:"user/update",
       updateProfilePicture:"user/updateProfilePicture"
+    },
+    post:{
+      getListBasicInfoByListID:"user/getListBasicInfoByListID",
     }
   },
   report :{

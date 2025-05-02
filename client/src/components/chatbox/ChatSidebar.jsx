@@ -3,10 +3,61 @@
 import { MdSearch, MdSettings } from "react-icons/md"
 import { useGlobalContext } from "../../context/AppContext"
 import formatTimestamp from "../../helper/formatTimestamps"
+import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import createAxiosInstance from "../../libs/axios/AxiosInstance"
+import { BASE_URL, SUMMARY_API } from "../../shared/Route"
 
 
 function ChatSidebar() {
-  const { currentChats, setRecipientId, recipientId } = useGlobalContext()
+  const { currentChats, setRecipientId, recipientId, setCurrentChats } = useGlobalContext()
+  const {followeds} = useSelector((state) => state.user.user)
+  const [fakeChats, setFakeChats] = useState([])
+  
+
+  useEffect(() => {
+    const unmessagedUsers = followeds.filter(
+      (followed) => !currentChats.some((chat) => chat.user._id === followed)
+    );
+  
+    if (unmessagedUsers.length === 0) {
+      setFakeChats([]); // ✅ Clear nếu không còn người nào chưa nhắn
+      return;
+    }
+  
+    const fetchUnmessagedUsers = async () => {
+      try {
+        const axiosInstance = createAxiosInstance(BASE_URL);
+        const resjson = await axiosInstance.post(
+          SUMMARY_API.user.post.getListBasicInfoByListID,
+          {
+            listID: unmessagedUsers,
+          }
+        );
+        console.log(resjson.data)
+        console.log(currentChats)
+
+        if (resjson.success) {
+          const fake = resjson.data.map((user) => ({
+            user,
+            message: {
+              content: "Hãy nhắn tin nào",
+              createdAt: new Date(),
+              otherUserId: user._id,
+            },
+          }));
+  
+          setFakeChats(fake); // Gán mới hoàn toàn
+
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchUnmessagedUsers();
+  }, [followeds, currentChats]); // ✅ Theo dõi đúng dependency
+  
  
 
   // Format timestamp to relative time (e.g., "2 hours ago")
@@ -60,6 +111,36 @@ function ChatSidebar() {
             </div>
           </div>
         ))}
+        {
+          fakeChats.map((chat) => (
+            <div
+              key={chat.user._id}
+              onClick={() => setRecipientId(chat.user._id)}
+              className={`flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
+                recipientId === chat.user._id ? "bg-gray-100" : ""
+              }`}
+            >
+              <div className="relative mr-3">
+                <img
+                  src={chat.user.profile_picture || "/placeholder.svg?height=48&width=48"}
+                  alt={chat.user.display_name}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex justify-between items-center">
+                  <p className="font-medium truncate">{chat.user.display_name}</p>
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                    {formatTimestamp(chat.message.createdAt)}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 truncate">{chat.message.content}</p>
+              </div>
+            </div>
+          ))
+
+        }
       </div>
     </div>
   )

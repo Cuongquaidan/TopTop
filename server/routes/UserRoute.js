@@ -10,4 +10,5 @@ router.post('/famous',UserController.getFamousdUser)
 router.post('/import',UserController.importFile)
 router.put('/update',UserController.updateUser)
 router.put('/updateProfilePicture',uploadCloudinary.uploadSingleImage,UserController.updateProfilePicture)
+router.post("/getListBasicInfoByListID",UserController.getListBasicInfoByListID)
 module.exports=router
