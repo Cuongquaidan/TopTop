@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useSmartPrefetch from "../../hooks/useSmartRefetch";
+
 function SidebarItem({
     item,
     currentPathname,
@@ -15,8 +16,8 @@ function SidebarItem({
     return (
         <Link
             className={`${
-                isActive && !showMore && !option && "text-primary "
-            } p-2 rounded-lg hover:text-primary transition-all w-[200px] font-semibold flex gap-2 items-center text-md`}
+                isActive && !showMore && !option ? "text-primary" : "dark:text-gray-200"
+            } p-2 rounded-lg hover:text-primary transition-all w-[200px] font-semibold dark:font-semibold dark:hover:text-primary flex gap-2 items-center text-md`}
             {...props}
             to={item.href}
             onClick={() => {
