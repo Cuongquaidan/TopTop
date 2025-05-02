@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import usePageCacheManager from '../hooks/usePageCacheManager';
 import { useSelector } from 'react-redux';
 import createAxiosInstance from '../libs/axios/AxiosInstance';
@@ -24,7 +24,11 @@ const AppProvider = ({children})=>{
     updatedAt: new Date(),
   });
   const [socket,setSocket] = useState(null);
+  const recipientIdRef = useRef(recipientId);
 
+  useEffect(() => {
+    recipientIdRef.current = recipientId; // cập nhật giá trị mới nhất mỗi khi recipientId thay đổi
+  }, [recipientId]);
   const getAllChatOfUser =  async ()=>{
     const AxiosInstance = createAxiosInstance(BASE_URL);
     const resjson = await AxiosInstance.get(SUMMARY_API.messages.get.all.replace(":userId",currentUserId));
@@ -47,7 +51,10 @@ const AppProvider = ({children})=>{
     setSocket(socket);
     socket.emit("join", currentUserId);
     socket.on("getMessage", (data)=>{
+      console.log(data)
+      if(recipientIdRef.current === data.sender._id){
       setCurrentChat((prev) => [...prev, data]);
+      }
       setCurrentChats((prev) => {
         const indexN = prev.findIndex(
           (chat) => chat.user._id === data.sender._id

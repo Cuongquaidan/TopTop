@@ -4,7 +4,6 @@ import formatTimestamp from "../../helper/formatTimestamps";
 function MessageItem({ msg }) {
   const currentUserId = useSelector((state) => state.user.user._id);
   const isSender = msg?.sender?._id == currentUserId;
-  console.log(msg, currentUserId, isSender);
   return (
     msg && (
       <div className={`flex ${isSender ? "justify-end" : "justify-start"} mb-3`}>
