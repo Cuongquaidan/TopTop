@@ -78,4 +78,16 @@ export const SUMMARY_API = {
       click:"savePost/click",
     }
   },
+  messages:{
+    get:{
+      all:"messages/getAllChatsByUserId/:userId",
+      chat:"messages/getChat/:userId/:otherUserId",
+    },
+    post:{
+      send:"messages/sendMessage",
+    },
+    delete:{
+      delete:"messages/deleteMessage/:messageId",
+    }
+  }
 }

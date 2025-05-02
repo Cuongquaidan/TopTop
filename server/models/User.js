@@ -15,8 +15,6 @@ const UserSchema = new mongoose.Schema({
     friends:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     likeUsers:[{type:mongoose.Schema.Types.ObjectId,ref:'User'}],
     posts: [{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
-    savePosts: [{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
-    likePosts: [{type:mongoose.Schema.Types.ObjectId,ref:'Post'}],
     password:{type:String,required:true,select:false},
     email:{type:String,unique:true,index:true,sparse:true},
     phone:{type:String,unique:true,index:true,sparse:true},

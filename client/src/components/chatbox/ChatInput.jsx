@@ -1,5 +1,6 @@
+
 import { useState } from "react"
-import { Smile, Paperclip, Send } from "lucide-react"
+import { MdSend, MdAttachFile, MdEmojiEmotions } from "react-icons/md"
 
 function ChatInput({ onSend }) {
   const [text, setText] = useState("")
@@ -15,19 +16,22 @@ function ChatInput({ onSend }) {
   return (
     <div className="border-t border-gray-300 p-3 bg-white">
       <form onSubmit={handleSubmit} className="flex items-center">
+        <button type="button" className="p-2 rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+          <MdAttachFile size={20} />
+        </button>
         <div className="flex-1 mx-2 relative">
           <input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Gửi tin nhắn..."
-            className="w-full py-2 px-3 rounded-full border border-gray-300 bg-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300"
+            className="w-full py-2 px-3 rounded-full border border-gray-300 bg-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-300"
           />
           <button
             type="button"
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
           >
-            <Smile size={20} />
+            <MdEmojiEmotions size={20} />
           </button>
         </div>
         <button
@@ -35,7 +39,7 @@ function ChatInput({ onSend }) {
           className={`p-2 rounded-full ${text.trim() ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-500"}`}
           disabled={!text.trim()}
         >
-          <Send size={20} />
+          <MdSend size={20} />
         </button>
       </form>
     </div>
