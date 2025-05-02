@@ -24,7 +24,6 @@ const AppProvider = ({children})=>{
     updatedAt: new Date(),
   });
   const [socket,setSocket] = useState(null);
-  console.log(currentUserId)
 
   const getAllChatOfUser =  async ()=>{
     const AxiosInstance = createAxiosInstance(BASE_URL);
@@ -49,15 +48,9 @@ const AppProvider = ({children})=>{
     socket.emit("join", currentUserId);
     socket.on("getMessage", (data)=>{
       setCurrentChat((prev) => [...prev, data]);
-      // setCurrentChats((prev) => {
-      //   const index = prev.findIndex(chat => chat._id === data._id);
-      //   if(index !== -1){
-      //     prev[index] = data;
-      //   }else{
-      //     prev.push(data);
-      //   }
-      //   return prev;
-      // })
+     
+    
+      
     })
     return () => {
       socket.disconnect();
