@@ -28,8 +28,15 @@ const io = new Server(server,{
 io.on("connection", (socket)=>{
     console.log("A user connected", socket.id);
 
+    socket.on("join", userId =>{
+        socket.join(userId)
+        console.log("User joined", userId);
+    })
+
     socket.on("sendMessage", (data)=>{
-        io.emit("getMessage", data)
+        const {receiver} = data
+        const receiverId = receiver._id
+        io.to(receiverId).emit("getMessage", data)
     })
 
     socket.on("disconnect", ()=>{

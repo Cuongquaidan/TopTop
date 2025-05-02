@@ -46,6 +46,19 @@ const AppProvider = ({children})=>{
     getAllChatOfUser();
     const socket = io(BASE_URL)
     setSocket(socket);
+    socket.emit("join", currentUserId);
+    socket.on("getMessage", (data)=>{
+      setCurrentChat((prev) => [...prev, data]);
+      // setCurrentChats((prev) => {
+      //   const index = prev.findIndex(chat => chat._id === data._id);
+      //   if(index !== -1){
+      //     prev[index] = data;
+      //   }else{
+      //     prev.push(data);
+      //   }
+      //   return prev;
+      // })
+    })
     return () => {
       socket.disconnect();
     }

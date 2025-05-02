@@ -6,7 +6,7 @@ import createAxiosInstance from "../../libs/axios/AxiosInstance"
 import { BASE_URL, SUMMARY_API } from "../../shared/Route"
 
 function ChatInput() {
-  const {setCurrentChat, setNewMessage, newMessage} = useGlobalContext()
+  const {setCurrentChat, setNewMessage, newMessage, socket} = useGlobalContext()
 
 
 
@@ -25,6 +25,8 @@ function ChatInput() {
           ...newMessage,
           content: "",
         })
+        socket.emit("sendMessage", resjson.data)
+        
       }
     } catch (error) {
       console.error("Error sending message:", error)
