@@ -48,6 +48,23 @@ const AppProvider = ({children})=>{
     socket.emit("join", currentUserId);
     socket.on("getMessage", (data)=>{
       setCurrentChat((prev) => [...prev, data]);
+      setCurrentChats((prev) => {
+        const indexN = prev.findIndex(
+          (chat) => chat.user._id === data.sender._id
+        );
+        console.log(indexN)
+        if (indexN !== -1) {
+          const updated = [...prev];
+          updated[indexN] = {
+            ...updated[indexN],
+            message: {
+              ...updated[indexN].message,
+              content: data.content,
+              createdAt: data.createdAt,
+            },
+          };
+          return updated;
+        }})
      
     
       
