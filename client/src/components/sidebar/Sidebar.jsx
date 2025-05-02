@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LuSearch } from "react-icons/lu";
 import SidebarItem from "./SidebarItem";
 import data from "../../data/SidebarData";
@@ -22,9 +22,9 @@ function Sidebar() {
     const location = useLocation(); // Lấy thông tin URL hiện tại
     const [currentPathname, setCurrentPathname] = useState(location.pathname);
     const [showMore, setShowMore] = useState(false);
-    const [option, setOption] = useState("");
-    const {showModal,setShowModal, typeModal,setTypeModal} = useGlobalContext();
-
+    
+    const {showModal,setShowModal, typeModal,setTypeModal, option, setOption} = useGlobalContext();
+    const navigate = useNavigate();
    
     console.log(user   )
     useEffect(() => {
@@ -46,7 +46,7 @@ function Sidebar() {
         };
     }, []);
     return (
-        <div className="flex flex-col gap-4 p-4 fixed top-0 left-0 z-[999]">
+        <div className="flex flex-col gap-4 p-4 fixed top-0 left-0 z-[999] dark:bg-neutral-900 dark:text-gray-200">
             <div>
                 <Link
                     className="flex text-3xl italic font-black text-primary"
@@ -88,7 +88,32 @@ function Sidebar() {
                 .filter((item)=> user ? true: item.requireLogin !== true)
                 .map((item, index) => 
                        {
-                         return   item.href ? (   <SidebarItem
+                         return   item.href && item.option ? (
+                            <button onClick={()=>{
+                                    if(item.option === option) {
+                                        setOption("");
+                                    }
+                                    else {
+                                        setOption(item.option);
+                                    }
+                                    setShowMore(false);
+                                    navigate(item.href);
+                                }}
+                                className={`${
+                         item.option === option &&
+                        "text-primary   !rounded-full"
+                    } p-2 rounded-lg hover:text-primary cursor-pointer transition-all w-[200px] font-semibold flex gap-2 items-center text-md`}
+                                >
+                                   <div>{item.option === option ? item.iconActive: item.icon}</div>
+                                               <motion.p
+                                                   animate={{
+                                                       opacity: showMore || option ? 0 : 1,
+                                                   }}
+                                               >
+                                                   {item.title}
+                                               </motion.p>
+                                </button>
+                         ) : item.href ? (   <SidebarItem
                             key={index}
                             currentPathname={currentPathname}
                             item={item}
@@ -147,7 +172,7 @@ function Sidebar() {
                     <div className="flex items-center p-2 gap-2  max-w-[200px]  text-md font-semibold cursor-pointer rounded ">
                     {
                         user.profile_picture ? (
-                            <div className="w-20 h-20 rounded-full overflow-hidden">
+                            <div className="w-12 h-12 rounded-full overflow-hidden">
                                 <img src={user.profile_picture} className="w-full h-full object-cover" alt="" />
                             </div>
                         ):(

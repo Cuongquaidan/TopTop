@@ -82,6 +82,7 @@ const data = [
         ),
         option: "messages",
         requireLogin: true,
+        href:"/chat"
     },
     {
         title: "Trực tiếp",

@@ -21,12 +21,12 @@ function RegisterWithPhone() {
       confirmPassword: ""
     }
   });
-  const submit = async (data) => {
+  const submit = async (data1) => {
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
       const data =  await axiosInstance.post(SUMMARY_API.auth.register, {
-        phone: data.phone,
-        password: data.password
+        phone: data1.phone,
+        password: data1.password
       });
       
        if(data.success) {

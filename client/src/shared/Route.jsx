@@ -41,6 +41,9 @@ export const SUMMARY_API = {
     put:{
       update:"user/update",
       updateProfilePicture:"user/updateProfilePicture"
+    },
+    post:{
+      getListBasicInfoByListID:"user/getListBasicInfoByListID",
     }
   },
   report :{
@@ -78,4 +81,16 @@ export const SUMMARY_API = {
       click:"savePost/click",
     }
   },
+  messages:{
+    get:{
+      all:"messages/getAllChatsByUserId/:userId",
+      chat:"messages/getChat/:userId/:otherUserId",
+    },
+    post:{
+      send:"messages/sendMessage",
+    },
+    delete:{
+      delete:"messages/deleteMessage/:messageId",
+    }
+  }
 }

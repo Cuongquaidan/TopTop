@@ -292,4 +292,35 @@ const updateProfilePicture=async(req,res)=>{
         });
     }
 }
-module.exports={getAllUser,getUserByID,importFile,getFamousdUser,updateUser,updateProfilePicture}
+
+const getListBasicInfoByListID=async(req,res)=>{
+    try {
+        const {listID}=req.body
+        
+        if(!listID || listID.length===0){
+            return res.status(400).json({
+                message: `Thiếu listID`,
+                data: [],
+                success: false,
+                error: false
+            });
+        }
+
+        const users=await User.find({_id:{$in:listID}}).select("username _id display_name profile_picture blue_tick")
+        
+        res.status(200).json({
+            message: `Lấy danh sách thông tin cơ bản thành công`,
+            data: users,
+            success: true,
+            error: false
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: `Lỗi server: ${error}`,
+            data: [],
+            success: false,
+            error: true
+        });
+    }
+}
+module.exports={getAllUser,getUserByID,importFile,getFamousdUser,updateUser,updateProfilePicture, getListBasicInfoByListID}

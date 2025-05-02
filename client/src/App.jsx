@@ -16,6 +16,15 @@ function App() {
         dispatch(fetchLikePostsByUserID(userId));
         dispatch(fetchSavePostsByUserID(userId));
     }, [user, dispatch]);
+    useEffect(()=>{
+        if(localStorage.getItem("theme") === "dark"){
+            document.documentElement.classList.add("dark");
+        }else{
+            document.documentElement.classList.remove("dark");
+        }
+
+    },[])
+
 
     return (
         <div className="relative min-h-screen">

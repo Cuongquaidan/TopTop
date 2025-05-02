@@ -15,6 +15,7 @@ import Posts from "../pages/admin/Posts";
 import Reports from "../pages/admin/Reports";
 import Profile from "../pages/Profile";
 import FollowerProfile from "../pages/FollowerProfile";
+import ChatBox from "../pages/ChatBox";
 
 const router = createBrowserRouter([
     {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
                     ,{
                         path:"/profile/:username",
                         element:<FollowerProfile></FollowerProfile>
+                    }
+                    ,{
+                        path:"/chat",
+                        element:<ChatBox/>
                     }
                 ],
             },

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import OptionButton from "./OptionButton";
 import { FaChevronLeft } from "react-icons/fa";
 import themes from "../../data/Theme";
 
 function ThemeOptions({ setTargetMore }) {
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const handleThemeChange = (id) => {
+        if (id === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+        localStorage.setItem("theme", id);
+        setTheme(id); // ⚠️ Trigger re-render để OptionButton update lại
+    };
     return (
         <div className="h-full">
             <div className="flex gap-3 items-center mb-10">
@@ -25,7 +35,8 @@ function ThemeOptions({ setTargetMore }) {
                             ...option,
                         }}
                         key={option.id}
-                        onClick={() => {}}
+                        valueCheck="theme"
+                        onClick={() => handleThemeChange(option.id)}
                     ></OptionButton>
                 ))}
             </div>

@@ -1,10 +1,15 @@
 import React from 'react'
 import { MdCancel } from 'react-icons/md';
 import { CiUser } from "react-icons/ci";
+import { useGlobalContext } from '../../context/AppContext';
+import ChatSidebar from '../chatbox/ChatSidebar';
 
 function Messages({option, setOption}) {
+  const {currentChats} = useGlobalContext();
   return (
-    <div className='w-full min-w-[400px] bg-white'>    
+    <>
+      { currentChats?.length === 0 ? (
+        <div className='w-full min-w-[400px] bg-white'>    
     <div className="flex justify-between px-6 mb-6">
         <p className="text-xl font-bold">Tin nhắn</p>
           <button className="flex items-center justify-center w-6 h-6 p-0 rounded-full cursor-pointer text-neutral-300">
@@ -26,6 +31,10 @@ function Messages({option, setOption}) {
      </div>
                   
     </div>
+      ):(
+        <ChatSidebar></ChatSidebar>
+      )}
+    </>
   )
 }
 
