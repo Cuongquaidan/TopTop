@@ -63,6 +63,10 @@ export const userSlice = createSlice({
     },
     clearUser: (state)=>{
       state.user = null;
+      state.likePosts = [];
+      state.savePosts = [];
+      state.selectedUser = null;
+      
     },
     setSelectedUser:(state,action)=>{
       state.selectedUser=action.payload.selectedUser
