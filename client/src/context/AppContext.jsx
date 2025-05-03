@@ -59,7 +59,6 @@ const AppProvider = ({children})=>{
         const indexN = prev.findIndex(
           (chat) => chat.user._id === data.sender._id
         );
-        console.log(indexN)
         if (indexN !== -1) {
           const updated = [...prev];
           updated[indexN] = {
@@ -69,6 +68,7 @@ const AppProvider = ({children})=>{
               content: data.content,
               createdAt: data.createdAt,
             },
+            numOfUnread: updated[indexN].numOfUnread + 1,
           };
           return updated;
         }})
