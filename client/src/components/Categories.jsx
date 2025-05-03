@@ -17,18 +17,19 @@ function Categories() {
     useEffect(() => {
         checkScroll();
     }, []);
+
     return (
         <div className="w-full">
             <div
-                className="flex w-[100%] overflow-x-scroll hidden-scroll-bar mt-5  transition-all  "
+                className="flex w-[100%] overflow-x-scroll hidden-scroll-bar mt-5 transition-all"
                 ref={ref}
             >
                 {categories.map((item, index) => (
                     <button
-                        className={`text-md font-semibold p-3  mr-3 shrink-0  cursor-pointer rounded-md ${
+                        className={`text-md font-semibold p-3 mr-3 shrink-0 cursor-pointer rounded-md ${
                             item !== currentCategory
-                                ? "text-black bg-slate-200"
-                                : "text-white bg-black"
+                                ? "text-black dark:text-white bg-slate-200 dark:bg-neutral-700"
+                                : "text-white bg-black dark:bg-primary"
                         }`}
                         key={index}
                         onClick={() => {
@@ -48,18 +49,18 @@ function Categories() {
                                 left: -400,
                                 behavior: "smooth",
                             });
-                            setTimeout(checkScroll, 300); // delay nhẹ để cập nhật sau khi scroll
+                            setTimeout(checkScroll, 300);
                         }}
                     >
                         <FaCircleChevronLeft
                             size={24}
-                            className="bg-slate-700 text-white rounded-full cursor-pointer  shadow-xl"
+                            className="bg-slate-700 dark:bg-neutral-700 text-white dark:text-gray-200 rounded-full cursor-pointer shadow-xl"
                         />
                     </button>
                 )}
                 {canScrollRight && (
                     <button
-                        className="absolute right-0 -top-6  transform -translate-y-1/2 z-10 shadow-2xl"
+                        className="absolute right-0 -top-6 transform -translate-y-1/2 z-10 shadow-2xl"
                         onClick={() => {
                             ref.current.scrollBy({
                                 left: 400,
@@ -70,7 +71,7 @@ function Categories() {
                     >
                         <FaCircleChevronRight
                             size={24}
-                            className="bg-slate-700 text-white rounded-full cursor-pointer shadow-xl"
+                            className="bg-slate-700 dark:bg-neutral-700 text-white dark:text-gray-200 rounded-full cursor-pointer shadow-xl"
                         />
                     </button>
                 )}

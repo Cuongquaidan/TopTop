@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import usePageCacheManager from '../hooks/usePageCacheManager';
 import { useSelector } from 'react-redux';
 import createAxiosInstance from '../libs/axios/AxiosInstance';
@@ -24,7 +24,11 @@ const AppProvider = ({children})=>{
     updatedAt: new Date(),
   });
   const [socket,setSocket] = useState(null);
+  const recipientIdRef = useRef(recipientId);
 
+  useEffect(() => {
+    recipientIdRef.current = recipientId; // cập nhật giá trị mới nhất mỗi khi recipientId thay đổi
+  }, [recipientId]);
   const getAllChatOfUser =  async ()=>{
     const AxiosInstance = createAxiosInstance(BASE_URL);
     const resjson = await AxiosInstance.get(SUMMARY_API.messages.get.all.replace(":userId",currentUserId));
@@ -47,10 +51,50 @@ const AppProvider = ({children})=>{
     setSocket(socket);
     socket.emit("join", currentUserId);
     socket.on("getMessage", (data)=>{
+      if(recipientIdRef.current === data.sender._id){
       setCurrentChat((prev) => [...prev, data]);
-     
-    
-      
+      socket.emit("readMessage", {
+        senderId: data.sender._id,
+        receiverId: data.receiver._id,
+      })
+      setCurrentChats((prev) => {
+        const indexN = prev.findIndex(
+          (chat) => chat.user._id === data.sender._id
+        );
+        if (indexN !== -1) {
+          const updated = [...prev];
+          updated[indexN] = {
+            ...updated[indexN],
+            message: {
+            ...updated[indexN].message,
+            content: data.content,
+            createdAt: data.createdAt,
+          },
+            numOfUnread: 0,
+          };
+          return updated;
+        }})
+
+      }else{
+        setCurrentChats((prev) => {
+          const indexN = prev.findIndex(
+            (chat) => chat.user._id === data.sender._id
+          );
+          if (indexN !== -1) {
+            const updated = [...prev];
+            updated[indexN] = {
+              ...updated[indexN],
+              message: {
+              ...updated[indexN].message,
+              content: data.content,
+              createdAt: data.createdAt,
+            },
+              numOfUnread: updated[indexN].numOfUnread + 1,
+            };
+            return updated;
+          }})
+
+      }
     })
     return () => {
       socket.disconnect();
@@ -67,6 +111,22 @@ const AppProvider = ({children})=>{
       receiver: recipientId,
     })
     getChat();
+    socket.emit("readMessage",{
+      senderId: recipientId,
+      receiverId: currentUserId,
+    })
+    setCurrentChats((prev) => {
+      const indexN = prev.findIndex(
+        (chat) => chat.user._id === recipientId
+      );
+      if (indexN !== -1) {
+        const updated = [...prev];
+        updated[indexN] = {
+          ...updated[indexN],
+          numOfUnread: 0,
+        };
+        return updated;
+      }})
 
   },[recipientId, currentUserId])
 

@@ -56,6 +56,37 @@ const getAllChatsByUserId = async (req,res)=>{
         }
       },{
         $unwind: "$otherUser"
+      },{
+        $lookup:{
+          from: "messages",
+          let: {otherUserId: "$otherUser._id"},
+          pipeline: [
+            {
+              $match:{
+                $expr:{
+                  $and:[
+                    {$eq:["$sender","$$otherUserId"]},
+                    {$eq:["$receiver",objectUserId]},
+                    {$eq:["$isRead",false]}
+                  ]
+                }
+              }
+            },{
+              $count: "unreadCount"
+            }
+          ],
+          as: "unreadData"
+        }
+      },{
+        $addFields:{
+          numOfUnread:{
+            $cond: [
+              { $gt: [{ $size: "$unreadData" }, 0] },
+              { $arrayElemAt: ["$unreadData.unreadCount", 0] },
+              0
+            ]
+          }
+        }
       },
       {
         $project: {
@@ -67,7 +98,8 @@ const getAllChatsByUserId = async (req,res)=>{
             profile_picture: "$otherUser.profile_picture",
             blue_tick: "$otherUser.blue_tick"
           },
-          message: "$lastMessage"
+          message: "$lastMessage",
+          numOfUnread: 1
         }
       }
     ])

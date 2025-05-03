@@ -31,28 +31,25 @@ const ThumbnailUploader = ({ changeThumbnail }) => {
         <div>
             {!thumbnail && (
                 <div 
-                    className='relative flex justify-center
-                    cursor-pointer'
+                    className='relative flex justify-center cursor-pointer'
                     onClick={()=>{inputThumbnailRef.current.click()}}
                 >
-                    <img src={thumbnail} className='border border-gray-500 rounded-2xl object-contain w-[180px] h-[270px]'/>
-                    <p className='absolute bottom-5 w-[80%] bg-gray-500 text-center p-1 rounded-lg text-white text-lg'>Chọn ảnh bìa</p>
+                    <img src={thumbnail} className='border border-gray-500 dark:border-gray-600 rounded-2xl object-contain w-[180px] h-[270px]'/>
+                    <p className='absolute bottom-5 w-[80%] bg-gray-500 dark:bg-gray-700 text-center p-1 rounded-lg text-white text-lg'>Chọn ảnh bìa</p>
                 </div>
             )}
-            {thumbnail&&(
+            {thumbnail && (
                 <div 
-                className='relative flex justify-center
-                cursor-pointer'
-                onClick={()=>{inputThumbnailRef.current.click()}}
-            >
-                <img
-                src={thumbnail}
-                alt="Thumbnail"
-                className='border border-gray-500 rounded-2xl object-contain w-[180px] h-[270px]'
-            />
-                <p className='absolute bottom-5 w-[80%] bg-gray-500 text-center p-1 rounded-lg text-white text-lg'>Sửa ảnh bìa</p>
-            </div>
-            
+                  className='relative flex justify-center cursor-pointer'
+                  onClick={()=>{inputThumbnailRef.current.click()}}
+                >
+                  <img
+                    src={thumbnail}
+                    alt="Thumbnail"
+                    className='border border-gray-500 dark:border-gray-600 rounded-2xl object-contain w-[180px] h-[270px]'
+                  />
+                  <p className='absolute bottom-5 w-[80%] bg-gray-500 dark:bg-gray-700 text-center p-1 rounded-lg text-white text-lg'>Sửa ảnh bìa</p>
+                </div>
             )}
         </div>
     </div>

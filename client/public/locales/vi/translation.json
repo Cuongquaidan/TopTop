@@ -1,0 +1,67 @@
+{
+  "sidebar": {
+    "for_you": "Đề xuất",
+    "explore": "Khám phá",
+    "following": "Đã follow",
+    "friends": "Bạn bè",
+    "upload": "Tải lên",
+    "activities": "Hoạt động",
+    "messages": "Tin nhắn",
+    "live": "Trực tiếp",
+    "profile": "Hồ sơ",
+    "more": "Thêm"
+  },
+  "theme": {
+    "title": "Chủ đề",
+    "light_mode": "Chế độ sáng",
+    "dark_mode": "Chế độ tối"
+  },
+  "tools": {
+    "promote_post": "Quảng bá bài đăng",
+    "view_analytics": "Xem phân tích",
+    "live_creator_center": "Trung tâm Nhà sáng tạo LIVE",
+    "live_studio": "LIVE Studio"
+  },
+  "categories": [
+    "Tất cả",
+    "Ca hát & Khiêu vũ",
+    "Giải Trí",
+    "Thể Thao",
+    "Truyện tranh & hoạt hình",
+    "Mối quan hệ",
+    "Chương trình",
+    "Hát nhép",
+    "Đời Sống",
+    "Chăm sóc sắc đẹp",
+    "Trò chơi",
+    "Xã hội",
+    "Ẩm thực",
+    "Du lịch & Khám phá",
+    "Hài hước",
+    "Tin tức",
+    "Thời trang",
+    "Học tập",
+    "Động vật & Thú cưng",
+    "Công nghệ",
+    "Làm cha mẹ",
+    "Tâm lý - Phát triển bản thân",
+    "Xe cộ",
+    "Nghệ thuật & Thủ công",
+    "Thử thách & Trend",
+    "Phim ảnh & Phân tích",
+    "Tâm sự cuộc sống",
+    "Podcast & Trò chuyện",
+    "Khoa học & Vũ trụ",
+    "Tôn giáo & Tâm linh"
+  ],
+  "options": {
+    "get_coin": "Nhận Xu",
+    "make_tiktok_effect": "Tạo hiệu ứng TikTok",
+    "tools_for_creators": "Công cụ dành cho nhà sáng tạo",
+    "language": "Ngôn ngữ",
+    "setting": "Cài đặt",
+    "help_and_feedback": "Phản hồi và trợ giúp",
+    "log_out": "Đăng xuất"
+  }
+
+}

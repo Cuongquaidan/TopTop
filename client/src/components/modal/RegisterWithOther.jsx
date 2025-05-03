@@ -29,9 +29,7 @@ function RegisterWithOther() {
   const submit = async (data) => {
     const value = data.emailOrUsername;
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    const payload = {
-      password: data.password
-    };
+    const payload = { password: data.password };
 
     if (isEmail) {
       payload.email = value;
@@ -41,15 +39,12 @@ function RegisterWithOther() {
 
     try {
       const axiosInstance = createAxiosInstance(BASE_URL);
-      const data = await axiosInstance.post(SUMMARY_API.auth.register, payload);
-        if (data.success) {
-          toast.success(data.message || "Đăng ký thành công!");
-          
+      const res = await axiosInstance.post(SUMMARY_API.auth.register, payload);
+      if (res.success) {
+        toast.success(res.message || "Đăng ký thành công!");
         setTypeModal("login-with-other");
         reset();
-        } 
-   
-    
+      }
     } catch (error) {
       console.log(error.response?.data?.message || "Đăng ký thất bại!");
     }
@@ -57,26 +52,27 @@ function RegisterWithOther() {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="relative h-full px-6 py-10 space-y-4">
-      <div className='absolute top-0 left-0 cursor-pointer' onClick={() => setTypeModal("register")}>
-        <FaChevronLeft className='text-gray-700' />
+      <div className="absolute top-0 left-0 cursor-pointer" onClick={() => setTypeModal("register")}>
+        <FaChevronLeft className="text-gray-700 dark:text-white" />
       </div>
 
-      <h2 className="text-3xl font-bold text-center">Đăng kí</h2>
+      <h2 className="text-3xl font-bold text-center dark:text-white">Đăng kí</h2>
 
-      <div className='flex items-center justify-between'>
-        <p className='font-semibold text-md'>Email/Username</p>
+      <div className="flex items-center justify-between">
+        <p className="font-semibold text-md dark:text-white">Email/Username</p>
         <p
-          className='text-sm cursor-pointer text-slate-900 hover:underline'
+          className="text-sm cursor-pointer text-slate-900 dark:text-gray-300 hover:underline"
           onClick={() => setTypeModal("register-with-phone")}
         >
           Đăng kí bằng số điện thoại
         </p>
       </div>
-      <div className="flex gap-2 px-2 border rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+
+      <div className="flex gap-2 px-2 border rounded bg-[#eee] dark:bg-neutral-700 border-slate-300 dark:border-neutral-600 text-lg font-semibold">
         <input
           type="text"
           placeholder="Email hoặc Username"
-          className="flex-1 p-2 rounded outline-none"
+          className="flex-1 p-2 rounded outline-none bg-transparent text-black dark:text-white"
           {...register("emailOrUsername", {
             required: "Vui lòng nhập email hoặc username",
             minLength: {
@@ -88,11 +84,11 @@ function RegisterWithOther() {
       </div>
       {errors.emailOrUsername && <p className="text-sm text-red-500">{errors.emailOrUsername.message}</p>}
 
-      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] dark:bg-neutral-700 border-slate-300 dark:border-neutral-600 text-lg font-semibold">
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Nhập mật khẩu"
-          className="flex-1 p-2 outline-none"
+          className="flex-1 p-2 outline-none bg-transparent text-black dark:text-white"
           {...register("password", {
             required: "Vui lòng nhập mật khẩu",
             pattern: {
@@ -101,26 +97,30 @@ function RegisterWithOther() {
             }
           })}
         />
-        <div className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
-          onClick={() => setShowPassword(!showPassword)}>
+        <div
+          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2 text-gray-700 dark:text-gray-300"
+          onClick={() => setShowPassword(!showPassword)}
+        >
           {showPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
         </div>
       </div>
       {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
 
-      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] dark:bg-neutral-700 border-slate-300 dark:border-neutral-600 text-lg font-semibold">
         <input
           type={showConfirmPassword ? "text" : "password"}
           placeholder="Nhập lại mật khẩu"
-          className="flex-1 p-2 outline-none"
+          className="flex-1 p-2 outline-none bg-transparent text-black dark:text-white"
           {...register("confirmPassword", {
             required: "Vui lòng nhập lại mật khẩu",
             validate: value =>
               value === watch("password") || "Mật khẩu không khớp"
           })}
         />
-        <div className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
-          onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+        <div
+          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2 text-gray-700 dark:text-gray-300"
+          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+        >
           {showConfirmPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
         </div>
       </div>

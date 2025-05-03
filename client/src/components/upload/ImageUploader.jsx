@@ -27,7 +27,7 @@ function ImageUpload({ imageLimit = 5, data }) {
   }, [data]);
 
   return (
-    <div>
+    <div className="dark:text-white">
       <div>
         {selectedImages.map((image, index) => (
           <div key={index} style={{ display: 'inline-block', margin: '10px' }}>
@@ -35,12 +35,13 @@ function ImageUpload({ imageLimit = 5, data }) {
               src={image}
               alt={`Selected ${index}`}
               style={{ height:'300px', width:'180px', objectFit:'contain', border: '1px solid gray'}}
+              className="dark:border-gray-600"
             />
           </div>
         ))}
       </div>
       {selectedImages.length >= imageLimit && (
-        <p>Đã chọn tối đa {imageLimit} ảnh</p>
+        <p className="dark:text-gray-300">Đã chọn tối đa {imageLimit} ảnh</p>
       )}
     </div>
   );

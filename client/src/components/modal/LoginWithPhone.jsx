@@ -6,20 +6,21 @@ import { useGlobalContext } from '../../context/AppContext';
 import { toast } from 'react-toastify';
 import createAxiosInstance from '../../libs/axios/AxiosInstance';
 import { BASE_URL, SUMMARY_API } from '../../shared/Route';
-import  { useDispatch } from 'react-redux';
-import {setUser} from "../../redux/features/userSlice"
+import { useDispatch } from 'react-redux';
+import { setUser } from "../../redux/features/userSlice";
 import { useNavigate } from 'react-router-dom';
+
 function LoginWithPhone() {
   const { setTypeModal, setShowModal } = useGlobalContext();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     reset,
-    watch,
-    formState: { isSubmitSuccessful, isSubmitting, errors }
+    formState: { isSubmitting, errors }
   } = useForm({
     defaultValues: {
       phone: "",
@@ -28,54 +29,49 @@ function LoginWithPhone() {
   });
 
   const onSubmit = async (data) => {
-    
-     try {
+    try {
       const axiosInstance = createAxiosInstance(BASE_URL);
       const resjson = await axiosInstance.post(SUMMARY_API.auth.login.phone, {
         phone: data.phone,
         password: data.password
       });
-     
-        toast.success(resjson.message || "Đăng nhập thành công!");
-        reset();
-        dispatch(setUser({
-          user: resjson.data,
-        }));
-        setShowModal(false);
-        navigate("/");
-     
-     } catch (error) {
-       console.log(error.response?.data?.message || "Đăng nhập thất bại!");
-     }
 
+      toast.success(resjson.message || "Đăng nhập thành công!");
+      reset();
+      dispatch(setUser({ user: resjson.data }));
+      setShowModal(false);
+      navigate("/");
+    } catch (error) {
+      console.log(error.response?.data?.message || "Đăng nhập thất bại!");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="relative h-full px-6 py-10 space-y-4">
       <div className='absolute top-0 left-0 cursor-pointer' onClick={() => setTypeModal("login")}>
-        <FaChevronLeft className='text-gray-700' />
+        <FaChevronLeft className='text-gray-700 dark:text-gray-300' />
       </div>
 
-      <h2 className="text-3xl font-bold text-center">Đăng nhập</h2>
+      <h2 className="text-3xl font-bold text-center dark:text-white">Đăng nhập</h2>
 
       <div className='flex items-center justify-between'>
-        <p className='font-semibold text-md'>Điện thoại</p>
+        <p className='font-semibold text-md dark:text-white'>Điện thoại</p>
         <p
-          className='text-sm cursor-pointer text-slate-900 hover:underline'
+          className='text-sm cursor-pointer text-slate-900 dark:text-slate-300 hover:underline'
           onClick={() => setTypeModal("login-with-other")}
         >
           Đăng nhập bằng email/username
         </p>
       </div>
 
-      <div className="flex gap-2 px-2 border rounded bg-[#eee] border-slate-300 text-md font-semibold">
-        <button className="p-2 border-r-2 outline-none cursor-default border-slate-300">
+      <div className="flex gap-2 px-2 border rounded bg-[#eee] dark:bg-neutral-700 border-slate-300 dark:border-neutral-600 text-md font-semibold">
+        <button className="p-2 border-r-2 outline-none cursor-default border-slate-300 dark:border-neutral-600 dark:text-white">
           VN (+84)
         </button>
         <input
           type="tel"
           placeholder="Số điện thoại"
-          className="flex-1 px-2 py-1 rounded outline-none"
+          className="flex-1 px-2 py-1 rounded outline-none bg-transparent dark:text-white"
           {...register("phone", {
             required: "Vui lòng nhập số điện thoại",
             pattern: {
@@ -87,11 +83,11 @@ function LoginWithPhone() {
       </div>
       {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
 
-      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] border-slate-300 text-lg font-semibold">
+      <div className="flex gap-2 px-2 border relative rounded bg-[#eee] dark:bg-neutral-700 border-slate-300 dark:border-neutral-600 text-lg font-semibold">
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Nhập mật khẩu"
-          className="flex-1 p-2 outline-none"
+          className="flex-1 p-2 outline-none bg-transparent dark:text-white"
           {...register("password", {
             required: "Vui lòng nhập mật khẩu",
             minLength: {
@@ -101,7 +97,7 @@ function LoginWithPhone() {
           })}
         />
         <div
-          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2"
+          className="absolute transform -translate-y-1/2 cursor-pointer right-2 top-1/2 text-gray-700 dark:text-gray-300"
           onClick={() => setShowPassword(!showPassword)}
         >
           {showPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}

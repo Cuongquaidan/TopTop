@@ -4,7 +4,7 @@ import formatTimestamp from "../../helper/formatTimestamps";
 function MessageItem({ msg }) {
   const currentUserId = useSelector((state) => state.user.user._id);
   const isSender = msg?.sender?._id == currentUserId;
-  console.log(msg, currentUserId, isSender);
+
   return (
     msg && (
       <div className={`flex ${isSender ? "justify-end" : "justify-start"} mb-3`}>
@@ -21,8 +21,8 @@ function MessageItem({ msg }) {
           <div
             className={`px-3 py-2 rounded-2xl max-w-[240px] break-words ${
               isSender
-                ? "bg-gray-200 text-gray-800 rounded-tr-none"
-                : "bg-white border border-gray-300 text-gray-800 rounded-tl-none"
+                ? "bg-gray-200 text-gray-800 dark:bg-neutral-700 dark:text-gray-100 rounded-tr-none"
+                : "bg-white border border-gray-300 text-gray-800 dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-100 rounded-tl-none"
             }`}
           >
             {msg.content}
@@ -31,7 +31,7 @@ function MessageItem({ msg }) {
             <div
               className={`text-[10px] text-gray-400 mt-1 ${
                 isSender ? "text-right" : "text-left"
-              }`}
+              } dark:text-gray-500`}
             >
               {formatTimestamp(msg.createdAt)}
             </div>

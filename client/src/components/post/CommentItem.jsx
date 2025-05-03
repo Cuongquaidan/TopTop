@@ -37,25 +37,25 @@ function CommentItem({ comment }) {
             />
             <div className="flex-1">
                 <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm">
+                    <span className="font-bold text-sm dark:text-white">
                         {comment.userId.username}
                     </span>
-                    <span className="text-xs text-neutral-400">
+                    <span className="text-xs text-neutral-400 dark:text-gray-500">
                         {formatTime(comment.createAt)}
                     </span>
                 </div>
-                <p className="text-sm">{comment.content}</p>
+                <p className="text-sm dark:text-gray-200">{comment.content}</p>
 
                 {/* Comment Actions */}
                 <div className="flex items-center gap-4 mt-1">
-                    <button className="text-neutral-400 hover:text-white text-xs flex items-center gap-1">
+                    <button className="text-neutral-400 dark:text-gray-400 hover:text-white dark:hover:text-pink-400 text-xs flex items-center gap-1">
                         <AiOutlineLike /> {convertNumToString(comment.numOfLikes)}
                     </button>
                 </div>
 
                 {/* Replies */}
                 {/* {comment?.replies?.length > 0 && (
-                    <div className="mt-2 ml-2 border-l-2 border-white/10 pl-4">
+                    <div className="mt-2 ml-2 border-l-2 border-white/10 pl-4 dark:border-neutral-700">
                         {comment.replies
                             .slice(0, visibleReplies)
                             .map((reply) => (

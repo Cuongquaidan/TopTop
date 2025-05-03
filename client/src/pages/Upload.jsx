@@ -211,7 +211,7 @@ const Upload=()=>{
     };
 
     return(
-        <div className="w-full h-full bg-gray-100 p-8 flex flex-col justify-start items-center min-w-[900px]">
+        <div className="w-full h-full bg-gray-100 dark:bg-neutral-900 text-black dark:text-white p-8 flex flex-col justify-start items-center min-w-[900px]">
             <input type='file' className='hidden' 
                 accept='video/*'
                 ref={inputVideoRef}
@@ -225,10 +225,10 @@ const Upload=()=>{
             />
             {!video&&!images&&
             (
-                <div className="w-full p-8 rounded-2xl bg-white flex flex-col border-gray-300 border">
+                <div className="w-full p-8 rounded-2xl bg-white  flex flex-col border-gray-300  border dark:border-neutral-600 dark:bg-neutral-800">
                     <div 
                         className="flex flex-col justify-center items-center gap-2 bg-gray-100 rounded-2xl border border-gray-300 border-dashed h-[600px] cursor-pointer
-                        hover:border-blue-600"
+                        hover:border-blue-600 dark:border-neutral-600 dark:bg-neutral-900"
                         onClick={()=>{inputVideoRef.current.click()}}
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}
@@ -276,7 +276,7 @@ const Upload=()=>{
                 </div>
             )}
             {!video&&!images&&(
-                <div className="w-full p-4 rounded-lg bg-white flex justify-between items-center border-gray-300 border mt-6">
+                <div className="w-full p-4 rounded-lg bg-white flex justify-between items-center border-gray-300 border mt-6 dark:border-neutral-600 dark:bg-neutral-800">
                     <div>
                         <p className='font-bold text-lg'>
                             Tạo video chất lượng cao trên CapCut Online
@@ -286,20 +286,20 @@ const Upload=()=>{
                         </p>
                     </div>
                     <button 
-                        className=' px-4 flex justify-center items-center  bg-gray-300 rounded-xl cursor-pointer
-                        hover:bg-gray-400/60'
+                        className=' px-4 flex justify-center items-center  bg-gray-300 h-16 rounded-xl cursor-pointer
+                        hover:bg-gray-400/60 dark:hover:bg-neutral-600 dark:border-neutral-600 dark:bg-neutral-900'
                             
                     >
-                        <img src={defaultThumbnail} className='object-contain w-16 h-16 mix-blend-multiply'/>
+                        <img src={defaultThumbnail} className='object-contain w-16 h-16 mix-blend-multiply dark:hidden '/>
                         <p className='text-lg'>Thử ngay</p>
                     </button>
                 </div>
             )}
             {!video&&!images&&(
-                <div className="mt-6 w-full p-8 rounded-2xl bg-white flex flex-col border-gray-300 border">
+                <div className="mt-6 w-full p-8 rounded-2xl bg-white flex flex-col border-gray-300 border dark:border-neutral-600 dark:bg-neutral-800">
                     <div 
                         className="flex flex-col justify-center items-center gap-2 bg-gray-100 rounded-2xl border border-gray-300 border-dashed h-[300px] cursor-pointer
-                        hover:border-blue-600"
+                        hover:border-blue-600 dark:border-neutral-600 dark:bg-neutral-900"
                         onClick={()=>{inputImagesRef.current.click()}}
                     >
                         <p className='font-bold text-2xl'>Hoặc chọn ảnh để tải lên</p>

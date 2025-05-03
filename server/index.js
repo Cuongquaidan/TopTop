@@ -12,7 +12,8 @@ const CommentRoutes=require('./routes/CommentRoute')
 const LikeCommentRoutes=require('./routes/LikeCommentRoute')
 const LikePostRoutes=require('./routes/LikePostRoute')
 const SavePostRoutes=require('./routes/SavePostRoute')
-const MessageRoutes=require('./routes/MessageRoute')
+const MessageRoutes=require('./routes/MessageRoute');
+const Message = require('./models/Message');
 
 const app=express()
 app.use(cors())
@@ -37,6 +38,16 @@ io.on("connection", (socket)=>{
         const {receiver} = data
         const receiverId = receiver._id
         io.to(receiverId).emit("getMessage", data)
+    })
+    socket.on("readMessage", async ({senderId, receiverId})=>{
+         try {
+            await Message.updateMany(
+                { sender: senderId, receiver: receiverId, isRead: false },
+                { $set: { isRead: true } }
+            );
+         } catch (error) {
+            console.error("Error updating messages:", error);
+         }
     })
 
     socket.on("disconnect", ()=>{

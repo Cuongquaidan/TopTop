@@ -6,7 +6,7 @@ function LiveCustomIcon() {
     return (
         <div className="relative flex items-end justify-center w-8 h-8 gap-0.5 p-2  ">
             <motion.div
-                className="w-1 bg-black"
+                className="w-1 bg-black dark:bg-neutral-200"
                 animate={{
                     height: [2, 10],
                     transition: {
@@ -28,7 +28,7 @@ function LiveCustomIcon() {
                         repeatType: "mirror",
                     },
                 }}
-                className="w-1 bg-black"
+                className="w-1 bg-black dark:bg-neutral-200"
             ></motion.div>
             <motion.div
                 animate={{
@@ -41,7 +41,7 @@ function LiveCustomIcon() {
                         repeatType: "mirror",
                     },
                 }}
-                className="w-1 bg-black"
+                className="w-1 bg-black dark:bg-neutral-200"
             ></motion.div>
             <BiTv className="absolute inset-0" size={32}></BiTv>
         </div>
