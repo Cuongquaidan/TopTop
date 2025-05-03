@@ -51,10 +51,12 @@ const AppProvider = ({children})=>{
     setSocket(socket);
     socket.emit("join", currentUserId);
     socket.on("getMessage", (data)=>{
-      console.log(data)
       if(recipientIdRef.current === data.sender._id){
       setCurrentChat((prev) => [...prev, data]);
-      }
+      socket.emit("readMessage", {
+        senderId: data.sender._id,
+        receiverId: data.receiver._id,
+      })
       setCurrentChats((prev) => {
         const indexN = prev.findIndex(
           (chat) => chat.user._id === data.sender._id
@@ -64,17 +66,35 @@ const AppProvider = ({children})=>{
           updated[indexN] = {
             ...updated[indexN],
             message: {
+            ...updated[indexN].message,
+            content: data.content,
+            createdAt: data.createdAt,
+          },
+            numOfUnread: 0,
+          };
+          return updated;
+        }})
+
+      }else{
+        setCurrentChats((prev) => {
+          const indexN = prev.findIndex(
+            (chat) => chat.user._id === data.sender._id
+          );
+          if (indexN !== -1) {
+            const updated = [...prev];
+            updated[indexN] = {
+              ...updated[indexN],
+              message: {
               ...updated[indexN].message,
               content: data.content,
               createdAt: data.createdAt,
             },
-            numOfUnread: updated[indexN].numOfUnread + 1,
-          };
-          return updated;
-        }})
-     
-    
-      
+              numOfUnread: updated[indexN].numOfUnread + 1,
+            };
+            return updated;
+          }})
+
+      }
     })
     return () => {
       socket.disconnect();
@@ -91,6 +111,22 @@ const AppProvider = ({children})=>{
       receiver: recipientId,
     })
     getChat();
+    socket.emit("readMessage",{
+      senderId: recipientId,
+      receiverId: currentUserId,
+    })
+    setCurrentChats((prev) => {
+      const indexN = prev.findIndex(
+        (chat) => chat.user._id === recipientId
+      );
+      if (indexN !== -1) {
+        const updated = [...prev];
+        updated[indexN] = {
+          ...updated[indexN],
+          numOfUnread: 0,
+        };
+        return updated;
+      }})
 
   },[recipientId, currentUserId])
 

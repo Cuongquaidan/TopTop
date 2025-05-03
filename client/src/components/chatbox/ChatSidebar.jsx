@@ -93,7 +93,7 @@ function ChatSidebar() {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-              <p className={`text-sm dark:text-gray-400  truncate ${chat.numOfUnread > 0? "font-bold text-black ":"text-gray-500 "}`}>{chat.message.content}</p>
+              <p className={`text-sm dark:text-gray-400  truncate ${chat.numOfUnread > 0? "font-bold text-black dark:text-white ":"text-gray-500 "}`}>{chat.message.content}</p>
                 {chat.numOfUnread > 0 && (
                   <span className="text-xs text-white bg-primary rounded-full w-6 h-6 flex items-center justify-center">
                     {chat.numOfUnread}
