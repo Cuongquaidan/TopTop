@@ -16,7 +16,10 @@ const MessageRoutes=require('./routes/MessageRoute');
 const Message = require('./models/Message');
 
 const app=express()
-app.use(cors())
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}))
 app.use(express.json())
 const server = http.createServer(app)
 const io = new Server(server,{
