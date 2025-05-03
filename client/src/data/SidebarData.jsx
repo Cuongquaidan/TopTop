@@ -20,95 +20,70 @@ import { RiProfileFill } from "react-icons/ri";
 import { BASE_URL, SUMMARY_API } from "../shared/Route";
 const data = [
     {
-        title: "Đề xuất",
-        icon: <HiOutlineHome size={28}></HiOutlineHome>,
-        iconActive: <HiHome size={28} className="text-primary"></HiHome>,
-        href: "/",
+      title: "sidebar.for_you",
+      icon: <HiOutlineHome size={28} />,
+      iconActive: <HiHome size={28} className="text-primary" />,
+      href: "/",
     },
     {
-        title: "Khám phá",
-        icon: <MdOutlineExplore size={28}></MdOutlineExplore>,
-        iconActive: <MdExplore size={28} className="text-primary"></MdExplore>,
-        href: "/explore",
-        preloadUrl: new URL(SUMMARY_API.post.get.getTop9TrendingVideo, BASE_URL).toString()
+      title: "sidebar.explore",
+      icon: <MdOutlineExplore size={28} />,
+      iconActive: <MdExplore size={28} className="text-primary" />,
+      href: "/explore",
+      preloadUrl: new URL(SUMMARY_API.post.get.getTop9TrendingVideo, BASE_URL).toString(),
     },
     {
-        title: "Đã follow",
-        icon: <RiUserReceivedLine size={28}></RiUserReceivedLine>,
-        iconActive: (
-            <RiUserReceivedFill
-                size={28}
-                className="text-primary"
-            ></RiUserReceivedFill>
-        ),
-        href: "/following",
+      title: "sidebar.following",
+      icon: <RiUserReceivedLine size={28} />,
+      iconActive: <RiUserReceivedFill size={28} className="text-primary" />,
+      href: "/following",
     },
     {
-        title: "Bạn bè",
-        icon: <HiOutlineUserGroup size={28}></HiOutlineUserGroup>,
-        iconActive: (
-            <HiUserGroup size={28} className="text-primary"></HiUserGroup>
-        ),
-        href: "/friends",
+      title: "sidebar.friends",
+      icon: <HiOutlineUserGroup size={28} />,
+      iconActive: <HiUserGroup size={28} className="text-primary" />,
+      href: "/friends",
     },
     {
-        title: "Tải lên",
-        icon: <PiPlusSquare size={28}></PiPlusSquare>,
-        iconActive: (
-            <BiSolidPlusSquare
-                size={28}
-                className="text-primary"
-            ></BiSolidPlusSquare>
-        ),
-        href: "/upload",
+      title: "sidebar.upload",
+      icon: <PiPlusSquare size={28} />,
+      iconActive: <BiSolidPlusSquare size={28} className="text-primary" />,
+      href: "/upload",
     },
     {
-        title: "Hoạt động",
-        icon: <BiMessageAltDetail size={30}></BiMessageAltDetail>,
-        iconActive: (
-            <BiSolidMessageDetail
-                size={28}
-                className="text-primary"
-            ></BiSolidMessageDetail>
-        ),
-        option: "activities",
-        requireLogin: true,
+      title: "sidebar.activities",
+      icon: <BiMessageAltDetail size={30} />,
+      iconActive: <BiSolidMessageDetail size={28} className="text-primary" />,
+      option: "activities",
+      requireLogin: true,
     },
     {
-        title: "Tin nhắn",
-        icon: <BsSend size={28}></BsSend>,
-        iconActive: (
-            <BsFillSendFill size={28} className="text-primary"></BsFillSendFill>
-        ),
-        option: "messages",
-        requireLogin: true,
-        href:"/chat"
+      title: "sidebar.messages",
+      icon: <BsSend size={28} />,
+      iconActive: <BsFillSendFill size={28} className="text-primary" />,
+      option: "messages",
+      requireLogin: true,
+      href: "/chat",
     },
     {
-        title: "Trực tiếp",
-        icon: <LiveCustomIcon></LiveCustomIcon>,
-        iconActive: <SolidLiveCustomIcon></SolidLiveCustomIcon>,
-        href: "/live",
+      title: "sidebar.live",
+      icon: <LiveCustomIcon />,
+      iconActive: <SolidLiveCustomIcon />,
+      href: "/live",
     },
     {
-        title: "Hồ sơ",
-        icon: <RiProfileLine size={28}></RiProfileLine>,
-        iconActive: (
-            <RiProfileFill
-                size={28}
-                className="text-primary"
-            ></RiProfileFill>
-        ),
-        href: "/profile",
-        requireLogin: true,
+      title: "sidebar.profile",
+      icon: <RiProfileLine size={28} />,
+      iconActive: <RiProfileFill size={28} className="text-primary" />,
+      href: "/profile",
+      requireLogin: true,
     },
     {
-        title: "Thêm",
-        icon: <TfiMoreAlt size={28}></TfiMoreAlt>,
-        iconActive: (
-            <TfiMoreAlt size={28} className="text-primary"></TfiMoreAlt>
-        ),
+      title: "sidebar.more",
+      icon: <TfiMoreAlt size={28} />,
+      iconActive: <TfiMoreAlt size={28} className="text-primary" />,
     },
-];
-
-export default data;
+  ];
+  
+  export default data;
+  

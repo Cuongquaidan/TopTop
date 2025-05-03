@@ -12,6 +12,7 @@ import { useGlobalContext } from "../../context/AppContext";
 import AuthForm from "../modal/AuthForm";
 import { FaUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function Sidebar() {
     const user = useSelector((state) => state.user.user);
@@ -21,7 +22,7 @@ function Sidebar() {
 
     const { showModal, setShowModal, setTypeModal, option, setOption } = useGlobalContext();
     const navigate = useNavigate();
-
+    const {t} = useTranslation()
     useEffect(() => {
         setCurrentPathname(location.pathname);
     }, [location.pathname]);
@@ -90,7 +91,7 @@ function Sidebar() {
                             >
                                 <div>{item.option === option ? item.iconActive : item.icon}</div>
                                 <motion.p animate={{ opacity: showMore || option ? 0 : 1 }}>
-                                    {item.title}
+                                    {t(item.title)}
                                 </motion.p>
                             </button>
                         ) : item.href ? (
@@ -116,7 +117,7 @@ function Sidebar() {
                             >
                                 <div>{item.option === option ? item.iconActive : item.icon}</div>
                                 <motion.p animate={{ opacity: showMore || option ? 0 : 1 }}>
-                                    {item.title}
+                                {t(item.title)}
                                 </motion.p>
                             </button>
                         )
@@ -136,8 +137,8 @@ function Sidebar() {
                     ) : (
                         <div className="flex items-center p-2 gap-2 max-w-[200px] text-md font-semibold cursor-pointer rounded dark:hover:bg-neutral-800">
                             {user.profile_picture ? (
-                                <div className="w-12 h-12 rounded-full overflow-hidden">
-                                    <img src={user.profile_picture} className="w-full h-full object-cover" alt="" />
+                                <div className="w-12 h-12 overflow-hidden rounded-full">
+                                    <img src={user.profile_picture} className="object-cover w-full h-full" alt="" />
                                 </div>
                             ) : (
                                 <FaUserCircle size={32} className="text-amber-900 dark:text-neutral-400" />
@@ -162,7 +163,7 @@ function Sidebar() {
                 >
                     <div>{showMore ? data[data.length - 1].iconActive : data[data.length - 1].icon}</div>
                     <motion.p variants={variants} animate="textAnimate">
-                        {data[data.length - 1].title}
+                        {t(data[data.length - 1].title)}
                     </motion.p>
                 </button>
             </div>

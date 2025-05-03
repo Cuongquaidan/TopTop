@@ -8,11 +8,13 @@ import ToolsForCreators from "./ToolsForCreators";
 import ThemeOptions from "./ThemeOptions";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/features/userSlice";
+import { useTranslation } from "react-i18next";
 
 function MoreOptions({ setShowMore }) {
     const [targetMore, setTargetMore] = useState("");
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
+    const  {t} = useTranslation();
 
     return (
         <motion.div
@@ -31,11 +33,11 @@ function MoreOptions({ setShowMore }) {
             className="border-x border-neutral-300 dark:border-neutral-700 px-6 fixed top-0 left-[80px] w-full flex bg-transparent h-screen"
         >
             
-            <div className="h-full p-6 px-4 border-r border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 dark:text-gray-200">
+            <div className="h-full p-6 px-4 bg-white border-r border-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-gray-200">
             {targetMore === "" && (
                 <div>
                     <div className="flex justify-between mb-10">
-                        <p className="text-xl font-bold dark:text-white">Thêm</p>
+                        <p className="text-xl font-bold dark:text-white">{t("sidebar.more")}</p>
                         <button className="flex items-center justify-center w-6 h-6 p-0 rounded-full cursor-pointer text-neutral-300 dark:text-neutral-400">
                             <MdCancel
                                 size={30}

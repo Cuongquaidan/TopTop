@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import useSmartPrefetch from "../../hooks/useSmartRefetch";
+import { useTranslation } from "react-i18next";
 
 function SidebarItem({
     item,
@@ -13,6 +14,7 @@ function SidebarItem({
     ...props
 }) {
     const isActive = currentPathname === item.href;
+    const {t} = useTranslation()
     return (
         <Link
             className={`${
@@ -34,7 +36,7 @@ function SidebarItem({
                     opacity: showMore || option ? 0 : 1,
                 }}
             >
-                {item.title}
+                   {t(item.title)}
             </motion.p>
         </Link>
     );

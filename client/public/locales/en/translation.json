@@ -1,0 +1,66 @@
+{
+  "sidebar": {
+    "for_you": "For You",
+    "explore": "Explore",
+    "following": "Following",
+    "friends": "Friends",
+    "upload": "Upload",
+    "activities": "Activities",
+    "messages": "Messages",
+    "live": "LIVE",
+    "profile": "Profile",
+    "more": "More"
+  },
+  "theme": {
+    "title": "Theme",
+    "light_mode": "Light mode",
+    "dark_mode": "Dark mode"
+  },
+  "tools": {
+    "promote_post": "Promote Post",
+    "view_analytics": "View Analytics",
+    "live_creator_center": "LIVE Creator Center",
+    "live_studio": "LIVE Studio"
+  },
+  "categories": [
+    "All",
+    "Singing & Dancing",
+    "Entertainment",
+    "Sports",
+    "Comics & Animation",
+    "Relationships",
+    "Programs",
+    "Lip Sync",
+    "Lifestyle",
+    "Beauty Care",
+    "Games",
+    "Society",
+    "Food",
+    "Travel & Discovery",
+    "Humor",
+    "News",
+    "Fashion",
+    "Education",
+    "Animals & Pets",
+    "Technology",
+    "Parenting",
+    "Psychology & Self-development",
+    "Vehicles",
+    "Arts & Crafts",
+    "Challenges & Trends",
+    "Movies & Analysis",
+    "Life Confessions",
+    "Podcast & Talk",
+    "Science & Space",
+    "Religion & Spirituality"
+  ],
+  "options": {
+    "get_coin": "Get Coins",
+    "make_tiktok_effect": "Create TikTok Effects",
+    "tools_for_creators": "Creator Tools",
+    "language": "Language",
+    "setting": "Settings",
+    "help_and_feedback": "Help & Feedback",
+    "log_out": "Log out"
+  }
+}

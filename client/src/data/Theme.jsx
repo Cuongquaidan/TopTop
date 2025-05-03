@@ -1,12 +1,13 @@
 const themes = [
     {
-        content: "Chế độ sáng",
-        id: "light",
+      content: "theme.light_mode",
+      id: "light",
     },
     {
-        content: "Chế độ tối",
-        id: "dark",
+      content: "theme.dark_mode",
+      id: "dark",
     },
-];
-
-export default themes;
+  ];
+  
+  export default themes;
+  
