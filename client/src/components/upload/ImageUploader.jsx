@@ -34,7 +34,7 @@ function ImageUpload({ imageLimit = 5, data }) {
             <img
               src={image}
               alt={`Selected ${index}`}
-              style={{ height:'300px', width:'180px', objectFit:'contain', border: '1px solid gray'}}
+              style={{ height:'300px', width:'180px', objectFit:'cover', border: '1px solid gray'}}
               className="dark:border-gray-600"
             />
           </div>

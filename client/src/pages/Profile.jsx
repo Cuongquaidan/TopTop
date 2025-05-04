@@ -94,19 +94,25 @@ const Profile=()=>{
                         </button>
                         <button 
                             className='bg-gray-200 rounded-lg text-xl font-medium p-2 px-6
-                            hover:bg-gray-300 cursor-pointer'
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800
+                            '
                         >
                             Quảng bá hồ sơ
                         </button>
                         <button 
                             className='bg-gray-200 rounded-lg text-xl font-medium p-2
-                            hover:bg-gray-300 cursor-pointer'
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800
+                            '
                         >
                             <CiSettings />
                         </button>
                         <button 
                             className='bg-gray-200 rounded-lg text-xl font-medium p-2
-                            hover:bg-gray-300 cursor-pointer'
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800
+                            '
                         >
                             <FaRegShareFromSquare />
                         </button>
@@ -118,7 +124,9 @@ const Profile=()=>{
                                 {user?user.numOfFolloweds:'TopTop'}
                             </p>
                             <button 
-                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 
+                                dark:bg-white/0
+                                '
                                 onClick={()=>{
                                     setTypeModal("Thống kê")
                                     setShowModal(true)
@@ -135,7 +143,9 @@ const Profile=()=>{
                                 }
                             </p>
                             <button 
-                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500 '
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500
+                                dark:bg-white/0
+                                '
                                 onClick={()=>{
                                     setTypeModal("Thống kê")
                                     setShowModal(true)
@@ -157,7 +167,7 @@ const Profile=()=>{
                         </div>
                     </div>
                     <div className='flex gap-5 items-center justify-start'>
-                        <p className='text-lg text-gray-500'>
+                        <p className='text-lg text-gray-500 font-medium dark:text-white'>
                             {
                                 user&&user.description===''?
                                 'Người dùng chưa có thông tin giới thiệu'
@@ -170,11 +180,11 @@ const Profile=()=>{
                     </div>
                 </div>
             </div>
-            <div className='flex md:flex-col md:items-center md:gap-3 md:pb-4 lg:flex-row lg:gap-0 lg:pb-0 w-full border-b-3 border-b-gray-200'>
+            <div className='flex md:flex-col md:items-center md:gap-3 md:pb-4 lg:flex-row lg:gap-0 lg:pb-0 w-full border-b-3 border-b-gray-200 dark:border-b-gray-800/50'>
                 <div className='lg:w-6/10 md:w-full flex'>
                     <div className='flex relative justify-start w-full max-w-[900px] text-xl font-semibold'>
                         <div
-                            className="absolute bottom-0 left-0 w-1/3 h-[3px] bg-black transition-all duration-400 ease-in-out"
+                            className="absolute -bottom-0.5 left-0 w-1/3 h-[3px] bg-black dark:bg-white transition-all duration-400 ease-in-out"
                             style={{
                                 transform: `translateX(${postTypeHover === 'Video' ? '0%' : postTypeHover === 'Bài đăng lại' ? '100%' : '200%'})`
                             }}
@@ -185,8 +195,10 @@ const Profile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={` w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Video'?'text-black':'text-gray-400'}`}
+                                    className={` w-full text-center py-4
+                                        ${postTypeHover==='Video'
+                                        ?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Video
                                 </p>
@@ -197,8 +209,9 @@ const Profile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={` w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Bài đăng lại'?'text-black':'text-gray-400'}`}
+                                    className={` w-full text-center py-4
+                                        ${postTypeHover==='Bài đăng lại'?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Bài đăng lại
                                 </p>
@@ -209,8 +222,9 @@ const Profile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={` w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Đã thích'?'text-black':'text-gray-400'}`}
+                                    className={` w-full text-center py-4
+                                        ${postTypeHover==='Đã thích'?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Đã thích
                                 </p>

@@ -75,7 +75,7 @@ const InfoProfile = () => {
 
     return (
         <div className="flex flex-col gap-2 px-6 pb-6 overflow-y-auto h-full">
-            <h1 className="text-2xl font-medium">
+            <h1 className="text-2xl font-medium dark:text-white">
                 Sửa hồ sơ
             </h1>
             <input type='file' className='hidden'
@@ -85,7 +85,7 @@ const InfoProfile = () => {
             />
             {/* Ảnh hồ sơ */}
             <div className="flex flex-col items-center gap-2 border-t-2 py-4 border-gray-300">
-                <p className="text-lg font-medium w-full">Ảnh hồ sơ</p>
+                <p className="text-lg font-medium w-full dark:text-white">Ảnh hồ sơ</p>
                 <div className="relative">
                     <img
                         src={profilePicture||tiktokIcon}
@@ -93,24 +93,24 @@ const InfoProfile = () => {
                         className="w-24 h-24 rounded-full object-cover"
                     />
                     <button 
-                        className="border-1 border-gray-400 absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer"
+                        className="border-1 border-gray-400 absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer dark:bg-black"
                         onClick={()=>avatarRef.current.click()}    
                     >
-                        <FaPen />
+                        <FaPen className="dark:text-white"/>
                     </button>
                 </div>
             </div>
 
             {/* TikTok ID */}
             <div className="flex flex-col gap-1 border-t-2 py-4 border-gray-300 ">
-                <p className="text-lg font-medium w-full">TikTok ID</p>
+                <p className="text-lg font-medium w-full dark:text-white">TikTok ID</p>
                 <input
                     type="text"
                     value={username}
-                    className="bg-gray-200 cursor-pointer p-2 rounded-xl"
+                    className="bg-gray-200 cursor-pointer p-2 rounded-xl dark:bg-gray-800 dark:text-white"
                     onChange={(e)=>setUsername(e.target.value)}
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-white">
                     www.tiktok.com/@{username} <br />
                     TikTok ID chỉ có thể bao gồm chữ cái, chữ số, dấu gạch dưới và dấu chấm. Khi thay đổi TikTok ID, liên kết hồ sơ của bạn cũng sẽ thay đổi.
                 </p>
@@ -118,26 +118,26 @@ const InfoProfile = () => {
 
             {/* Tên */}
             <div className="flex flex-col gap-1 border-t-2 py-4 border-gray-300">
-                <p className="text-lg font-medium w-full">Tên</p>
+                <p className="text-lg font-medium w-full dark:text-white">Tên</p>
                 <input
                     type="text"
                     value={displayName}
-                    className="bg-gray-200 cursor-pointer p-2 rounded-xl"
+                    className="bg-gray-200 cursor-pointer p-2 rounded-xl dark:bg-gray-800 dark:text-white"
                     onChange={(e)=>setDisplayName(e.target.value)}
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-white">
                     Bạn chỉ có thể thay đổi biệt danh 7 ngày một lần.
                 </p>
             </div>
 
             {/* Tiểu sử */}
             <div className="flex flex-col gap-1 border-t-2 py-4 border-gray-300">
-                <p className="text-lg font-medium w-full">Tiểu sử</p>
+                <p className="text-lg font-medium w-full dark:text-white">Tiểu sử</p>
                 <textarea
                     placeholder="Tiểu sử"
                     value={desc||""}
                     maxLength={80}
-                    className="bg-gray-200 cursor-pointer rounded-lg p-3 text-sm resize-none h-24"
+                    className="bg-gray-200 cursor-pointer rounded-lg p-3 text-sm resize-none h-24 dark:bg-gray-800 dark:text-white"
                     onChange={(e)=>{
                         setDesc(e.target.value)
                         setDescLength(e.target.value.length)
@@ -148,17 +148,17 @@ const InfoProfile = () => {
 
             {/* Nút hành động */}
             <div className="flex justify-end gap-2 mt-4 border-t-2 py-4 border-gray-300">
-                <button className="p-2 px-5 rounded-xl border-1 border-gray-300 cursor-pointer" onClick={cancelHandler}>Hủy</button>
+                <button className="p-2 px-5 rounded-xl border-1 border-gray-300 cursor-pointer dark:text-white" onClick={cancelHandler}>Hủy</button>
                 {loading?
                     (
                         <button 
                         className='bg-red-600/80 p-2 rounded-xl px-5 text-white text-lg flex items-center justify-center
                         cursor-not-allowed'
                         >
-                            <IoReload className='animate-spin text-xl'/>
+                            <IoReload className='animate-spin text-xl dark:text-white'/>
                         </button>
                     ):(      
-                        <button className="p-2 px-5 rounded-xl border-1 border-gray-300 cursor-pointer" onClick={updateInfoHandeler}>Lưu</button>
+                        <button className="p-2 px-5 rounded-xl border-1 border-gray-300 cursor-pointer dark:text-white" onClick={updateInfoHandeler}>Lưu</button>
                     )
                 }
             </div>

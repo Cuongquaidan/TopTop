@@ -34,7 +34,7 @@ const ThumbnailUploader = ({ changeThumbnail }) => {
                     className='relative flex justify-center cursor-pointer'
                     onClick={()=>{inputThumbnailRef.current.click()}}
                 >
-                    <img src={thumbnail} className='border border-gray-500 dark:border-gray-600 rounded-2xl object-contain w-[180px] h-[270px]'/>
+                    <img src={thumbnail} className='border object-cover border-gray-500 dark:border-gray-600 rounded-2xl w-[180px] h-[270px]'/>
                     <p className='absolute bottom-5 w-[80%] bg-gray-500 dark:bg-gray-700 text-center p-1 rounded-lg text-white text-lg'>Chọn ảnh bìa</p>
                 </div>
             )}
@@ -46,7 +46,7 @@ const ThumbnailUploader = ({ changeThumbnail }) => {
                   <img
                     src={thumbnail}
                     alt="Thumbnail"
-                    className='border border-gray-500 dark:border-gray-600 rounded-2xl object-contain w-[180px] h-[270px]'
+                    className='border object-cover border-gray-500 dark:border-gray-600 rounded-2xl w-[180px] h-[270px]'
                   />
                   <p className='absolute bottom-5 w-[80%] bg-gray-500 dark:bg-gray-700 text-center p-1 rounded-lg text-white text-lg'>Sửa ảnh bìa</p>
                 </div>
