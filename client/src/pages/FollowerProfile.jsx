@@ -134,19 +134,22 @@ const FollowerProfile=()=>{
                         </button>
                         <button 
                             className='bg-gray-200 rounded-lg text-xl font-medium p-2 px-6
-                            hover:bg-gray-300 cursor-pointer'
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800'
                         >
                             Tin nhắn
                         </button>
                         <button 
-                            className='bg-gray-200 rounded-lg text-xl font-medium p-2
-                            hover:bg-gray-300 cursor-pointer'
+                            className='bg-gray-200 rounded-lg text-xl font-medium p-2 px-6
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800'
                         >
                             <FaShare />
                         </button>
                         <button 
-                            className='bg-gray-200 rounded-lg text-xl font-medium p-2
-                            hover:bg-gray-300 cursor-pointer'
+                            className='bg-gray-200 rounded-lg text-xl font-medium p-2 px-6
+                            hover:bg-gray-300 cursor-pointer
+                            dark:bg-black/80 dark:hover:bg-gray-800'
                         >
                             <HiOutlineDotsHorizontal />
                         </button>
@@ -157,7 +160,9 @@ const FollowerProfile=()=>{
                                 {user?user.numOfFolloweds:'TopTop'}
                             </p>
                             <button 
-                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500'
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500
+                                dark:bg-white/0
+                                '
                                 onClick={()=>{
                                     setShowModal(true)
                                 }}
@@ -173,7 +178,9 @@ const FollowerProfile=()=>{
                                 }
                             </p>
                             <button 
-                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500'
+                                className='bg-white border-0 hover:border-b-gray-500 hover:underline cursor-pointer text-gray-500
+                                dark:bg-white/0
+                                '
                                 onClick={()=>{
                                     setShowModal(true)
                                 }}    
@@ -207,11 +214,11 @@ const FollowerProfile=()=>{
                     </div>
                 </div>
             </div>
-            <div className='flex md:flex-col md:items-center md:gap-3 md:pb-4 lg:flex-row lg:gap-0 lg:pb-0 w-full border-b-3 border-b-gray-200'>
+            <div className='flex md:flex-col md:items-center md:gap-3 md:pb-4 lg:flex-row lg:gap-0 lg:pb-0 w-full border-b-3 border-b-gray-200 dark:border-b-gray-800/50'>
                 <div className='lg:w-6/10 md:w-full flex'>
                     <div className='flex relative justify-start w-full max-w-[900px]'>
                         <div
-                            className="absolute -bottom-0.5 left-0 w-1/3 h-[3px] bg-black transition-all duration-400 ease-in-out"
+                            className="absolute -bottom-0.5 left-0 w-1/3 h-[3px] bg-black dark:bg-white transition-all duration-400 ease-in-out"
                             style={{
                                 transform: `translateX(${postTypeHover === 'Video' ? '0%' : postTypeHover === 'Bài đăng lại' ? '100%' : '200%'})`
                             }}
@@ -222,8 +229,9 @@ const FollowerProfile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={`text-2xl font-medium w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Video'?'text-black':'text-gray-400'}`}
+                                    className={`text-2xl font-medium w-full text-center py-4
+                                        ${postTypeHover==='Video'?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Video
                                 </p>
@@ -234,8 +242,9 @@ const FollowerProfile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={`text-2xl font-medium w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Bài đăng lại'?'text-black':'text-gray-400'}`}
+                                    className={`text-2xl font-medium w-full text-center py-4
+                                        ${postTypeHover==='Bài đăng lại'?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Bài đăng lại
                                 </p>
@@ -246,8 +255,9 @@ const FollowerProfile=()=>{
                             onMouseLeave={()=>setPostTypeHover(postType)}
                         >
                                 <p 
-                                    className={`text-2xl font-medium w-full text-center py-4 border-b-3 border-white
-                                        ${postTypeHover==='Đã thích'?'text-black':'text-gray-400'}`}
+                                    className={`text-2xl font-medium w-full text-center py-4
+                                        ${postTypeHover==='Đã thích'?(document.documentElement.classList.contains('dark')?'text-white':'text-black')
+                                        :'text-gray-400'}`}
                                 >
                                     Đã thích
                                 </p>
@@ -257,21 +267,28 @@ const FollowerProfile=()=>{
                 </div>
                 <div className='lg:w-4/10 md:w-full flex lg:justify-end md:justify-center items-center'>
                     {postType==='Video'&&(
-                        <div className='flex p-1 gap-1 item-center justify-center bg-gray-300 cursor-pointer rounded-lg text-lg font-medium'>
+                        <div className='flex item-center justify-center bg-gray-300 dark:bg-gray-800/80 cursor-pointer rounded-lg text-lg font-medium'>
                             <p 
-                                className={`px-3 py-2 rounded-lg ${sortPost==="Mới nhất"?'bg-white text-black':'bg-gray-300 text-gray-500'}`}
+                                className={`px-3 py-2 rounded-lg ${sortPost==="Mới nhất"?
+                                    'bg-white text-black dark:bg-black dark:text-white' 
+                                    :'bg-gray-300 text-gray-500 dark:bg-gray-800/80 dark:text-gray-400'}
+                                `}
                                 onClick={()=>sortPostHandler("Mới nhất")}
                             >
                                 Mới nhất
                             </p>
                             <p 
-                                className={`px-3 py-2 rounded-lg ${sortPost==="Thịnh hành"?'bg-white text-black':'bg-gray-300 text-gray-500'}`}
+                                className={`px-3 py-2 rounded-lg ${sortPost==="Thịnh hành"?'bg-white text-black dark:bg-black dark:text-white' 
+                                    :'bg-gray-300 text-gray-500 dark:bg-gray-800/80 dark:text-gray-400'}
+                                `}
                                 onClick={()=>sortPostHandler("Thịnh hành")}
                             >
                                 Thịnh hành
                             </p>
                             <p 
-                                className={`px-3 py-2 rounded-lg ${sortPost==="Cũ nhất"?'bg-white text-black':'bg-gray-300 text-gray-500'}`}
+                                className={`px-3 py-2 rounded-lg ${sortPost==="Cũ nhất"?'bg-white text-black dark:bg-black dark:text-white' 
+                                    :'bg-gray-300 text-gray-500 dark:bg-gray-800/80 dark:text-gray-400'}
+                                `}
                                 onClick={()=>sortPostHandler("Cũ nhất")}
                             >
                                 Cũ nhất

@@ -345,10 +345,10 @@ const Upload=()=>{
             {(video||images)&&(
                 <div className='flex flex-col h-full w-full gap-6'>
                     {video&&(
-                        <div className='bg-white rounded-xl border border-gray-300 p-4 py-6 flex justify-between items-center'>
+                        <div className='bg-white dark:bg-gray-800/70 dark:border-gray-800/70 rounded-xl border border-gray-300 p-4 py-6 flex justify-between items-center'>
                             <div className='flex flex-col'>
                                 <div className='flex gap-4 items-center'>
-                                    <p className='font-bold text-xl'>
+                                    <p className='font-bold text-xl dark:text-white'>
                                         {video.name}
                                     </p>
                                     <p className='p-1 px-2 border rounded-xl border-gray-400'>720P</p>
@@ -370,7 +370,7 @@ const Upload=()=>{
                     )}
                     {images&&
                     (
-                        <div className='bg-white rounded-xl border border-gray-300 p-4  flex justify-between items-center'>
+                        <div className='bg-white rounded-xl border border-gray-300 p-4  flex justify-between items-center dark:bg-gray-800/70 dark:border-gray-800/70'>
                             <div className='flex flex-col'>
                                 <div className='flex gap-4 items-center'>
                                     <ImageUploader imageLimit={10} data={images}/>
@@ -390,34 +390,34 @@ const Upload=()=>{
                         </div>
                     )}
                     <p className='font-bold text-xl mt-4'>Chi tiết</p>
-                    <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white'>
+                    <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white dark:bg-gray-800/70 dark:border-gray-800/70'>
                         <p className='font-bold text-xl mt-2'>Mô tả</p>
-                        <div className='w-full relative h-[300px] bg-gray-200 rounded-2xl'>
+                        <div className='w-full relative h-[300px] bg-gray-200 rounded-2xl dark:bg-gray-500'>
                             <textarea 
                                 className='bg-gray-200 border-0 rounded-xl w-full h-60 p-5 text-start 
-                                focus:outline-0 resize-none' 
+                                focus:outline-0 resize-none dark:bg-gray-500' 
                                 placeholder='Chia sẻ thêm về video của bạn tại đây...'
                                 maxLength={4001}
                                 value={description}
                                 onChange={changeDescriptionHandler}
                             />
-                            <span className='absolute bottom-5 right-5 text-gray-500'>
+                            <span className='absolute bottom-5 right-5 text-gray-500 dark:text-white'>
                                 {descriptionLength}/4000
                             </span>
                             <div className='0 absolute bottom-5 left-5'>
                                 <button 
                                     className='border-0p-1 text-gray-500 font-bold text-lg
-                                    cursor-pointer'
+                                    cursor-pointer dark:text-white'
                                     onClick={hashTagHandler}
                                 >
                                     # Hashtag
                                 </button>
                                 <button 
                                     className='border-0p-1 text-gray-500 font-bold text-lg ms-7
-                                    cursor-pointer'
+                                    cursor-pointer dark:text-white'
                                     onClick={tagHandler}
                                 >
-                                    # Nhắc đến
+                                    @ Nhắc đến
                                 </button>
                             </div>
                         </div>
@@ -431,11 +431,11 @@ const Upload=()=>{
                         <div className='flex justify-center items-center relative'>
                             <input 
                                 list="locations" 
-                                className='bg-gray-300 p-2 ps-15 w-[350px] rounded-xl relative'
+                                className='bg-gray-300 p-2 ps-15 w-[350px] rounded-xl relative dark:bg-gray-500'
                                 placeholder="Tìm kiếm vị trí"
                                 onChange={(e)=>setLocation(e.target.value)}
                             />
-                            <FaSearchLocation size={20} className='text-gray-500 absolute left-4'/>
+                            <FaSearchLocation size={20} className='text-gray-500 absolute left-4 dark:text-white'/>
                             <datalist id="locations">
                                 <option value="HCM" />
                                 <option value="HN" />
@@ -444,7 +444,7 @@ const Upload=()=>{
                         </div>
                     </div>
                     <p className='font-bold text-xl mt-4'>Cài đặt</p>
-                    <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white'>
+                    <div className='flex flex-col p-4 items-start justify-start gap-4 rounded-2xl border-gray-300 border bg-white dark:bg-gray-800/70 dark:border-gray-800/70'>
                         <p className='font-bold text-xl mt-2'>Thời điểm đăng</p>
                         <div className='flex gap-8'>
                             <label className='flex items-center gap-2'>
@@ -478,12 +478,12 @@ const Upload=()=>{
                         <p className='font-bold text-xl mt-2'>Ai có thể xem {video?"video":"ảnh"} này</p>
                         <select 
                             className='p-2 bg-gray-300 rounded-xl w-[350px] 
-                            focus:bg-white focus:outline-1'
+                            focus:bg-white dark:bg-gray-500 dark:border-gray-500 dark:text-white focus:outline-1'
                             onChange={(e)=>setPublicState(e.target.value)}    
                         >
-                            <option>Mọi người</option>
-                            <option>Bạn bè</option>
-                            <option>Chỉ mình bạn</option>
+                            <option className='dark:bg-gray-500 dark:text-white'>Mọi người</option>
+                            <option className='dark:bg-gray-500 dark:text-white'>Bạn bè</option>
+                            <option className='dark:bg-gray-500 dark:text-white'>Chỉ mình bạn</option>
                         </select>
                     </div>
                     <p className='font-bold text-xl mt-4'>Kiểm tra</p>
@@ -511,7 +511,7 @@ const Upload=()=>{
                             )
                         }
                         <button 
-                            className='bg-gray-300 p-2 px-3 rounded-xl  text-lg
+                            className='bg-gray-300 p-2 px-3 rounded-xl  text-lg dark:bg-gray-500
                             cursor-pointer hover:bg-gray-400/60'
                             onClick={handleCancel}
                         >

@@ -33,47 +33,51 @@ const StatisticsProfile=({selectedUser})=>{
     
     return(
         <div className="w-full h-full flex flex-col items-center justify-start">
-            <h1 className="text-xl font-bold">{user?user.username:'TopTop'}</h1>
-            <div className="w-full flex border-b-gray-200 border-b-2">
+            <h1 className="text-xl font-bold dark:text-white">{user?user.username:'TopTop'}</h1>
+            <div className="w-full flex border-b-gray-200 border-b-2 dark:border-b-gray-800/50">
                 <div 
                     className={
                         `flex items-start justify-center p-1 py-3 w-1/4
                         ${tab==="Đã follow"?"border-b-3":"border-b-0"}
+                        ${document.documentElement.classList.contains('dark')?'border-b-white':'border-b-black'}
                         `
                     }
                     onClick={()=>setTab("Đã follow")}
                 >
-                    <p className="font-medium">Đã follow {user?user.numOfFolloweds:"TopTop"}</p>
+                    <p className="font-medium dark:text-white">Đã follow {user?user.numOfFolloweds:"TopTop"}</p>
                 </div>
                 <div 
                     className={
                         `flex items-start justify-center p-1 py-3 w-1/4
                         ${tab==="Follower"?"border-b-3":"border-b-0"}
+                        ${document.documentElement.classList.contains('dark')?'border-b-white':'border-b-black'}
                         `
                     }
                     onClick={()=>setTab("Follower")}
                 >
-                    <p className="font-medium">Follower {user?user.numOfFollowers:"TopTop"}</p>
+                    <p className="font-medium dark:text-white">Follower {user?user.numOfFollowers:"TopTop"}</p>
                 </div>
                 <div 
                     className={
                         `flex items-start justify-center p-1 py-3 w-1/4
                         ${tab==="Bạn bè"?"border-b-3":"border-b-0"}
+                        ${document.documentElement.classList.contains('dark')?'border-b-white':'border-b-black'}
                         `
                     }
                     onClick={()=>setTab("Bạn bè")}
                 >
-                    <p className="font-medium">Bạn bè {user?user.numOfFriends:"TopTop"}</p>
+                    <p className="font-medium dark:text-white">Bạn bè {user?user.numOfFriends:"TopTop"}</p>
                 </div>
                 <div 
                     className={
                         `flex items-start justify-center p-1 py-3 w-1/4
                         ${tab==="Được đề xuất"?"border-b-3":"border-b-0"}
+                        ${document.documentElement.classList.contains('dark')?'border-b-white':'border-b-black'}
                         `
                     }
                     onClick={()=>setTab("Được đề xuất")}
                 >
-                    <p className="font-medium">Được đề xuất</p>
+                    <p className="font-medium dark:text-white">Được đề xuất</p>
                 </div>
             </div>
             <div className="w-full h-full p-3 ps-5 flex flex-col gap-6 overflow-y-auto">
@@ -81,7 +85,7 @@ const StatisticsProfile=({selectedUser})=>{
                     return(
                         <div key={index} className="flex gap-4 justify-start items-center">
                             <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>
-                            <p className="font-medium">{item.username}</p>
+                            <p className="font-medium dark:text-white">{item.username}</p>
                         </div>
                     )
                 })}
@@ -89,7 +93,7 @@ const StatisticsProfile=({selectedUser})=>{
                     return(
                         <div key={index} className="flex gap-4 justify-start items-center">
                             <img src={item.profile_picture} className="w-[40px] h-[40px] object-cover rounded-full"/>
-                            <p className="font-medium">{item.username}</p>
+                            <p className="font-medium dark:text-white">{item.username}</p>
                         </div>
                     )
                 })}
