@@ -13,8 +13,11 @@ import { useGlobalContext } from '../context/AppContext'
 import Modal from '../components/Modal'
 import StatisticsProfile from '../components/modal/StatisticsProfile'
 import { setUser } from '../redux/features/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const FollowerProfile=()=>{
+    const navigate=useNavigate()
+    const {setRecipientId}=useGlobalContext()
     const dispatch=useDispatch()
     const {showModal,setShowModal} = useGlobalContext();
     const userID=useSelector(state=>state.user.selectedUser._id)
@@ -136,6 +139,11 @@ const FollowerProfile=()=>{
                             className='bg-gray-200 rounded-lg text-xl font-medium p-2 px-6
                             hover:bg-gray-300 cursor-pointer
                             dark:bg-black/80 dark:hover:bg-gray-800'
+                            onClick={()=>{
+                                setRecipientId(userID)
+                                navigate('/chat')
+                            }}
+                            
                         >
                             Tin nhắn
                         </button>
