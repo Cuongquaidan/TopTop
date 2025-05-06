@@ -77,9 +77,16 @@ const FollowerProfile=()=>{
             try {
                 const axiosInstance=createAxiosInstance(BASE_URL)
                 let result=await axiosInstance.get(SUMMARY_API.post.get.byUser.replace(':user',userID))
-                
-                setPostList(result.data)
-                setPostListFinal(result.data)
+                let filterPostList=result.data.filter(post => {
+                    console.log(post);
+                    
+                    if (post.publicity === "Mọi người") return true;
+                    if (post.publicity === "Bạn bè") return currentUser.friends.includes(userID);
+                    if (post.publicity === "Chỉ mình bạn") return false;
+                    return false;
+                  });
+                setPostList(filterPostList)
+                setPostListFinal(filterPostList)
             } catch (error) {
                 console.log(error.response?.data?.message||"Lỗi khi lấy các post của user")
             }
