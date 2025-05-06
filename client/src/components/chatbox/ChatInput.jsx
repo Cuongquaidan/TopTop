@@ -24,18 +24,23 @@ function ChatInput() {
         setNewMessage({ ...newMessage, content: "" })
         socket.emit("sendMessage", resjson.data)
         setCurrentChats((prev) => {
-          const indexN = prev.findIndex(chat => chat.user._id === resjson.data.receiver._id);
+          const isSelfSender = resjson.data.sender._id === newMessage.sender;
+          const otherUser = isSelfSender ? resjson.data.receiver : resjson.data.sender;
+          const indexN = prev.findIndex(chat => chat.user._id === otherUser._id);
+          const updated = {
+            user: resjson.data.receiver,
+            message: {
+              content: resjson.data.content,
+              createdAt: resjson.data.createdAt,
+              otherUserId: resjson.data.receiver._id,
+            },
+            numOfUnread: 0,
+          }
           if (indexN !== -1) {
-            const updated = [...prev];
-            updated[indexN] = {
-              ...updated[indexN],
-              message: {
-                ...updated[indexN].message,
-                content: resjson.data.content,
-                createdAt: resjson.data.createdAt,
-              },
-            };
-            return updated;
+            let filter=prev.filter(chat=>chat.user._id!==resjson.data.receiver._id)
+            return [updated,...filter]
+          }else {
+            return [updated, ...prev]
           }
         })
       }

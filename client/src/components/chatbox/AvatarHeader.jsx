@@ -1,12 +1,25 @@
 import { ArrowLeft, MoreVertical, Phone, Video } from "lucide-react"
 import { useGlobalContext } from "../../context/AppContext"
+import { useEffect, useState } from "react"
+import createAxiosInstance from "../../libs/axios/AxiosInstance"
+import { BASE_URL, SUMMARY_API } from "../../shared/Route"
 
 function AvatarHeader() {
-  const { currentChat, currentRecipientId } = useGlobalContext()
-  const currentRecipient =
-    currentChat[0]?.sender._id !== currentRecipientId
-      ? currentChat[0]?.receiver
-      : currentChat[0]?.sender
+  const { currentChat, recipientId } = useGlobalContext()
+  const [currentRecipient,setCurrentRecipient]=useState(null);
+  useEffect(()=>{
+    const fetchRecipient=async()=>{
+      try {
+        const axiosInstance=createAxiosInstance(BASE_URL)
+        const res=await axiosInstance.get(SUMMARY_API.user.get.byID.replace(":userID",recipientId))
+        setCurrentRecipient(res.data)
+      } catch (error) {
+        console.log(error.message||"Lỗi khi fetch recipient"); 
+      }
+    }
+
+    fetchRecipient()
+  },[recipientId])
 
   return (
     <div className="flex items-center p-3 border-b border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900">

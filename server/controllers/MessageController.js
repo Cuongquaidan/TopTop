@@ -167,7 +167,7 @@ const getChat = async (req,res)=>{
       ]
     }).sort({createdAt:1}).populate('sender receiver', 'username display_name profile_picture blue_tick');
     if(messages.length === 0){
-      res.status(200).json({
+      return res.status(200).json({
         data:[],
         message:"You have no messages",
         success:true,
