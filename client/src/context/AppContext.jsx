@@ -41,7 +41,7 @@ const AppProvider = ({children})=>{
     const AxiosInstance = createAxiosInstance(BASE_URL);
     const resjson = await AxiosInstance.get(SUMMARY_API.messages.get.chat.replace(":userId",currentUserId).replace(":otherUserId",recipientId));
     if(resjson.success){
-      setCurrentChat(resjson.data);
+      setCurrentChat(resjson.data);      
     }
   }
   useEffect(()=>{
@@ -126,7 +126,10 @@ const AppProvider = ({children})=>{
           numOfUnread: 0,
         };
         return updated;
-      }})
+      }
+      return prev;
+    })
+      
 
   },[recipientId, currentUserId])
 

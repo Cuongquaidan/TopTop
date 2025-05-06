@@ -7,11 +7,13 @@ import createAxiosInstance from "../../libs/axios/AxiosInstance"
 import { BASE_URL, SUMMARY_API } from "../../shared/Route"
 
 function ChatSidebar() {
-  const { currentChats, setRecipientId, recipientId, setCurrentChats } = useGlobalContext()
+  const { currentChats, setRecipientId, recipientId} = useGlobalContext()
   const { followeds } = useSelector((state) => state.user.user)
   const [fakeChats, setFakeChats] = useState([])
 
   useEffect(() => {
+    console.log('currentChats:',currentChats);
+    
     const unmessagedUsers = followeds.filter(
       (followed) => !currentChats?.some((chat) => chat.user._id === followed)
     );
